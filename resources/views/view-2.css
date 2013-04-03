@@ -1,0 +1,42 @@
+/*
+ * ##############################################################
+ * #### View pictures 1 style (Dynamic display with numbers) ####
+ * ##############################################################
+ */
+
+ul {
+    background: none; 
+    list-style: none;
+    padding: 3px 20px;
+}
+
+div#galerie { 
+    width: 400px;
+    float:left;
+} 
+ 
+#thumbs {
+    overflow:auto; 
+    list-style:none; 
+    padding:0;
+}
+ 
+#thumbs li {
+    float:left;
+} 
+#thumbs a {
+    display:block; 
+    outline:none;
+} 
+
+#viewer {
+    position:relative; 
+    width:700px; 
+    height:465px; 
+} 
+#viewer img[src*="loader"] {
+    position:absolute;
+    left:50%; 
+    top:50%; 
+    margin:-15px 0 0 -15px;
+}

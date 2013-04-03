@@ -1,0 +1,105 @@
+#body {
+   margin-left: 210px;
+   margin-bottom: 20px;   
+}
+
+#body h1 {
+   text-align: center;
+}
+
+.menu {
+   float: left;
+   width: 200px;
+}
+
+.menu h3 {
+   text-align: center;
+}
+
+#footer {
+   padding: 5px;
+   clear: both;
+   text-align: center;
+}
+
+ul {
+    background: none; 
+    list-style: none;
+    padding: 3px 20px;
+}
+
+a:link {
+	color: #02A1CB;
+	text-decoration: none;	
+}
+
+a:visited {
+	color: #02A1CB;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #24C0EA;
+	text-decoration: none;
+}
+
+a:active {
+	color: #999;
+	text-decoration: none;
+}
+
+caption {
+   margin-bottom: 18px;
+}
+
+td {
+   text-align: center;
+   padding: 4px;
+}
+
+ul.menu_img li { 
+   display : inline;
+   padding : 0 0.5em;
+}
+
+.editor {
+	font-family: verdana, arial, sans-serif;
+	font-size:13px;
+	padding: 5px;
+	background: #d5e8f9;
+	border: 1px solid #e5ecf9;
+}
+
+.button {
+    margin: 1px;
+    padding: 2px;
+}
+
+.button:hover {
+opacity:.60;
+filter: alpha(opacity=60); 
+-moz-opacity: 0.60;
+}
+
+.connect {
+   width: 425px;
+   margin: auto;
+}
+
+.connect fieldset {
+   background-color: #EFEFEF;
+}
+
+.connect legend {
+   color: #02A1CB;
+}
+
+.box {
+   width: 450px;
+   background-color: #EFEFEF;
+   background-repeat: none;
+   border: 1px solid black;
+   padding: 6px;
+   margin: auto;
+}
+
