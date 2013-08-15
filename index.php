@@ -59,13 +59,17 @@ function display_pic($dir, $dir2, $folder_number) { // The first dir and the sec
                 if(file_exists($link)) {
                     
                     if(!empty($dir2)) {$dir2_url="dir2=".$dir2."&amp;";} else {$dir2_url="";}
+                    
                     echo "<a href=\"index.php?dir=".$dir."&amp;".$dir2_url.$folder_number_url."img=".$fichier."\"><img src=\"" . $link . "\" alt=\"" . $link . "\"/><br /></a>";
                     if(comment_img_exist($link)==1) {
                         echo "<div id=\"single_img_comment\">";
                             show_img_comment($link);
                         echo "</div><br/><br/>";
+                    } else {
+                        echo "<div id=\"single_img_comment\">";
+                            create_img_comment($dir."&amp;".$dir2_url.$folder_number_url, $link);
+                        echo "</div><br/><br/>";
                     }
-                    
                 }
             }
         }
@@ -390,6 +394,38 @@ function comment_img_exist($img_link) { //Take the link of the picture in arg
     }
 
 }
+
+//Creation of a comment for a single picture
+
+function create_img_comment($link, $img) {
+    
+    require("config.php");  
+    require("default_config.php");
+    require($rep_lang."/".$lang.".php");
+    
+    if(isset($_GET['comment']) AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) {
+        if(isset($_GET['dir']) OR isset($_GET['dir2'])){
+            if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else { $folder_number=''; }
+            if(isset($_GET['dir2'])) { $dir2=$_GET['dir2']; } else { $dir2=''; }
+            
+            if($_GET['comment']=="create") { //if we want to show the textarea to create the comment
+                echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;dir2=".$dir2."&amp;".$folder_number."&amp;comment=creation_done\" method=\"post\">";
+                echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\" class=\"ed\"></textarea><br/>";
+                echo "<input type=\"submit\" value=\"".$modif."\" />";
+                echo "</p></form>";
+            } elseif($_GET['comment']=="creation_done") { //creation of the comment
+                if($comment = fopen($img.".txt", "a+")) {
+                        fputs($comment, $_POST['comment']);
+                        fclose($comment);
+                        echo $add_comment_done."<br/>";   
+                }
+            }
+        }
+    } elseif(isset($_SESSION['connection']) AND $_SESSION['connection']==1) {
+        echo "<br/><a href=\"".$_SERVER['REQUEST_URI']."&amp;comment=create\" class=\"ajax\">[Create]</a>";
+    }
+}
+
 
 //Showing and editing the comments for one picture, if it exits
 
