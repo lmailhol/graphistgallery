@@ -7,10 +7,7 @@
 ## Views ##-(Ajust to suit your needs)
 ###########
 
-$pictures_view      =0; //0 : List view, 2 : Dynamic display with pictures, 1 : Dynamic display with numbers, Other : Personnal view (warning, currently, the views 1 and 2 don't allow comment per image and don't display exif data)
-$thumbnail_size     ="50px"; //Defined the size of your thumbnails (if you use the JavaScript display photos (n°2 only (eventually some personnal views))
-$style              ="bleu"; //Choose your template. (In the folder : "ressources/template/theme/theme.css")
-$include_jquery     =1; //The most of template or views require jquery. But, if you know what you do, you can turn this value to 0 (no jquery)
+$style              ="bleu"; //Choose your template. (In the folder : "ressources/template/theme/*")
 
 ###################
 ## Mains folders ##-(Don't change these values (Unless you appoint a different folder))

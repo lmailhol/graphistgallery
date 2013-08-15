@@ -27,27 +27,63 @@ require("../default_config.php");
 if(isset($_SESSION['name']) AND isset($_SESSION['psw'])) {    
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="StyleSheet" href="admin_template.css" type="text/css" media="all" />
-    <script type="text/javascript" src="../<?php echo $rep_resources; ?>/js/ed.js"></script>  
-    <title>Graphist Gallery - Admin Pages</title>
+
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="utf-8">
+	<title>Graphist Gallery - Administration</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- CSS
+  ================================================== -->
+	<link rel="stylesheet" href="template/base.css">
+	<link rel="stylesheet" href="template/skeleton.css">
+	<link rel="stylesheet" href="template/layout.css">
+
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+
 </head>
 <body>
-<div class="menu">        
-<h3><?php echo $admin_menu; ?></h3>
-<ul>
-    <li><a href="index.php"><?php echo $retour_index; ?></a></li>
-    <li><a href="admin_pages.php"><?php echo $pages_admin; ?></a></li>
-    <li><a href="admin_site_configuration.php"><?php echo $config_admin; ?></a></li>
-    <li><a href="admin_theme_configuration.php"><?php echo $template_admin; ?></a></li>
-</ul>
-</div>
+    
+	<!-- Primary Page Layout
+	================================================== -->
 
-<div id="body">
+	<!-- Delete everything in this .container and get started on your own site! -->
+
+	<div class="container">
+		<div class="sixteen columns">
+			<h1 class="remove-bottom" style="margin-top: 40px">Skeleton</h1>
+			<h5>Version 1.2</h5>
+			<hr />
+		</div>
+		<div class="sixteen columns"><h3><?php echo $admin_menu; ?></h3>
+        <ul>
+            <li><a href="index.php"><?php echo $retour_index; ?></a></li>
+            <li><a href="admin_pages.php"><?php echo $pages_admin; ?></a></li>
+            <li><a href="admin_site_configuration.php"><?php echo $config_admin; ?></a></li>
+            <li><a href="admin_theme_configuration.php"><?php echo $template_admin; ?></a></li>
+        </ul>
+
 <?php
 echo "<h1>Pages</h1>";
 
@@ -85,7 +121,6 @@ if(isset($_GET['action']) OR isset($_GET['fichier'])) {
                     //If the file is a config file, you can't change the file's name
                     echo "<input type=\"hidden\" name=\"nom_change\" value=\"".$_GET['fichier']."\" />";
                 } else {echo "<label for=\"nom_change\">".$form_name_modif."</label> <input type=\"text\" id=\"nom_change\" value=\"".$_GET['fichier']."\" name=\"nom_change\" /><br/>";}
-                echo "<input type=\"checkbox\" name=\"visible\"/><br/>";
                 echo "<input type=\"hidden\" name=\"nom\" value=\"".$_GET['fichier']."\" />";
 				echo "<input type=\"submit\" value=\"".$modif."\" />";
 				echo "</p></form>";
@@ -124,13 +159,28 @@ echo "<th>".$suppression."</th>";
 echo "</tr>";
 show_list_pages();
 echo "</table>";
-} ?>
-</div>
-<div id="footer">
-<a href="<?php echo $site; ?>"><?php echo $retour_site; ?></a> | <a href="deco.php"><?php echo $deconnexion; ?></a>
-</div>
+} 
+
+echo "<h1>Commentaires</h1>";
+
+                                                          
+          
+?>
+            
+        <hr />
+		</div>
+        <div class="sixteen columns">
+            <a href="<?php echo $site; ?>"><?php echo $retour_site; ?></a> | <a href="deco.php"><?php echo $deconnexion; ?></a>
+        </div>
+
+	</div><!-- container -->
+
+
+<!-- End Document
+================================================== -->
 </body>
 </html>
+            
 <?php
 } else {
     admin_connection();

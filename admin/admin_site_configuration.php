@@ -28,43 +28,88 @@ if(isset($_SESSION['name']) AND isset($_SESSION['psw'])) {
 
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="StyleSheet" href="admin_template.css" type="text/css" media="all" />
-    <title>Graphist Gallery - Administration</title>
+
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="utf-8">
+	<title>Graphist Gallery - Administration</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- CSS
+  ================================================== -->
+	<link rel="stylesheet" href="template/base.css">
+	<link rel="stylesheet" href="template/skeleton.css">
+	<link rel="stylesheet" href="template/layout.css">
+
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+
 </head>
 <body>
-<div class="menu">        
-<h3><?php echo $admin_menu; ?></h3>
-<ul>
-    <li><a href="index.php"><?php echo $retour_index; ?></a></li>
-    <li><a href="admin_pages.php"><?php echo $pages_admin; ?></a></li>
-    <li><a href="admin_site_configuration.php"><?php echo $config_admin; ?></a></li>
-    <li><a href="admin_theme_configuration.php"><?php echo $template_admin; ?></a></li>
-</ul>
-</div>
+
+	<!-- Primary Page Layout
+	================================================== -->
+
+	<!-- Delete everything in this .container and get started on your own site! -->
+
+	<div class="container">
+		<div class="sixteen columns">
+			<h1 class="remove-bottom" style="margin-top: 40px">Skeleton</h1>
+			<h5>Version 1.2</h5>
+			<hr />
+		</div>
+		<div class="sixteen columns"><h3><?php echo $admin_menu; ?></h3>
+        <ul>
+            <li><a href="index.php"><?php echo $retour_index; ?></a></li>
+            <li><a href="admin_pages.php"><?php echo $pages_admin; ?></a></li>
+            <li><a href="admin_site_configuration.php"><?php echo $config_admin; ?></a></li>
+            <li><a href="admin_theme_configuration.php"><?php echo $template_admin; ?></a></li>
+        </ul>
     
-<div id="body">
-<?php
-echo "<h1>Configuration</h1>";
+        <?php
+            echo "<h1>Configuration</h1>";
 
-echo $admin_config_site;
+            echo $admin_config_site;
 
-echo "<p><a href=\"admin_pages.php?fichier=../config.php&amp;action=modif\">".$info_modif_config."</a></p>";
-echo "<p>";
-if($site == "http://gallery.radek411.org") {echo $info_config_site;}
-if($footer_text == "Bonjour, je suis un footer, remplacez moi par le texte de votre choix<br/>Propulsé par <a href=\"http://gallery.radek411.org\">Graphist Gallery</a>") {echo $info_config_footer;}
-if($title == "Nouvelle utilisation de Graphist Gallery") {echo $info_config_titre;}
-if($user == "admin" OR $psw == "admin") {echo $info_config_admin;}
-echo "</p>";
+            echo "<p><a href=\"admin_pages.php?fichier=../config.php&amp;action=modif\">".$info_modif_config."</a></p>";
+            echo "<p>";
+            if($site == "http://gallery.radek411.org") {echo $info_config_site;}
+            if($footer_text == "Bonjour, je suis un footer, remplacez moi par le texte de votre choix<br/>Propulsé par <a href=\"http://gallery.radek411.org\">Graphist Gallery</a>") {echo $info_config_footer;}
+            if($title == "Nouvelle utilisation de Graphist Gallery") {echo $info_config_titre;}
+            if($user == "admin" OR $psw == "admin") {echo $info_config_admin;}
+            echo "</p>";
 ?>
-</div>
-<div id="footer">
-<a href="<?php echo $site; ?>"><?php echo $retour_site; ?></a> | <a href="deco.php"><?php echo $deconnexion; ?></a>
-</div>
+            
+            <hr />
+		</div>
+        <div class="sixteen columns">
+            <a href="<?php echo $site; ?>"><?php echo $retour_site; ?></a> | <a href="deco.php"><?php echo $deconnexion; ?></a>
+        </div>
+
+	</div><!-- container -->
+
+
+<!-- End Document
+================================================== -->
 </body>
 </html>
 

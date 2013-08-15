@@ -52,10 +52,7 @@ function display_pic($dir, $dir2, $folder_number) { // The first dir and the sec
     $suppr=array(".","..");
     if(!in_array($dir, $suppr) AND !in_array($dir2, $suppr) AND !preg_match("#../#",$dir) AND !preg_match("#../#",$dir2)) {
     $dir_img=$folder_number.$rep_content.$dir."/".$dir2."/";
-    if($pic_folder=@opendir($dir_img)) { //If config != 0, import the view corresponding to the chosen number selected in config.php. Else, list view
-        if(isset($config) AND $config!=0) {  
-            include("".$rep_resources."views/view-".$config.".php");
-        } else {
+    if($pic_folder=@opendir($dir_img)) {
         while(false !== ($fichier=readdir($pic_folder))) {
             if(!in_array($fichier,$suppr) AND !preg_match("#.txt#",$fichier) AND !preg_match("#.txt#",$fichier)) {
                 $link=$dir_img."/".$fichier;
@@ -72,7 +69,7 @@ function display_pic($dir, $dir2, $folder_number) { // The first dir and the sec
                 }
             }
         }
-        }
+        
         closedir($pic_folder);
     } else {
         echo $erreur;
@@ -158,9 +155,6 @@ function show_head() {
     require("config.php");
     require("default_config.php");
     if($include_jquery!=0){echo "<script type=\"text/javascript\" src=\"".$rep_resources."js/jquery.js\"></script>";}
-    if($pictures_view!=0){echo "<script type=\"text/javascript\" src=\"".$rep_resources."views/view-".$pictures_view.".js\"></script>\n"; }
-    if($pictures_view!=0){echo "<link rel=\"StyleSheet\" href=\"".$rep_resources."views/view-".$pictures_view.".css\" type=\"text/css\" media=\"all\" />\n";}
-    echo "<link rel=\"StyleSheet\" href=\"".$rep_resources."template/".$style."/".$style.".css\" type=\"text/css\" media=\"all\" />\n";   
 }
 
 //Show the body code
@@ -173,7 +167,7 @@ function show_body() {
     if(isset($_GET['dir']) OR isset($_GET['dir2'])) { //Display pictures ?...
     
         $dir=htmlspecialchars(($_GET['dir']));
-		$dir2=htmlspecialchars(($_GET['dir2']));
+		if(isset($_GET['dir2'])) { $dir2=htmlspecialchars(($_GET['dir2'])); } else { $dir2=''; }
         if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else {$folder_number=1;}
 
         if(isset($_GET['img'])) {
@@ -293,8 +287,10 @@ function comment_exist() {
     require("default_config.php");
     
     if(isset($_GET['dir']) OR isset($_GET['dir2'])) {
-        if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));}
-        $rep_comment = $folder_number.$rep_content.htmlspecialchars(($_GET['dir']))."/".htmlspecialchars(($_GET['dir2']));
+        if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else { $folder_number=''; }
+        if(isset($_GET['dir2'])) { $dir2=$_GET['dir2']; } else { $dir2=''; }
+        
+        $rep_comment = $folder_number.$rep_content.htmlspecialchars(($_GET['dir']))."/".htmlspecialchars($dir2);
         if(file_exists($rep_comment."/comment.txt")) {
             return 1;
         } else {
@@ -310,9 +306,10 @@ function show_comment() {
     require("config.php");  
     require("default_config.php");
     if(isset($_GET['dir']) OR isset($_GET['dir2'])) {
-        if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));}
-
-        $rep_comment = $folder_number.$rep_content.htmlspecialchars(($_GET['dir']))."/".htmlspecialchars(($_GET['dir2']));
+        if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else { $folder_number=''; }
+        if(isset($_GET['dir2'])) { $dir2=$_GET['dir2']; } else { $dir2=''; }
+        
+        $rep_comment = $folder_number.$rep_content.htmlspecialchars(($_GET['dir']))."/".htmlspecialchars($dir2);
 	
         echo "<p>";
         $comment = fopen($rep_comment."/comment.txt", "r+");

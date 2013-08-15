@@ -2,7 +2,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <?php show_head(); ?>
+    <link rel="stylesheet" href="<?php echo $path_style; ?>bleu.css">
+
     <?php require("config_bleu.php"); ?>
     <?php if($js_menu==1){echo '<script type="text/javascript" src="'.$path_style.'js/menu.js"></script>';}?>
 

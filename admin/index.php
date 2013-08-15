@@ -107,7 +107,6 @@ if(isset($_SESSION['name']) AND isset($_SESSION['psw'])) {
                 echo "<li>".$documentation."<a href=\"http://codingteam.net/project/gallery/doc\">Documentation Graphist Gallery</a></li>";
                 echo "<li>".$news."<a href=\"http://codingteam.net/project/gallery/doc\">News</a></li>";
                 echo "<li>".$site_projet."<a href=\"http://gallery.radek411.org\">Gallery.radek411.org</a></li>";
-                echo "<li>".$xmpp_projet."<a href=\"https://www.jappix.com/?r=gallery@conference.codingteam.net\">Chat</a></li>";
                 echo "</ul>";
 
             ?>
