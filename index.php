@@ -63,7 +63,7 @@ function display_pic($dir, $dir2, $folder_number) { // The first dir and the sec
                     echo "<a href=\"index.php?dir=".$dir."&amp;".$dir2_url.$folder_number_url."img=".$fichier."\"><img src=\"" . $link . "\" alt=\"" . $link . "\"/><br /></a>";
                     if(comment_img_exist($link)==1) {
                         echo "<div id=\"single_img_comment\">";
-                            show_img_comment($link);
+                            show_img_comment($link, $fichier);
                         echo "</div><br/><br/>";
                     } else {
                         echo "<div id=\"single_img_comment\">";
@@ -105,7 +105,7 @@ function display_one_pic($dir, $dir2, $folder_number, $img) {
             
             if(comment_img_exist($link_img)==1) {
                 echo "<div id=\"single_img_comment\">";
-                show_img_comment($link_img);
+                show_img_comment($link_img, $img);
                 echo "</div>";
             }
             
@@ -336,7 +336,7 @@ function create_comment() {
     }
 }
 
-//Showing the comments for a picture list, if they exits
+//Showing and editing the comments for a picture list, if they exits
 
 function show_comment() {
     
@@ -429,18 +429,50 @@ function create_img_comment($link, $img) {
 
 //Showing and editing the comments for one picture, if it exits
 
-function show_img_comment($img_link) { //Take the link of the picture in arg
+function show_img_comment($img_link, $img_name) { //Take the link and the name of the picture in arg
+    
+    require("config.php");  
+    require("default_config.php");
+    require($rep_lang."/".$lang.".php");
+    
+    if(isset($_GET['dir']) OR isset($_GET['dir2'])) {
+        if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else { $folder_number=''; }
+        if(isset($_GET['dir2'])) { $dir2=$_GET['dir2']; } else { $dir2=''; }
+    
+        if(isset($_GET['single_comment']) AND isset($_GET['img_name']) AND $_GET['single_comment']=="edit" AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) {  //edition of the comment            
+            echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;dir2=".$dir2."&amp;".$folder_number."&amp;single_comment=done&amp;img_name=".$_GET['img_name']."\" method=\"post\">";
+            echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\" class=\"ed\">".file_get_contents($img_link.".txt")."</textarea><br/>";
+            echo "<input type=\"submit\" value=\"".$modif."\" />";
+            echo "</p></form>";
+        } elseif(isset($_GET['single_comment']) AND isset($_GET['img_name']) AND $_GET['single_comment']=="done" AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) { // if one wanna delete or change the comment
+            if(file_exists($img_link.".txt")) {
+                if($_POST['comment']!='') {
+                    if($single_comment = fopen($img_link.".txt", "w+")) {
+                        fputs($single_comment, $_POST['comment']);
+                        fclose($single_comment);
+                        echo $modif_comment_done."<br/>";   
+                    }
+                } else {
+                    unlink($img_link.".txt");
+                    echo $suppr_comment_done."<br/>";
+                }
+            }
+        } else {
     
     echo "<p>";
     $comment_img = fopen($img_link.".txt", "r+");
     while($ligne = fgets($comment_img)) {
         echo $ligne; //One shows the comment
     }
-    if (isset($_SESSION['connection']) AND $_SESSION['connection']==1) {echo "<br/><a href=\"\" class=\"ajax\">[Edit]</a>";}
     fclose($comment_img);
+        
+    if (isset($_SESSION['connection']) AND $_SESSION['connection']==1) {echo "<br/><a href=\"".$_SERVER['REQUEST_URI']."&amp;img_name=".$img_name."&amp;single_comment=edit\" class=\"ajax\">[Edit]</a>";}    
     echo "</p>";
-    
+    }
+    }
 }
+
+//Exif DATA
 
 function exif_img($img_link) {
     
