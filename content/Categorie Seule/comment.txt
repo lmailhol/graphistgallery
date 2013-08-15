@@ -1,2 +1,1 @@
-Hey, I'm a comment !<br/>
-Bonjour, je suis un commentaire !
+Ceci est un commentaire...

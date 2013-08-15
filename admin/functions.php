@@ -154,7 +154,7 @@ function admin_connection() {
     echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\" lang=\"fr\">";
     echo "<head>";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html\" charset=\"UTF-8\" />";
-    echo "<link rel=\"StyleSheet\" href=\"admin_template.css\" type=\"text/css\" media=\"all\" />";
+    echo "<link rel=\"StyleSheet\" href=\"template/admin_template.css\" type=\"text/css\" media=\"all\" />";
     echo "<title>Graphist Gallery - Auth</title>";
     echo "</head><body>";
     

@@ -95,12 +95,8 @@ function display_one_pic($dir, $dir2, $folder_number, $img) {
     if(!in_array($dir, $suppr) AND !in_array($dir2, $suppr) AND !preg_match("#../#",$dir) AND !preg_match("#../#",$dir2)) {
         $link_img=$folder_number.$rep_content.$dir."/".$dir2."/".$img;
         if(file_exists($link_img)) {
-            echo "<a href=\"".$link_img."\"><img src=\"" . $link_img . "\" alt=\"" . $link . "\"/><br /></a>";
-            if(comment_img_exist($link)==1) {
-                echo "<div class=\"single_img_comment\">";
-                    show_img_comment($link);
-                echo "</div>";
-            }
+            echo "<a href=\"".$link_img."\"><img src=\"" . $link_img . "\" alt=\"" . $link_img . "\"/><br /></a>";
+
             if(!empty($dir2)) {$dir2_url="&amp;dir2=".$dir2."&amp;";} else {$dir2_url="";}
             
             if(comment_img_exist($link_img)==1) {
@@ -281,6 +277,8 @@ function show_categories($f_ul, $f_li_sr, $f_li, $s_ul, $s_li, $folder_number) {
     }
 }
 
+//checks if there is a comment
+
 function comment_exist() {
 
     require("config.php");  
@@ -294,30 +292,90 @@ function comment_exist() {
         if(file_exists($rep_comment."/comment.txt")) {
             return 1;
         } else {
-            return 0;
+            return 2;
         }
+    } elseif(isset($_GET['page'])) {
+        return 0;
     }
 
 }
+
+//Creation of a comment for a picture list
+
+function create_comment() {
+    
+    require("config.php");  
+    require("default_config.php");
+    require($rep_lang."/".$lang.".php");
+    
+    if(isset($_GET['comment']) AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) {
+        if(isset($_GET['dir']) OR isset($_GET['dir2'])){
+            if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else { $folder_number=''; }
+            if(isset($_GET['dir2'])) { $dir2=$_GET['dir2']; } else { $dir2=''; }
+            $rep_comment = $folder_number.$rep_content.htmlspecialchars($_GET['dir'])."/".htmlspecialchars($dir2);
+            
+            if($_GET['comment']=="create") { //if we want to show the textarea to create the comment
+                echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;dir2=".$dir2."&amp;".$folder_number."&amp;comment=creation_done\" method=\"post\">";
+                echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\" class=\"ed\"></textarea><br/>";
+                echo "<input type=\"submit\" value=\"".$modif."\" />";
+                echo "</p></form>";
+            } elseif($_GET['comment']=="creation_done") { //creation of the comment
+                if($comment = fopen($rep_comment."/comment.txt", "a+")) {
+                        fputs($comment, $_POST['comment']);
+                        fclose($comment);
+                        echo $add_comment_done."<br/>";   
+                }
+            }
+        }
+    } elseif(isset($_SESSION['connection']) AND $_SESSION['connection']==1) {
+        echo "<br/><a href=\"".$_SERVER['REQUEST_URI']."&amp;comment=create\" class=\"ajax\">[Create]</a>";
+    }
+}
+
 //Showing the comments for a picture list, if they exits
 
 function show_comment() {
     
     require("config.php");  
     require("default_config.php");
+    require($rep_lang."/".$lang.".php");
+    
     if(isset($_GET['dir']) OR isset($_GET['dir2'])) {
         if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else { $folder_number=''; }
         if(isset($_GET['dir2'])) { $dir2=$_GET['dir2']; } else { $dir2=''; }
         
         $rep_comment = $folder_number.$rep_content.htmlspecialchars(($_GET['dir']))."/".htmlspecialchars($dir2);
+            
+        if(isset($_GET['comment']) AND $_GET['comment']=="edit" AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) {  //edition of the comment            
+            echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;dir2=".$dir2."&amp;".$folder_number."&amp;comment=done\" method=\"post\">";
+            echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\" class=\"ed\">".file_get_contents($rep_comment."/comment.txt")."</textarea><br/>";
+            echo "<input type=\"submit\" value=\"".$modif."\" />";
+            echo "</p></form>";
+        } elseif(isset($_GET['comment']) AND $_GET['comment']=="done" AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) { // if one wanna delete or change the comment
+            if(file_exists($rep_comment."/comment.txt")) {
+                if($_POST['comment']!='') {
+                    if($comment = fopen($rep_comment."/comment.txt", "w+")) {
+                        fputs($comment, $_POST['comment']);
+                        fclose($comment);
+                        echo $modif_comment_done."<br/>";   
+                    }
+                } else {
+                    unlink($rep_comment."/comment.txt");
+                    echo $suppr_comment_done."<br/>";
+                }
+            }
+        } else {
 	
         echo "<p>";
         $comment = fopen($rep_comment."/comment.txt", "r+");
         while($ligne = fgets($comment)) {
             echo $ligne; //One shows the comment
         }
+        if (isset($_SESSION['connection']) AND $_SESSION['connection']==1) {echo "<br/><a href=\"".$_SERVER['REQUEST_URI']."&amp;comment=edit\" class=\"ajax\">[Edit]</a>";}
         fclose($comment);
         echo "</p>";
+            
+        }
     }
 }
 
@@ -333,7 +391,7 @@ function comment_img_exist($img_link) { //Take the link of the picture in arg
 
 }
 
-//Showing the comments for one picture, if it exits
+//Showing and editing the comments for one picture, if it exits
 
 function show_img_comment($img_link) { //Take the link of the picture in arg
     
@@ -342,6 +400,7 @@ function show_img_comment($img_link) { //Take the link of the picture in arg
     while($ligne = fgets($comment_img)) {
         echo $ligne; //One shows the comment
     }
+    if (isset($_SESSION['connection']) AND $_SESSION['connection']==1) {echo "<br/><a href=\"\" class=\"ajax\">[Edit]</a>";}
     fclose($comment_img);
     echo "</p>";
     
