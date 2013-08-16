@@ -34,6 +34,12 @@ if(file_exists("".$rep_resources."template/".$style."/config_".$style.".php")){
 ########## Fonctions ##########
 ###############################
 
+function no_extension($file) {
+    $dot = strpos($file, '.');
+    $noex_file = substr($file, 0, $dot);
+    return $noex_file;
+}
+
 //Display the pictures
 
 function display_pic($dir, $dir2, $folder_number) { // The first dir and the second (if it exist) 
@@ -59,13 +65,23 @@ function display_pic($dir, $dir2, $folder_number) { // The first dir and the sec
                 if(file_exists($link)) {
                     
                     if(!empty($dir2)) {$dir2_url="dir2=".$dir2."&amp;";} else {$dir2_url="";}
+                                        
+                    if(preg_match("#video#",$fichier)) { //check if the file is a video or a picture
+                        if(!isset($bck_name)) { //if it's a new video
+                            display_video($dir_img, $fichier);
+                            $bck_name=no_extension($fichier); //create a bck var to remember the name of the video and don't include the other version (webm, mp4...)                            
+                        } elseif($bck_name!=no_extension($fichier)) { //check if the file is a new video, despite of the bck var
+                            display_video($dir_img, $fichier);
+                        }
+                    } else {
+                        echo "<a href=\"index.php?dir=".$dir."&amp;".$dir2_url.$folder_number_url."img=".$fichier."\"><img src=\"" . $link . "\" alt=\"" . $link . "\"/><br /></a>";            
+                    }
                     
-                    echo "<a href=\"index.php?dir=".$dir."&amp;".$dir2_url.$folder_number_url."img=".$fichier."\"><img src=\"" . $link . "\" alt=\"" . $link . "\"/><br /></a>";
-                    if(comment_img_exist($link)==1) {
+                    if(comment_img_exist($link)==1) { //if there is a single-image comment
                         echo "<div id=\"single_img_comment\">";
                             show_img_comment($link, $fichier);
                         echo "</div><br/><br/>";
-                    } else {
+                    } else { //else, create one
                         echo "<div id=\"single_img_comment\">";
                             create_img_comment($dir."&amp;".$dir2_url.$folder_number_url, $link);
                         echo "</div><br/><br/>";
@@ -122,6 +138,22 @@ function display_one_pic($dir, $dir2, $folder_number, $img) {
             echo "<br/><br/><a href=\"index.php?dir=".$dir.$dir2_url.$folder_number_url."\">Retour aux images</a>";
             echo "</div>";
         }
+    }
+}
+
+//Display a video from an other website or not
+
+function display_video($link, $fichier) {
+    if(!preg_match("#.webm#",$fichier) AND !preg_match("#.mp4#",$fichier) AND !preg_match("#.ogv#",$fichier)) {
+        $video_link = file_get_contents($link."/".$fichier);
+        echo $video_link;
+    } else {
+        echo "<video controls=\"controls\">";
+        $noex_fichier = no_extension($fichier);
+        if(file_exists($link."/".$noex_fichier.".mp4")) { echo "<source src=\"".$link."/".$noex_fichier.".mp4\" type=\"video/mp4\" />"; }
+        if(file_exists($link."/".$noex_fichier.".webm")) { echo "<source src=\"".$link."/".$noex_fichier.".webm\" type=\"video/webm\" />"; }
+        if(file_exists($link."/".$noex_fichier.".ogv")) { echo "<source src=\"".$link."/".$noex_fichier.".ogv\" type=\"video/ogg\" />"; }
+        echo "</video>";
     }
 }
 
