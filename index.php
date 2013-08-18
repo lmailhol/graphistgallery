@@ -268,25 +268,36 @@ function show_categories($f_ul, $f_li_sr, $f_li, $s_ul, $s_li, $folder_number) {
     $suppr=array(".","..","comment.txt");
     if($folder_number==1){$folder_number="";}
     echo "<ul class=\"".$f_ul."\">";
-    if($dir=opendir($folder_number.$rep_content)) { //If you have more than one "content/" folder, it will open <folder number (1,2,3...)>content/
-    while(false !== ($f = readdir($dir))) { //One reads the content folder
-        if(is_dir($folder_number.$rep_content.$f) AND !in_array($f, $suppr)) {
-            $sub_rep = $folder_number.$rep_content.$f."/";
-            if($sub_dir = opendir($sub_rep)) {
+    if($dir=scandir($folder_number.$rep_content)) { //If you have more than one "content/" folder, it will open <folder number (1,2,3...)>content/
+    $dir = array_diff($dir, $suppr);
+    foreach($dir as $dir_link) {   //One reads the content folder
+        if(is_dir($folder_number.$rep_content.$dir_link)) {
+            $sub_rep = $folder_number.$rep_content.$dir_link."/";
+            if($sub_dir = scandir($sub_rep)) {
                 $i = ""; //One initializes the variable i ← NULL. Like that, the folders will be displayed only once.
-                while(false !== ($sf = readdir($sub_dir))) {
-                    if(is_dir($sub_rep.$sf) AND !in_array($sf, $suppr) AND $i==NULL) { //One checks if the parent-folder countains sub-categories. If i not null, one doesn't re-run the condition to not display the same folder multiple times.
-                        echo "<li class=\"".$f_li_sr."\"><span>\n".ucfirst(strtolower(trim($f)))."</span>";
+                $sub_dir =  array_diff($sub_dir, $suppr);
+                foreach($sub_dir as $sub_dir_link) {
+                    
+                    if(preg_match("#^[a-z]_#", $dir_link)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the folders)
+                        $dir_name = substr($dir_link,2);
+                    } else {$dir_name=$dir_link;}
+                    
+                    if(is_dir($sub_rep.$sub_dir_link) AND $i==NULL) { //One checks if the parent-folder countains sub-categories. If i not null, one doesn't re-run the condition to not display the same folder multiple times.
+                        echo "<li class=\"".$f_li_sr."\"><span>\n".ucfirst(strtolower(trim($dir_name)))."</span>";
                         echo "\n <ul class=\"".$s_ul."\">\n";
                         
                         if(isset($open)==isset($_GET['open'])){unset($open);}
                         
-                        $sub_rep2 = $folder_number.$rep_content.$f."/";
+                        $sub_rep2 = $folder_number.$rep_content.$dir_link."/";
                         
                         if($LastDir = scandir($sub_rep2)) {
                                 $LastDir =  array_diff($LastDir, $suppr);
-                                foreach($LastDir as $pouet) {
-                                    echo "<li><a href=\"\">".trim($pouet)."</a></li>";
+                                foreach($LastDir as $LastDir_link) {
+                                    if($folder_number!=""){$folder_number_url="&amp;content=".$folder_number;} else {$folder_number_url="";} //If the content folder is not the first one, one send the number in the url
+                                    if(preg_match("#^[a-z]_#", $LastDir_link)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the folders)
+                                        $LastDir_name = substr($LastDir_link,2);
+                                    } else {$LastDir_name=$LastDir_link;}
+                                    echo "<li class=\"".$s_li."\"><a href=\"index.php?dir=".$dir_link."&amp;dir2=".$LastDir_link.$folder_number_url."\">".trim($LastDir_name)."</a></li>";
                                     $i=1;
                                 }
                             
@@ -295,19 +306,17 @@ function show_categories($f_ul, $f_li_sr, $f_li, $s_ul, $s_li, $folder_number) {
                         }
                         echo "</ul>\n";
                         echo "</li>\n";
-                    } elseif(is_file($sub_rep.$sf) AND $i==NULL) { //If instead of subfolder, they are files in the parent folder, one shows a direct link
+                    } elseif(is_file($sub_rep.$sub_dir_link) AND $i==NULL) { //If instead of subfolder, they are files in the parent folder, one shows a direct link
                         if($folder_number!=""){$folder_number_url="&amp;content=".$folder_number;} else {$folder_number_url="";}
-                        echo "<li class=\"".$f_li."\"><a href=\"index.php?dir=".$f."".$folder_number_url."\">".ucfirst(strtolower(trim($f)))."</a></li>\n"; 
+                        echo "<li class=\"".$f_li."\"><a href=\"index.php?dir=".$dir_link."".$folder_number_url."\">".trim($dir_name)."</a></li>\n"; 
                         $i=1;
                     }
                 }
-                closedir($sub_dir);
             } else {
                 echo $erreur;
             }
         }
     }
-    closedir($dir);
     echo "</ul>";
     } else {
         echo $erreur;
