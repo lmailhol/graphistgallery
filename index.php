@@ -283,7 +283,7 @@ function show_categories($f_ul, $f_li_sr, $f_li, $s_ul, $s_li, $folder_number) {
                     } else {$dir_name=$dir_link;}
                     
                     if(is_dir($sub_rep.$sub_dir_link) AND $i==NULL) { //One checks if the parent-folder countains sub-categories. If i not null, one doesn't re-run the condition to not display the same folder multiple times.
-                        echo "<li class=\"".$f_li_sr."\"><span>\n".ucfirst(strtolower(trim($dir_name)))."</span>";
+                        echo "<li class=\"".$f_li_sr."\"><span>\n".trim($dir_name)."</span>";
                         echo "\n <ul class=\"".$s_ul."\">\n";
                         
                         if(isset($open)==isset($_GET['open'])){unset($open);}
