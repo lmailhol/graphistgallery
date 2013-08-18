@@ -276,19 +276,20 @@ function show_categories($f_ul, $f_li_sr, $f_li, $s_ul, $s_li, $folder_number) {
                 $i = ""; //One initializes the variable i ← NULL. Like that, the folders will be displayed only once.
                 while(false !== ($sf = readdir($sub_dir))) {
                     if(is_dir($sub_rep.$sf) AND !in_array($sf, $suppr) AND $i==NULL) { //One checks if the parent-folder countains sub-categories. If i not null, one doesn't re-run the condition to not display the same folder multiple times.
-                    echo "<li class=\"".$f_li_sr."\"><span>\n".ucfirst(strtolower(trim($f)))."</span>";
-                    echo "\n <ul class=\"".$s_ul."\">\n";
-                    if(isset($open)==isset($_GET['open'])){unset($open);}
-                    $sub_rep2 = $folder_number.$rep_content.$f."/";
-                        if($LastDir = opendir($sub_rep2)) {
-                        while (false !== ($lsf = readdir($LastDir))) { //Now, loop to display the subfolders
-                            if(!in_array($lsf, $suppr)) {
-                                if($folder_number!=""){$folder_number_url="content=".$folder_number."&amp;";} else {$folder_number_url="";} //If the content folder is not the first one, one send the number in the url
-                                echo "<li class=\"".$s_li."\"><a href=\"index.php?dir=".$f."&amp;dir2=".$lsf."&amp;".$folder_number_url."\">".ucfirst(strtolower(trim($lsf)))."</a></li>\n";
-                                $i=1; //One allocates a value to i. i not NULL now : the condition will be false.
-                            }
-                        }        
-                        closedir($LastDir);
+                        echo "<li class=\"".$f_li_sr."\"><span>\n".ucfirst(strtolower(trim($f)))."</span>";
+                        echo "\n <ul class=\"".$s_ul."\">\n";
+                        
+                        if(isset($open)==isset($_GET['open'])){unset($open);}
+                        
+                        $sub_rep2 = $folder_number.$rep_content.$f."/";
+                        
+                        if($LastDir = scandir($sub_rep2)) {
+                                $LastDir =  array_diff($LastDir, $suppr);
+                                foreach($LastDir as $pouet) {
+                                    echo "<li><a href=\"\">".trim($pouet)."</a></li>";
+                                    $i=1;
+                                }
+                            
                         } else {
                            echo $erreur;
                         }
