@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+$menu = "config";
+
 /*
  * Copyright (C) 2010 Mailhol Luca
  *
@@ -36,23 +38,24 @@ include("include/header.php"); ?>
 
 
 <div class="content">
-    
+
     <h2 class="content-subhead">Configuration</h2>    
-        
+<div class="pure-g-r">
+<div class="pure-u-3-5">     
    <form class="pure-form pure-form-aligned">
     <fieldset>        
         <div class="pure-control-group">
-            <label for="name">Nom du site</label>
+            <label for="name"><?php echo $site_name; ?></label>
             <input id="name" type="text" placeholder="Nom du site">
         </div>
         
         <div class="pure-control-group">
-            <label for="name">Url du site</label>
+            <label for="name"><?php echo $site_url; ?></label>
             <input id="name" type="text" placeholder="Url">
         </div>
         
         <div class="pure-control-group">
-            <label for="state">Page d'accueil</label>
+            <label for="state"><?php echo $site_index; ?></label>
             <select id="state">
                 <option>Page 1</option>
                 <option>Page 2</option>
@@ -60,20 +63,23 @@ include("include/header.php"); ?>
         </div>
         
         <div class="pure-control-group">
-            <label for="name">Nom de l'utilisateur</label>
+            <label for="name"><?php echo $site_user; ?></label>
             <input id="name" type="text" placeholder="Utilisateur">
         </div>
         
         <div class="pure-control-group">
-            <label for="name">Mot de passe</label>
+            <label for="name"><?php echo $site_password; ?></label>
             <input id="name" type="password" placeholder="Mot de passe">
         </div>
 
         <div class="pure-controls">
-            <button type="submit" class="pure-button pure-button-primary">Submit</button>
+            <button type="submit" class="pure-button pure-button-primary"><?php echo $submit; ?></button>
         </div>
     </fieldset>
 </form>
+</div>
+<div class="pure-u-2-5"><?php echo $config_text; ?></div>
+</div>
     
     <h2 class="content-subhead">Configuration avancée</h2>
     

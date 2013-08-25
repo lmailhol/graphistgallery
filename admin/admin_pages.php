@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+$menu = "pages";
+
 /*
  * Copyright (C) 2010 Mailhol Luca
  *
@@ -107,7 +109,7 @@ if(isset($_GET['action']) OR isset($_GET['fichier'])) {
 
 echo "<div class=\"pure-g-r\"><div class=\"pure-u-1-2\">";
 echo "<div class=\"l-centered\"><table class=\"pure-table\">";
-echo "<caption><a href=\"admin_pages.php?action=ajout\"><img src=\"../".$rep_img."/add.png\" alt=\"".$ajout_page."\" class=\"button\" \"/></a></caption>";
+echo "<caption><a class=\"pure-button\" href=\"admin_pages.php?action=ajout\">".$ajout_page."</a></caption>";
 echo "<thead><tr>";
 echo "<th>Pages</th>";
 echo "<th>".$modif."</th>";
@@ -116,9 +118,11 @@ echo "</tr></thead>";
 show_list_pages();
 echo "</table></div></div>";
 echo "<div class=\"pure-u-1-2\">";
-echo "Coucou";    
+echo "<p>".$page_text."</p>";    
 echo "</div></div>";
 echo "<h2 class=\"content-subhead\">Commentaires</h2>";
+echo "<p>".$comment_text."</p>";
+echo "<a class=\"pure-button\" href=\"".$site."\">".$retour_site."</a>";
 } 
 ?>
 

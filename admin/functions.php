@@ -20,25 +20,6 @@
 require("../config.php");
 require("../".$rep_lang."/".$lang.".php");
 
-function check_version() {
-    
-    require("../config.php");
-    require("../default_config.php"); 
-    require("../".$rep_lang."/".$lang.".php");
-
-    if($last_version = fopen("http://codingteam.net/project/gallery/upload/briefcase/version", "r")) {
-        if($version = fopen("version", "r")) {
-            $last_version = fgets($last_version);
-            $version = fgets($version);
-            if($version == $last_version) {
-                echo $version_ok;
-            } else {
-                echo $bad_version;
-            }
-        }
-    }
-}
-
 function add_page($nom_fichier,$contenu_page) {
     require("../default_config.php");
     require("../config.php");
@@ -150,13 +131,42 @@ function admin_connection() {
     require("../config.php");
     require("../".$rep_lang.$lang.".php");
     
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">";
-    echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\" lang=\"fr\">";
-    echo "<head>";
-    echo "<meta http-equiv=\"Content-Type\" content=\"text/html\" charset=\"UTF-8\" />";
-    echo "<link rel=\"StyleSheet\" href=\"template/admin_template.css\" type=\"text/css\" media=\"all\" />";
-    echo "<title>Graphist Gallery - Auth</title>";
-    echo "</head><body>";
+    echo'<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Responsive Grids &ndash; Pure</title>
+
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">
+<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" href="template/admin_template.css">
+<script src="http://use.typekit.net/ajf8ggy.js"></script>
+<script>
+    try { Typekit.load(); } catch (e) {}
+</script>
+
+</head>
+<body><div class="pure-g-r" id="layout">
+    <a href="#menu" id="menuLink" class="pure-menu-link">
+        <span></span>
+    </a>
+    <div class="pure-u" id="menu">
+    <div class="pure-menu pure-menu-open">
+        <a class="pure-menu-heading" href="index.php">Admin</a>
+        <ul>
+        <li><a href="'.$site.'">'.$retour_site.'</a></li>
+        </ul>
+    </div>
+</div>
+<div class="pure-u-1" id="main">
+<div class="header">
+    <h1>Graphist Gallery</h1>
+    <h2>Authentification</h2>
+</div>
+<div class="content"><h2 class="content-subhead">Administration</h2> 
+<p>'.$auth_text.'</p><div class="l-centered">';
     
     if(isset($_POST['name']) AND isset($_POST['psw'])) {
         if($_POST['name']==$user AND $_POST['psw']==$psw) {
@@ -164,29 +174,55 @@ function admin_connection() {
             $_SESSION['psw']=htmlspecialchars($_POST['psw']);
             echo "<div class=\"box\">";
             echo $login_done."<br/>";
-            echo "<a href=\"index.php\">".$recharger."</a>";
+            echo "<a class=\"pure-button\" href=\"index.php\">".$recharger."</a>";
             echo "</div>";
         } else {
             echo "<div class=\"box\">";
             echo $erreur_login."<br/>";
-            echo "<a href=\"index.php\">".$recharger."</a>";
+            echo "<a class=\"pure-button\" href=\"index.php\">".$recharger."</a>";
             echo "</div>";
         }
     } else {
-        echo "<div class=\"connect\">";
-        echo "<img src=\"../".$rep_img."logo_gg_admin.png\" alt=\"logo GG\" />";
+        echo "<div class=\"pure-form pure-form-aligned\">";
         echo "<form action=\"index.php\" method=\"post\">";
         echo "<fieldset>";
-        echo "<legend><em>".$login."</em></legend>";
-        echo "<p>";
-        echo "<label for=\"name\">".$login_name."</label><br/><input type=\"text\" id=\"name\" name=\"name\" /><br/>";
-        echo "<label for=\"psw\">".$login_psw."</label><br/><input type=\"password\" id=\"psw\" name=\"psw\" /><br/>";
-        echo "<input type=\"submit\" value=\"".$submit."\" />";
-        echo "</fieldset></p></form>";
-        if(isset($site)){echo "<p><a href=\"".$site."\">".$retour_site."</a></p>";}
+        echo "<legend>".$login."</legend>";
+        echo "<div class=\"pure-control-group\"><label for=\"name\"><i class=\"icon-user\"></i>&nbsp;&nbsp;".$login_name."</label><input type=\"text\" id=\"name\" name=\"name\" /></div>";
+        echo "<div class=\"pure-control-group\"><label for=\"psw\"><i class=\"icon-unlock\"></i>&nbsp;&nbsp;".$login_psw."</label><input type=\"password\" id=\"psw\" name=\"psw\" /></div>";
+        echo "<button type=\"submit\" class=\"pure-button pure-button-primary\">".$submit."</button>";
+        echo "</fieldset></form>";
     }
     
-    echo "</div></body></html>";
+    echo '</div>
+</div>
+</div>
+<div class="legal pure-g-r">
+    <div class="pure-u-2-5">
+    <p>&nbsp;</p>
+    </div>
+
+    <div class="pure-u-1-5">
+        <div class="l-box legal-logo">
+            <a href="http://radek411.github.io/graphistgallery/">
+                <img src="../img/logo_gg_gris.jpg" height="30"
+                     alt="Graphist Gallery">
+            </a>
+        </div>
+    </div>
+    <div class="pure-u-2-5">
+    <p>&nbsp;</p>
+    </div>
+</div>
+
+
+</div>
+</div> 
+
+
+<script src="../resources/js/rainbow-min.js"></script>
+
+</body>
+</html>';
 }
 
 ?>

@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-$menu = "theme";
-
 /*
  * Copyright (C) 2010 Mailhol Luca
  *
@@ -33,35 +31,20 @@ include("include/header.php"); ?>
 <div class="pure-u-1" id="main">
 <div class="header">
     <h1>Graphist Gallery</h1>
-    <h2>Template Panel</h2>
+    <h2>Help</h2>
 </div>
 
 
-<div class="content">    
+<div class="content">
     
-    <h2 class="content-subhead">Template</h2>
-    
-    <form class="pure-form">
-    <fieldset>
-        <select id="state" class="pure-input-1-2">
-            <option>Bleu</option>
-            <option>Blanc</option>
-            <option>Rouge</option>
-        </select>
-        <button type="submit" class="pure-button pure-button-primary">Choisir</button>
-    </fieldset>
-</form>
-    
-    <?php
-echo $admin_config_theme;
+    <h2 class="content-subhead"><?php echo $admin_about; ?></h2>
 
-echo "<p>".$info_theme.$style.".<br/>";
-echo "".$info_config_theme."|&nbsp;<a href=\"admin_pages.php?fichier=../".$rep_resources."template/".$style."/".$style.".php&amp;action=modif\">".$style.".php</a>&nbsp;|&nbsp;";
-if(file_exists("../".$rep_resources."template/".$style."/config_".$style.".php")) {
-    echo "<a href=\"admin_pages.php?fichier=../".$rep_resources."template/".$style."/config_".$style.".php&amp;action=modif\">Config_".$style.".php</a>&nbsp;|";
-}
-echo "</p>";
-?>
+    <p><?php echo $admin_about2; ?></p>
+    
+    <h2 class="content-subhead"><?php echo $admin_credits; ?></h2>
+
+    <p><?php echo $admin_credits2; ?></p>
+    
 
 </div>
 </div>

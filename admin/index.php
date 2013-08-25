@@ -41,7 +41,7 @@ include("include/header.php"); ?>
     
     <aside>
         <p>
-            Vous venez d'installer Graphist Gallery, merci beaucoup !
+            <?php echo $admin_welcome; ?>
         </p>
     </aside>
     
@@ -63,32 +63,30 @@ include("include/header.php"); ?>
     </div>
     
 
-    <h2 class="content-subhead">Features</h2>
+    <h2 class="content-subhead"><?php echo $admin_features; ?></h2>
 
     <ul class="content-spaced">
-        <li>Adds configurable media queries for different screen widths (Desktops, Landscape Tablets, Portrait Tablets, Phones)</li>
-        <li>Collapses elements to 100% if smaller than a certain width (767px by default)</li>
-        <li>Adjusts images to fit on smaller screens</li>
-        <li>Works with as many columns as you want (or as few)</li>
-        <li>Supports configurable prefixes</li>
+        <?php echo $admin_features2; ?>
     </ul>
 
     <div class="pure-g-r">
     <div class="pure-u-1-2">
         <div class="l-box">
-            <h3>Fast</h3>
+            <h3><?php echo $admin_version; ?></h3>
             <p>
-                YUI's lightweight core and modular architecture make it scalable, fast, and robust. Built by frontend engineers at Yahoo!, YUI powers the most popular websites in the world.
+                <?php echo $admin_version2; ?>
             </p>
         </div>
     </div>
 
     <div class="pure-u-1-2">
         <div class="l-box">
-            <h3>Complete</h3>
-            <p>
-                YUI's intuitive and well-documented API takes you from basic DOM handling to building performant and maintainable applications on desktop browsers, mobile devices, and servers.
-            </p>
+            <div class="l-centered">
+                <img src="../img/logo_gg.jpg" alt="Logo Graphist Gallery"/>
+            </div>
+            <div class="l-centered">
+                <a class="pure-button" href="https://github.com/Radek411/graphistgallery">Fork me</a> <a class="pure-button" href="#">Donation</a>
+            </div>
         </div>
     </div>
 
