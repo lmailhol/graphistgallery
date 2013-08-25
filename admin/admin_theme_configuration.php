@@ -26,67 +26,31 @@ require("../default_config.php");
 
 if(isset($_SESSION['name']) AND isset($_SESSION['psw'])) {
 
-?>
-
-<!DOCTYPE html>
-<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
-<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
-<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
-<head>
-
-	<!-- Basic Page Needs
-  ================================================== -->
-	<meta charset="utf-8">
-	<title>Graphist Gallery - Administration</title>
-	<meta name="description" content="">
-	<meta name="author" content="">
-
-	<!-- Mobile Specific Metas
-  ================================================== -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-	<!-- CSS
-  ================================================== -->
-	<link rel="stylesheet" href="template/base.css">
-	<link rel="stylesheet" href="template/skeleton.css">
-	<link rel="stylesheet" href="template/layout.css">
-
-	<!--[if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-
-	<!-- Favicons
-	================================================== -->
-	<link rel="shortcut icon" href="images/favicon.ico">
-	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
-
-</head>
-<body>
+include("include/header.php"); ?>
     
-	<!-- Primary Page Layout
-	================================================== -->
+<div class="pure-u-1" id="main">
+<div class="header">
+    <h1>Graphist Gallery</h1>
+    <h2>Configuration Panel</h2>
+</div>
 
-	<!-- Delete everything in this .container and get started on your own site! -->
 
-	<div class="container">
-		<div class="sixteen columns">
-			<h1 class="remove-bottom" style="margin-top: 40px">Skeleton</h1>
-			<h5>Version 1.2</h5>
-			<hr />
-		</div>
-		<div class="sixteen columns"><h3><?php echo $admin_menu; ?></h3>
-        <ul>
-            <li><a href="index.php"><?php echo $retour_index; ?></a></li>
-            <li><a href="admin_pages.php"><?php echo $pages_admin; ?></a></li>
-            <li><a href="admin_site_configuration.php"><?php echo $config_admin; ?></a></li>
-            <li><a href="admin_theme_configuration.php"><?php echo $template_admin; ?></a></li>
-        </ul>
-<?php
-echo "<h1>Template</h1>";
-
+<div class="content">    
+    
+    <h2 class="content-subhead">Template</h2>
+    
+    <form class="pure-form">
+    <fieldset>
+        <select id="state" class="pure-input-1-2">
+            <option>Bleu</option>
+            <option>Blanc</option>
+            <option>Rouge</option>
+        </select>
+        <button type="submit" class="pure-button pure-button-primary">Choisir</button>
+    </fieldset>
+</form>
+    
+    <?php
 echo $admin_config_theme;
 
 echo "<p>".$info_theme.$style.".<br/>";
@@ -96,27 +60,16 @@ if(file_exists("../".$rep_resources."template/".$style."/config_".$style.".php")
 }
 echo "</p>";
 ?>
+
 </div>
-<div id="footer">
-<a href="<?php echo $site; ?>"><?php echo $retour_site; ?></a> | <a href="deco.php"><?php echo $deconnexion; ?></a>
-
-    <hr />
-		</div>
-        <div class="sixteen columns">
-            <a href="<?php echo $site; ?>"><?php echo $retour_site; ?></a> | <a href="deco.php"><?php echo $deconnexion; ?></a>
-        </div>
-
-	</div><!-- container -->
-
-
-<!-- End Document
-================================================== -->
-</body>
-</html>
+</div>
 
 <?php
+    
+include("include/footer.php");
+
+
 } else {
     admin_connection();
 }
-
 ?>

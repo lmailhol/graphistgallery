@@ -46,7 +46,7 @@ function add_page($nom_fichier,$contenu_page) {
 
     if(!isset($admin_rep_pages)){$admin_rep_pages="../".$rep_pages."";}
     
-    if($nouvelle_page = fopen($admin_rep_pages.$nom_fichier, "a+")) {
+    if($nom_fichier != "" AND $nouvelle_page = fopen($admin_rep_pages.$nom_fichier, "a+")) {
         fputs($nouvelle_page, $contenu_page);
         fclose($nouvelle_page);
     echo $ajout_page_done."<br/>";
@@ -131,11 +131,11 @@ function show_list_pages() {
     if($dir_pages=opendir($admin_rep_pages)) {
         while (false !== ($pages = readdir($dir_pages))) {
             if(!in_array($pages, $suppr)) {
-                echo "<tr>";
+                echo "<tbody><tr>";
                 echo "<td>". $pages ."</td>";
                 echo "<td><a href=\"admin_pages.php?fichier=". $pages ."&amp;action=modif\"><img src=\"../".$rep_img."modif.png\" class=\"button\" title=\"".$modif."\" alt=\"".$modif."\" /></a></td>";
                 if($pages==$index){ echo"<td>X</td>";} else {echo "<td><a href=\"admin_pages.php?fichier=". $pages ."&amp;action=suppr\"><img src=\"../".$rep_img."suppr.png\" title=\"".$suppression."\" class=\"button\" alt=\"".$suppression."\" /></a></td>";}
-                echo "</tr>";
+                echo "</tr></tbody>";
             }
         }
     } else {

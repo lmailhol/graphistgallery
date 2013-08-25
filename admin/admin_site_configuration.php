@@ -26,96 +26,71 @@ require("../default_config.php");
 
 if(isset($_SESSION['name']) AND isset($_SESSION['psw'])) {
 
-?>
-
-<!DOCTYPE html>
-<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
-<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
-<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
-<head>
-
-	<!-- Basic Page Needs
-  ================================================== -->
-	<meta charset="utf-8">
-	<title>Graphist Gallery - Administration</title>
-	<meta name="description" content="">
-	<meta name="author" content="">
-
-	<!-- Mobile Specific Metas
-  ================================================== -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-	<!-- CSS
-  ================================================== -->
-	<link rel="stylesheet" href="template/base.css">
-	<link rel="stylesheet" href="template/skeleton.css">
-	<link rel="stylesheet" href="template/layout.css">
-
-	<!--[if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-
-	<!-- Favicons
-	================================================== -->
-	<link rel="shortcut icon" href="images/favicon.ico">
-	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
-
-</head>
-<body>
-
-	<!-- Primary Page Layout
-	================================================== -->
-
-	<!-- Delete everything in this .container and get started on your own site! -->
-
-	<div class="container">
-		<div class="sixteen columns">
-			<h1 class="remove-bottom" style="margin-top: 40px">Skeleton</h1>
-			<h5>Version 1.2</h5>
-			<hr />
-		</div>
-		<div class="sixteen columns"><h3><?php echo $admin_menu; ?></h3>
-        <ul>
-            <li><a href="index.php"><?php echo $retour_index; ?></a></li>
-            <li><a href="admin_pages.php"><?php echo $pages_admin; ?></a></li>
-            <li><a href="admin_site_configuration.php"><?php echo $config_admin; ?></a></li>
-            <li><a href="admin_theme_configuration.php"><?php echo $template_admin; ?></a></li>
-        </ul>
+include("include/header.php"); ?>
     
-        <?php
-            echo "<h1>Configuration</h1>";
+<div class="pure-u-1" id="main">
+<div class="header">
+    <h1>Graphist Gallery</h1>
+    <h2>Configuration Panel</h2>
+</div>
 
-            echo $admin_config_site;
 
-            echo "<p><a href=\"admin_pages.php?fichier=../config.php&amp;action=modif\">".$info_modif_config."</a></p>";
-            echo "<p>";
-            if($site == "http://gallery.radek411.org") {echo $info_config_site;}
-            if($footer_text == "Bonjour, je suis un footer, remplacez moi par le texte de votre choix<br/>Propulsé par <a href=\"http://gallery.radek411.org\">Graphist Gallery</a>") {echo $info_config_footer;}
-            if($title == "Nouvelle utilisation de Graphist Gallery") {echo $info_config_titre;}
-            if($user == "admin" OR $psw == "admin") {echo $info_config_admin;}
-            echo "</p>";
-?>
-            
-            <hr />
-		</div>
-        <div class="sixteen columns">
-            <a href="<?php echo $site; ?>"><?php echo $retour_site; ?></a> | <a href="deco.php"><?php echo $deconnexion; ?></a>
+<div class="content">
+    
+    <h2 class="content-subhead">Configuration</h2>    
+        
+   <form class="pure-form pure-form-aligned">
+    <fieldset>        
+        <div class="pure-control-group">
+            <label for="name">Nom du site</label>
+            <input id="name" type="text" placeholder="Nom du site">
+        </div>
+        
+        <div class="pure-control-group">
+            <label for="name">Url du site</label>
+            <input id="name" type="text" placeholder="Url">
+        </div>
+        
+        <div class="pure-control-group">
+            <label for="state">Page d'accueil</label>
+            <select id="state">
+                <option>Page 1</option>
+                <option>Page 2</option>
+            </select>
+        </div>
+        
+        <div class="pure-control-group">
+            <label for="name">Nom de l'utilisateur</label>
+            <input id="name" type="text" placeholder="Utilisateur">
+        </div>
+        
+        <div class="pure-control-group">
+            <label for="name">Mot de passe</label>
+            <input id="name" type="password" placeholder="Mot de passe">
         </div>
 
-	</div><!-- container -->
+        <div class="pure-controls">
+            <button type="submit" class="pure-button pure-button-primary">Submit</button>
+        </div>
+    </fieldset>
+</form>
+    
+    <h2 class="content-subhead">Configuration avancée</h2>
+    
+    <?php
+        echo $admin_config_site;
+        echo "<p><a href=\"admin_pages.php?fichier=../config.php&amp;action=modif\">".$info_modif_config."</a></p>";
+    ?>  
 
-
-<!-- End Document
-================================================== -->
-</body>
-</html>
+</div>
+</div>
 
 <?php
+    
+include("include/footer.php");
+
+
 } else {
     admin_connection();
 }
-
 ?>

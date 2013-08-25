@@ -26,108 +26,81 @@ require("../default_config.php");
 
 if(isset($_SESSION['name']) AND isset($_SESSION['psw'])) {
 
-?>
-
-<!DOCTYPE html>
-<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
-<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
-<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
-<head>
-
-	<!-- Basic Page Needs
-  ================================================== -->
-	<meta charset="utf-8">
-	<title>Graphist Gallery - Administration</title>
-	<meta name="description" content="">
-	<meta name="author" content="">
-
-	<!-- Mobile Specific Metas
-  ================================================== -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-	<!-- CSS
-  ================================================== -->
-	<link rel="stylesheet" href="template/base.css">
-	<link rel="stylesheet" href="template/skeleton.css">
-	<link rel="stylesheet" href="template/layout.css">
-
-	<!--[if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-
-	<!-- Favicons
-	================================================== -->
-	<link rel="shortcut icon" href="images/favicon.ico">
-	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
-
-</head>
-<body>
+include("include/header.php"); ?>
+    
+<div class="pure-u-1" id="main">
+<div class="header">
+    <h1>Graphist Gallery</h1>
+    <h2>Administration Panel</h2>
+</div>
 
 
+<div class="content">
 
-	<!-- Primary Page Layout
-	================================================== -->
+    <p>&nbsp;</p>   
+    
+    <aside>
+        <p>
+            Vous venez d'installer Graphist Gallery, merci beaucoup !
+        </p>
+    </aside>
+    
+    <h2 class="content-subhead">Administration</h2>
+    
+    <div class="l-centered">
+        <a class="pure-button" href="admin_pages.php">        
+            <i class="icon-file"></i>
+            <?php echo $pages_admin_button; ?>
+        </a>
+        <a class="pure-button" href="admin_site_configuration.php">        
+            <i class="icon-cog"></i>
+            <?php echo $config_admin_button; ?>
+        </a>
+        <a class="pure-button" href="admin_theme_configuration.php">        
+            <i class="icon-th-large"></i>
+            <?php echo $template_admin_button; ?>
+        </a>
+    </div>
+    
 
-	<!-- Delete everything in this .container and get started on your own site! -->
+    <h2 class="content-subhead">Features</h2>
 
-	<div class="container">
-		<div class="sixteen columns">
-			<h1 class="remove-bottom" style="margin-top: 40px">Skeleton</h1>
-			<h5>Version 1.2</h5>
-			<hr />
-		</div>
-		<div class="sixteen columns">
-            <h3><?php echo $admin_menu; ?></h3>
-            <ul>
-                <li><a href="index.php"><?php echo $retour_index; ?></a></li>
-                <li><a href="admin_pages.php"><?php echo $pages_admin; ?></a></li>
-                <li><a href="admin_site_configuration.php"><?php echo $config_admin; ?></a></li>
-                <li><a href="admin_theme_configuration.php"><?php echo $template_admin; ?></a></li>
-            </ul>
-            <?php
-                echo "<h1>Administration</h1>";
+    <ul class="content-spaced">
+        <li>Adds configurable media queries for different screen widths (Desktops, Landscape Tablets, Portrait Tablets, Phones)</li>
+        <li>Collapses elements to 100% if smaller than a certain width (767px by default)</li>
+        <li>Adjusts images to fit on smaller screens</li>
+        <li>Works with as many columns as you want (or as few)</li>
+        <li>Supports configurable prefixes</li>
+    </ul>
 
-                echo "<p>".$admin_welcome."</p>";
-
-                echo "<ul class=\"menu_img\">";
-                echo "<li><a href=\"admin_pages.php\"><img src=\"../".$rep_img."admin_page.png\" alt=\"".$pages_admin."\" title=\"".$pages_admin."\" class=\"button\" /></a></li>";
-                echo "<li><a href=\"admin_site_configuration.php\"><img src=\"../".$rep_img."admin_config.png\" alt=\"".$config_admin."\" title=\"".$config_admin."\" class=\"button\" \"/></a></li>";
-                echo "<li><a href=\"admin_theme_configuration.php\"><img src=\"../".$rep_img."admin_template.png\" alt=\"".$template_admin."\" title=\"".$template_admin."\" class=\"button\" \"/></a></li>";
-                echo "</ul>";
-
-                echo "<p>".$info_version."</p>";
-
-                check_version();
-
-                echo "<ul>";
-                echo "<li>".$page_codingteam."<a href=\"http://codingteam.net/project/gallery\">Graphist Gallery</a></li>";
-                echo "<li>".$documentation."<a href=\"http://codingteam.net/project/gallery/doc\">Documentation Graphist Gallery</a></li>";
-                echo "<li>".$news."<a href=\"http://codingteam.net/project/gallery/doc\">News</a></li>";
-                echo "<li>".$site_projet."<a href=\"http://gallery.radek411.org\">Gallery.radek411.org</a></li>";
-                echo "</ul>";
-
-            ?>
-        <hr />
-		</div>
-        <div class="sixteen columns">
-            <a href="<?php echo $site; ?>"><?php echo $retour_site; ?></a> | <a href="deco.php"><?php echo $deconnexion; ?></a>
+    <div class="pure-g-r">
+    <div class="pure-u-1-2">
+        <div class="l-box">
+            <h3>Fast</h3>
+            <p>
+                YUI's lightweight core and modular architecture make it scalable, fast, and robust. Built by frontend engineers at Yahoo!, YUI powers the most popular websites in the world.
+            </p>
         </div>
+    </div>
 
-	</div><!-- container -->
+    <div class="pure-u-1-2">
+        <div class="l-box">
+            <h3>Complete</h3>
+            <p>
+                YUI's intuitive and well-documented API takes you from basic DOM handling to building performant and maintainable applications on desktop browsers, mobile devices, and servers.
+            </p>
+        </div>
+    </div>
 
-
-<!-- End Document
-================================================== -->
-</body>
-</html>
+</div>
+</div>
 
 <?php
+    
+include("include/footer.php");
+
+
 } else {
     admin_connection();
 }
 ?>
-
-

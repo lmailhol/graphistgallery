@@ -98,4 +98,11 @@ $info_config_theme ="Vous pouvez dès que vous le souhaiter modifier les fichier
 $admin_menu        ="Menu d'administration";
 $error_template    ="Aucun thème ne peut être utilisé, veuillez en installer un";
 
+#### Buttons
+
+$pages_admin_button ="Pages";
+$config_admin_button ="Configuration";
+$template_admin_button ="Template";
+
+
 ?>
