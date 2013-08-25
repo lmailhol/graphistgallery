@@ -137,7 +137,7 @@ function admin_connection() {
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Responsive Grids &ndash; Pure</title>
+    <title>Authentification &ndash; Graphist Gallery</title>
 
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">
 <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
