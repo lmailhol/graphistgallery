@@ -46,37 +46,105 @@
 <div class="content">
 
     <p>&nbsp;</p>   
-    
+    <div class="l-centered">
     <aside>
         <p>
-            Bienvenue sur le site web de Graphist Gallery
+            Bienvenue sur le site web de Graphist Gallery !
         </p>
     </aside>
-    
-    <h2 class="content-subhead">Présentation</h2>
+    </div>
+    <h2 class="content-subhead" id="presentation">Présentation</h2>
     <p>
         Graphist Gallery est un script de galerie multimédia dynamique ne demandant aucune base de données, votre contenu s'articulant autour d'une arborescence de dossier. Simple et sans fioriture, Graphist Gallery permet à l'utilisateur d'être plus concentré sur le contenu que sur le conteneur.
     </p>
     
-    <h2 class="content-subhead">Fonctionnalités de Graphist Gallery</h2>
+    <h2 class="content-subhead" id="fonctions">Fonctionnalités de Graphist Gallery</h2>
 
     <ul class="content-spaced">
         <li>Afficher des photos et des vidéos classées dans une arborescence de dossier</li>
-        <li>Commenter tout un dossier ou un média individuel</li><li>Gérer des pages statiques</li>
+        <li>Commenter tout un dossier ou une image individuelle</li>
+        <li>Gérer des pages statiques pour mettre en place un véritable site web</li>
         <li>S'adapter très facilement à tout type de thème</li>
-        <li><a href="help.php">Et plus encore...</a></li>
+        <li>Programme multilingue et facile à traduire</li>
+        <li>Et plus encore...</li>
     </ul>
 
-    <h2 class="content-subhead">Comment installer Graphist Gallery</h2>
-
-    <h2 class="content-subhead">Comment commencer à utiliser Graphist Gallery</h2>
+    <h2 class="content-subhead" id="installation">Comment installer Graphist Gallery</h2>
     
-    <h2 class="content-subhead">Téléchargement</h2>
+    <p>Pour installer Graphist Gallery, vous devez simplement disposer d'un petit espace web acceptant PHP et d'un accès, par exemple ftp, à ce dernier.</p>
+
+    
+    <div class="pure-g">
+    <div class="pure-u-1-2">
+        <div class="l-box">
+            <h3>Etape 1</h3>
+            <p>
+                Téléchargez la dernière version de Graphist Gallery plus bas et extrayez le contenu de l'archive. 
+            </p>
+        </div>
+    </div>
+
+    <div class="pure-u-1-2">
+        <div class="l-box">
+            <h3>Etape 2</h3>
+            <p>
+                Connectez vous à votre espace web et envoyez-y le contenu de l'archive. Graphist Gallery est prêt à être utilisé.
+            </p>
+        </div>
+    </div>
+    </div>
+    
+    <h2 class="content-subhead" id="utilisation">Comment commencer à utiliser Graphist Gallery</h2>
+    
+    <p>Vous voici maintenant avec un Graphist Gallery fraichement envoyé sur le web et prêt à être utilisé.</p>
+    
+    <div class="pure-g">
+    <div class="pure-u">
+        <div class="l-box">
+            <h3>Contenu</h3>
+            <p>
+                Le but de Graphist Gallery est de gérer localement votre dossier de contenu, hors ligne, pour l'envoyer ensuite directement sur votre espace web, via ftp ou autre connexion.
+                Le contenu doit se trouver dans le dossier <code>content/</code>. Vous pouvez classer images et vidéos dans une arborescence à deux niveaux (dossiers et sous-dossier). Il
+                vous suffit simplement d'ajouter, par exemple, une image dans un dossier vide pour qu'il soit affiché sur votre site.
+            </p>
+            <pre class="snippet" data-language="html"><code>content/
+|
+|- Paysages/
+|       |- image1.jpg
+|       |- image2.jpg
+|
+|- Portraits/
+|       |- Noir et Blanc
+|                   |- image1.jpg</code></pre>
+            <p>
+                Pour ajouter une vidéo - format webm, mp4 ou ogv, sachant que vous pouvez mettre une même vidéo dans ces trois formats - il vous suffit la placer dans un dossier et de mettre le terme <code>video</code> dans le titre
+                de cette dernière (par exemple : <code>video-photocopieuse.webm</code>). De plus, vous pouvez insérer des vidéos de sites tiers. Il vous suffit de créer un fichier sans extension avec le terme <code>video</code> dans
+                son nom et de coller dans le fichier le code de partage de la vidéo.
+            </p>
+            <h3>Commentaires</h3>
+            <p>
+                Il y a deux sortes de commentaires : ceux qui englobent tout un dossier et les commentaires pour une image individuelle (ne fonctionne que pour les images pour le moment).
+                Pour gérer cela, il suffit juste de vous connecter à l'espace d'administration puis de revenir sur votre site. Vous pouvez alors ajouter, modifier et supprimer tout type de commentaires comme bon vous semble.
+            </p>
+            <h3>Pages</h3>
+            <p>
+                Pour gérer les pages statiques et permettre à votre galerie de prendre des allures de site web complet, il vous suffit simplement de vous connecter à l'administration et de vous rendre dans la partie d'administration des pages.
+            </p>
+            <h3>Options avancées</h3>
+            <p>
+                Graphist Gallery ne s'arrête évidemment pas à cela. Vous pouvez créer de multiples dossiers de contenu, classer dans l'ordre que vous souhaitez vos dossiers, vos médias, afficher les informations exif d'une photo, adapter votre instance de Graphist Gallery à n'importe quel thème
+                très facilement, personnaliser le nom de chaque dossiers... Je vous invite à lire <a href="https://github.com/Radek411/graphistgallery/wiki">la documentation</a> pour prendre connaissance de tout cela.
+            </p>
+        </div>  
+    </div>
+    </div>
+    
+    <h2 class="content-subhead" id="telechargement">Téléchargement</h2>
     
     <p>
         Téléchargez la dernière version du script pour vos projets de galerie média, de portfolio, de site de présentation... 
     </p>
-
+    
     <div class="pure-g">
     <div class="pure-u-1-3">
         <div class="l-box">
@@ -97,6 +165,20 @@
     </div>
 </div>    
 
+    <h2 class="content-subhead" id="a_propos">A propos</h2>
+    
+    <p>Graphist Gallery est un logiciel libre sous licence Gnu/GPL maintenu par <a href="http://lucamailhol.fr">Luca Mailhol</a>.</p>
+<div class="l-centered">  
+<form class="pure-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<fieldset>
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="X5CZ9VGTMWV3L">
+<a class="pure-button" href="https://github.com/Radek411/graphistgallery">Fork me</a>
+<button type="submit" class="pure-button">Donation</button>
+</fieldset>
+</form>
+</div>
+
 </div>
 
 <div class="legal pure-g-r">
@@ -114,8 +196,7 @@
     <div class="pure-u-1-5">
         <div class="l-box legal-logo">
             <a href="http://radek411.github.io/graphistgallery/">
-                <img src="#" height="30"
-                     alt="Graphist Gallery">
+                <img src="https://raw.github.com/Radek411/graphistgallery/master/img/logo_gg_gris.jpg" height="30" alt="Graphist Gallery"/>
             </a>
         </div>
     </div>
@@ -142,3 +223,4 @@
 
 </body>
 </html>
+
