@@ -34,7 +34,7 @@ h4 {
 }
 
 a {
-    color: #3b8bba; /* block-background-text-normal */
+    color: #02A1CB; /* block-background-text-normal */
     text-decoration: none;
 }
 
@@ -55,7 +55,7 @@ dd {
 */
 
 #layout {
-    padding-left: 150px; /* left col width "#menu" */
+    padding-left: 197px; /* left col width "#menu" */
     left: 0;
 }
 
@@ -103,7 +103,7 @@ dd {
     }
 
 aside {
-    background: #1f8dd6; /* same color as selected state on site menu */
+    background: #02A1CB; /* same color as selected state on site menu */
     padding: 0.3em 1em;
     border-radius: 3px;
     color: #fff;
@@ -193,7 +193,7 @@ aside {
 
 #menu {
     margin-left: -150px; /* "#menu" width */
-    width: 150px;
+    width: 197px;
     position: fixed;
     top: 0;
     left: 150px;
