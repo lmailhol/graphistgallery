@@ -85,7 +85,14 @@ include("include/header.php"); ?>
                 <img src="../img/logo_gg.jpg" alt="Logo Graphist Gallery"/>
             </div>
             <div class="l-centered">
-                <a class="pure-button" href="https://github.com/Radek411/graphistgallery">Fork me</a> <a class="pure-button" href="#">Donation</a>
+                <form class="pure-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<fieldset>
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="X5CZ9VGTMWV3L">
+<a class="pure-button" href="https://github.com/Radek411/graphistgallery">Fork me</a>
+<button type="submit" class="pure-button">Donation</button>
+</fieldset>
+</form>
             </div>
         </div>
     </div>
