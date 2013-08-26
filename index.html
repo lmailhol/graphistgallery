@@ -1,60 +1,147 @@
 <!doctype html>
-<html>
-  <head>
+<html lang="en">
+<head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Graphist Gallery by Radek411</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <img src="http://pix.kegtux.org/images/logogg.jpg" alt="Logo Graphist Gallery"/>
-        <p>A light web gallery script in PHP.</p>
+    <title>Administration &ndash; Graphist Gallery</title>
 
-        <p class="view"><a href="https://github.com/Radek411/graphistgallery">View the Project on GitHub <small>Radek411/graphistgallery</small></a></p>
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">
+<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" href="template/admin_template.css">
 
+<script type="text/javascript" src="../<?php echo $rep_resources; ?>/js/ed.js"></script>
+<script src="http://use.typekit.net/ajf8ggy.js"></script>
+<script>
+    try { Typekit.load(); } catch (e) {}
+</script>
 
+</head>
+<body>
+
+<div class="pure-g-r" id="layout">
+    <a href="#menu" id="menuLink" class="pure-menu-link">
+        <span></span>
+    </a>
+
+<div class="pure-u" id="menu">
+    <div class="pure-menu pure-menu-open">
+        <a class="pure-menu-heading" href="index.php">Admin</a>
         <ul>
-          <li><a href="http://codingteam.net/project/gallery/download/file/graphist-gallery_0.111.zip">Download <strong>ZIP File</strong></a></li>
-          <li><a href="http://codingteam.net/project/gallery/download/file/graphist-gallery_0.111.tar.gz">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/Radek411/graphistgallery">View On <strong>GitHub</strong></a></li>
+            <li <?php if(isset($menu) AND $menu=="pages") {echo "class=\"pure-menu-selected\"";} ?> ><a href="admin_pages.php"><?php echo $pages_admin; ?></a></li>
+            <li <?php if(isset($menu) AND $menu=="config") {echo "class=\"pure-menu-selected\"";} ?> ><a href="admin_site_configuration.php"><?php echo $config_admin; ?></a></li>
+            <li <?php if(isset($menu) AND $menu=="theme") {echo "class=\"pure-menu-selected\"";} ?> ><a href="admin_theme_configuration.php"><?php echo $template_admin; ?></a></li>
+            <li <?php if(isset($menu) AND $menu=="aide") {echo "class=\"pure-menu-selected\"";} else {echo "class=\"menu-item-divided\"";} ?> ><a href="help.php">Aide</a></li>
+            <li <?php if(isset($menu) AND $menu=="a_propos") {echo "class=\"pure-menu-selected\"";} ?> ><a href="about.php">A propos</a></li>
         </ul>
-      </header>
-      <section>
-        <h1>Graphist Gallery</h1>
-
-<p>Latest version : <a href="http://codingteam.net/project/gallery/download/file/graphist-gallery_0.111.zip">0.111</a></p>
-<ul>
-<li>Download : <a href="http://codingteam.net/project/gallery/download">http://codingteam.net/project/gallery/download</a>
-</li>
-<li>News : <a href="http://blog.radek411.org/tag/graphist-gallery/">[FR]</a> <a href="http://codingteam.net/project/gallery/news">[EN]</a>
-</li>
-</ul>
-
-<p><em>Graphist Gallery, un script léger et fonctionnel codé en PHP ne demandant aucune base de données pour créer votre site web galerie rapidement et simplement.</em></p>
-
-<p><strong>Présentation FR :</strong> Graphist Gallery est un script de galerie d'image dynamique fonctionnant sans base de donnée. Toute votre galerie s'articule autour d'une arborescence de dossier et de fichiers, ce qui vous permet de mettre en place un site web galerie rapidement, sans se soucier du code.
-Le but étant donc de gagner un maximum de temps, l'utilisateur est donc plus concentré sur le contenu que sur le conteneur, tout étant géré automatiquement. Pour plus de renseignement, consultez la documentation de graphist gallery. Graphist Gallery est tout indiqué pour vos projets de Portfolio, galerie d'images, site web de présentations...</p>
-
-<p><strong>Presentation EN</strong> : Graphist Gallery is a picture-gallery script that does not require database. Your whole gallery is built around folders and files, allowing you to set up a website gallery, regardless of the code.
-The aim is to win time because the user is more focused on content and not on the container and all managed automatically. For better information, read the graphist gallery's documentation. Graphist Gallery is good for a Portfolia, a gallery, a presentation website...</p>
-      
-<p>Apprenez à vous servir de Graphist Gallery sur le <a href="https://github.com/Radek411/graphistgallery/wiki">wiki</a>.</p>
-        
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/Radek411">Radek411</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+</div>
     
-  </body>
+<div class="pure-u-1" id="main">
+<div class="header">
+    <h1>Graphist Gallery</h1>
+    <h2>Administration Panel</h2>
+</div>
+
+
+<div class="content">
+
+    <p>&nbsp;</p>   
+    
+    <aside>
+        <p>
+            <?php echo $admin_welcome; ?>
+        </p>
+    </aside>
+    
+    <h2 class="content-subhead">Administration</h2>
+    
+    <div class="l-centered">
+        <a class="pure-button" href="admin_pages.php">        
+            <i class="icon-file"></i>
+            <?php echo $pages_admin_button; ?>
+        </a>
+        <a class="pure-button" href="admin_site_configuration.php">        
+            <i class="icon-cog"></i>
+            <?php echo $config_admin_button; ?>
+        </a>
+        <a class="pure-button" href="admin_theme_configuration.php">        
+            <i class="icon-th-large"></i>
+            <?php echo $template_admin_button; ?>
+        </a>
+    </div>
+    
+
+    <h2 class="content-subhead"><?php echo $admin_features; ?></h2>
+
+    <ul class="content-spaced">
+        <?php echo $admin_features2; ?>
+    </ul>
+
+    <div class="pure-g-r">
+    <div class="pure-u-1-2">
+        <div class="l-box">
+            <h3><?php echo $admin_version; ?></h3>
+            <p>
+                <?php echo $admin_version2; ?>
+            </p>
+        </div>
+    </div>
+
+    <div class="pure-u-1-2">
+        <div class="l-box">
+            <div class="l-centered">
+                <img src="../img/logo_gg.jpg" alt="Logo Graphist Gallery"/>
+            </div>
+            <div class="l-centered">
+                <a class="pure-button" href="https://github.com/Radek411/graphistgallery">Fork me</a> <a class="pure-button" href="#">Donation</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div class="legal pure-g-r">
+    <div class="pure-u-2-5">
+        <div class="l-box">
+            <p class="legal-license">
+                This site is built with &lt;3 using Pure v0.2.1
+            </p>
+            <p class="legal-license">
+                Graphist Gallery is licensed under the GNU/GPL and developed by Luca Mailhol.
+            </p>
+        </div>
+    </div>
+
+    <div class="pure-u-1-5">
+        <div class="l-box legal-logo">
+            <a href="http://radek411.github.io/graphistgallery/">
+                <img src="../img/logo_gg_gris.jpg" height="30"
+                     alt="Graphist Gallery">
+            </a>
+        </div>
+    </div>
+
+    <div class="pure-u-2-5">
+        <div class="l-box">
+            <ul class="legal-links pure-g">
+                <li class='pure-u-1-2'>
+                    <i class="icon-github"></i> <a href="https://github.com/Radek411/graphistgallery">GitHub Project</a>
+                </li>
+            </ul>
+            <p class="legal-copyright">
+                 <i class="icon-share-alt"></i> <a href="<?php echo $site; ?>"><?php echo $retour_site; ?></a> | <i class="icon-unlock-alt"></i> <a href="deco.php"><?php echo $deconnexion; ?></a> 
+            </p>
+        </div>
+    </div>
+</div>
+
+
+</div>
+</div>  
+
+<script src="../resources/js/rainbow-min.js"></script>
+
+</body>
 </html>
