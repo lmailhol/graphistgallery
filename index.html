@@ -4,13 +4,12 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Administration &ndash; Graphist Gallery</title>
+    <title>Graphist Gallery</title>
 
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">
 <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-<link rel="stylesheet" href="template/admin_template.css">
+<link rel="stylesheet" href="stylesheets/styles.css">
 
-<script type="text/javascript" src="../resources//js/ed.js"></script>
 <script src="http://use.typekit.net/ajf8ggy.js"></script>
 <script>
     try { Typekit.load(); } catch (e) {}
@@ -28,18 +27,14 @@
     <div class="pure-menu pure-menu-open">
         <a class="pure-menu-heading" href="index.php">Admin</a>
         <ul>
-            <li  ><a href="admin_pages.php">Administrez vos écrits</a></li>
-            <li  ><a href="admin_site_configuration.php">Configurez votre site</a></li>
-            <li  ><a href="admin_theme_configuration.php">Configurer votre th&egrave;me</a></li>
-            <li class="menu-item-divided" ><a href="help.php">Aide</a></li>
-            <li  ><a href="about.php">A propos</a></li>
+            <li><a href="#">Graphist Gallery</a></li>
         </ul>
     </div>
 </div>    
 <div class="pure-u-1" id="main">
 <div class="header">
     <h1>Graphist Gallery</h1>
-    <h2>Administration Panel</h2>
+    <h2>Un léger script de galerie en PHP</h2>
 </div>
 
 
@@ -49,50 +44,30 @@
     
     <aside>
         <p>
-            Bienvenue sur l'interface d'administration de Graphist Gallery !        </p>
+            Bienvenue sur le site web de Graphist Gallery
+        </p>
     </aside>
     
-    <h2 class="content-subhead">Administration</h2>
+    <h2 class="content-subhead">Présentation</h2>
     
-    <div class="l-centered">
-        <a class="pure-button" href="admin_pages.php">        
-            <i class="icon-file"></i>
-            Pages        </a>
-        <a class="pure-button" href="admin_site_configuration.php">        
-            <i class="icon-cog"></i>
-            Configuration        </a>
-        <a class="pure-button" href="admin_theme_configuration.php">        
-            <i class="icon-th-large"></i>
-            Template        </a>
-    </div>
+    <p>
+        Graphist Gallery est un script de galerie multimédia dynamique fonctionnant sans base de donnée. Tout votre contenu s'articule autour d'une arborescence de dossier , ce qui vous permet de mettre en place votre site web rapidement, sans vous soucier du code. Simple et sans fioriture, Graphist Gallery permet à l'utilisateur d'être plus concentré sur le contenu que sur le conteneur. Ce script est ainsi particulièrement indiqué pour vos projets de portfolio, galerie d'images, site web de présentations...
+    </p>
     
 
     <h2 class="content-subhead">Fonctionnalités de Graphist Gallery</h2>
 
     <ul class="content-spaced">
-        <li>Afficher des photos et des vidéos classées dans une arborescence de dossier</li><li>Commenter tout un dossier ou un média individuel</li><li>Gérer des pages statiques</li><li>S'adapter très facilement à tout type de thème</li><li><a href="help.php">Et plus encore...</a></li>    </ul>
+        <li>Afficher des photos et des vidéos classées dans une arborescence de dossier</li>
+        <li>Commenter tout un dossier ou un média individuel</li><li>Gérer des pages statiques</li>
+        <li>S'adapter très facilement à tout type de thème</li>
+        <li><a href="help.php">Et plus encore...</a></li>
+    </ul>
 
-    <div class="pure-g-r">
-    <div class="pure-u-1-2">
-        <div class="l-box">
-            <h3>Version</h3>
-            <p>
-                Vous utilisez actuellement la la v1.0 (dev) de Graphist Gallery. N'hésitez pas à vous rendre sur le <a href="http://radek411.github.io/graphistgallery">site du projet</a> pour vérifier l'arrivée de nouveautés.            </p>
-        </div>
-    </div>
+<h2 class="content-subhead">Comment installer Graphist Gallery</h2>
 
-    <div class="pure-u-1-2">
-        <div class="l-box">
-            <div class="l-centered">
-                <img src="../img/logo_gg.jpg" alt="Logo Graphist Gallery"/>
-            </div>
-            <div class="l-centered">
-                <a class="pure-button" href="https://github.com/Radek411/graphistgallery">Fork me</a> <a class="pure-button" href="#">Donation</a>
-            </div>
-        </div>
-    </div>
+<h2 class="content-subhead">Comment commencer à utiliser Graphist Gallery</h2>
 
-</div>
 </div>
 
 <div class="legal pure-g-r">
@@ -102,7 +77,7 @@
                 This site is built with &lt;3 using Pure v0.2.1
             </p>
             <p class="legal-license">
-                Graphist Gallery is licensed under the GNU/GPL and developed by Luca Mailhol.
+                Graphist Gallery is licensed under the GNU/GPL and developed by <a href="http://lucamailhol.fr">Luca Mailhol</a>.
             </p>
         </div>
     </div>
@@ -110,7 +85,7 @@
     <div class="pure-u-1-5">
         <div class="l-box legal-logo">
             <a href="http://radek411.github.io/graphistgallery/">
-                <img src="../img/logo_gg_gris.jpg" height="30"
+                <img src="#" height="30"
                      alt="Graphist Gallery">
             </a>
         </div>
@@ -124,7 +99,7 @@
                 </li>
             </ul>
             <p class="legal-copyright">
-                 <i class="icon-share-alt"></i> <a href="http://gallery.radek411.org">Retour au site</a> | <i class="icon-unlock-alt"></i> <a href="deco.php">Deconnexion</a> 
+                 Tout texte est sous licence CC-BY-SA
             </p>
         </div>
     </div>
@@ -134,7 +109,7 @@
 </div>
 </div>  
 
-<script src="../resources/js/rainbow-min.js"></script>
+<script src="javascripts/scale.fix.js"></script>
 
 </body>
 </html>
