@@ -10,7 +10,7 @@
 <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 <link rel="stylesheet" href="template/admin_template.css">
 
-<script type="text/javascript" src="../<?php echo $rep_resources; ?>/js/ed.js"></script>
+<script type="text/javascript" src="../resources//js/ed.js"></script>
 <script src="http://use.typekit.net/ajf8ggy.js"></script>
 <script>
     try { Typekit.load(); } catch (e) {}
@@ -28,15 +28,14 @@
     <div class="pure-menu pure-menu-open">
         <a class="pure-menu-heading" href="index.php">Admin</a>
         <ul>
-            <li <?php if(isset($menu) AND $menu=="pages") {echo "class=\"pure-menu-selected\"";} ?> ><a href="admin_pages.php"><?php echo $pages_admin; ?></a></li>
-            <li <?php if(isset($menu) AND $menu=="config") {echo "class=\"pure-menu-selected\"";} ?> ><a href="admin_site_configuration.php"><?php echo $config_admin; ?></a></li>
-            <li <?php if(isset($menu) AND $menu=="theme") {echo "class=\"pure-menu-selected\"";} ?> ><a href="admin_theme_configuration.php"><?php echo $template_admin; ?></a></li>
-            <li <?php if(isset($menu) AND $menu=="aide") {echo "class=\"pure-menu-selected\"";} else {echo "class=\"menu-item-divided\"";} ?> ><a href="help.php">Aide</a></li>
-            <li <?php if(isset($menu) AND $menu=="a_propos") {echo "class=\"pure-menu-selected\"";} ?> ><a href="about.php">A propos</a></li>
+            <li  ><a href="admin_pages.php">Administrez vos écrits</a></li>
+            <li  ><a href="admin_site_configuration.php">Configurez votre site</a></li>
+            <li  ><a href="admin_theme_configuration.php">Configurer votre th&egrave;me</a></li>
+            <li class="menu-item-divided" ><a href="help.php">Aide</a></li>
+            <li  ><a href="about.php">A propos</a></li>
         </ul>
     </div>
-</div>
-    
+</div>    
 <div class="pure-u-1" id="main">
 <div class="header">
     <h1>Graphist Gallery</h1>
@@ -50,8 +49,7 @@
     
     <aside>
         <p>
-            <?php echo $admin_welcome; ?>
-        </p>
+            Bienvenue sur l'interface d'administration de Graphist Gallery !        </p>
     </aside>
     
     <h2 class="content-subhead">Administration</h2>
@@ -59,32 +57,27 @@
     <div class="l-centered">
         <a class="pure-button" href="admin_pages.php">        
             <i class="icon-file"></i>
-            <?php echo $pages_admin_button; ?>
-        </a>
+            Pages        </a>
         <a class="pure-button" href="admin_site_configuration.php">        
             <i class="icon-cog"></i>
-            <?php echo $config_admin_button; ?>
-        </a>
+            Configuration        </a>
         <a class="pure-button" href="admin_theme_configuration.php">        
             <i class="icon-th-large"></i>
-            <?php echo $template_admin_button; ?>
-        </a>
+            Template        </a>
     </div>
     
 
-    <h2 class="content-subhead"><?php echo $admin_features; ?></h2>
+    <h2 class="content-subhead">Fonctionnalités de Graphist Gallery</h2>
 
     <ul class="content-spaced">
-        <?php echo $admin_features2; ?>
-    </ul>
+        <li>Afficher des photos et des vidéos classées dans une arborescence de dossier</li><li>Commenter tout un dossier ou un média individuel</li><li>Gérer des pages statiques</li><li>S'adapter très facilement à tout type de thème</li><li><a href="help.php">Et plus encore...</a></li>    </ul>
 
     <div class="pure-g-r">
     <div class="pure-u-1-2">
         <div class="l-box">
-            <h3><?php echo $admin_version; ?></h3>
+            <h3>Version</h3>
             <p>
-                <?php echo $admin_version2; ?>
-            </p>
+                Vous utilisez actuellement la la v1.0 (dev) de Graphist Gallery. N'hésitez pas à vous rendre sur le <a href="http://radek411.github.io/graphistgallery">site du projet</a> pour vérifier l'arrivée de nouveautés.            </p>
         </div>
     </div>
 
@@ -131,7 +124,7 @@
                 </li>
             </ul>
             <p class="legal-copyright">
-                 <i class="icon-share-alt"></i> <a href="<?php echo $site; ?>"><?php echo $retour_site; ?></a> | <i class="icon-unlock-alt"></i> <a href="deco.php"><?php echo $deconnexion; ?></a> 
+                 <i class="icon-share-alt"></i> <a href="http://gallery.radek411.org">Retour au site</a> | <i class="icon-unlock-alt"></i> <a href="deco.php">Deconnexion</a> 
             </p>
         </div>
     </div>
