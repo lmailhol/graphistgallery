@@ -1,15 +1,39 @@
 Graphist Gallery
 ===============
-<ul>
-<li>Download : <a href="http://codingteam.net/project/gallery/download">http://codingteam.net/project/gallery/download</a></li>
-<li>News : <a href="http://blog.radek411.org/tag/graphist-gallery/">[FR]</a> <a href="http://codingteam.net/project/gallery/news">[EN]</a></li>
-</ul>
-Latest version : <a href="http://codingteam.net/project/gallery/download/file/graphist-gallery_0.111.zip">0.111</a>
+<h3>Présentation</h3>
 
-<em>Graphist Gallery, un script léger et fonctionnel codé en PHP ne demandant aucune base de données pour créer votre site web galerie rapidement et simplement.</em>
+Graphist Gallery est un script de galerie multimédia dynamique ne demandant aucune base de données, votre contenu s'articulant autour d'une arborescence de dossiers. Simple et sans fioriture, Graphist Gallery permet à l'utilisateur d'être plus concentré sur le contenu que sur le conteneur.
 
-<strong>Présentation FR :</strong> Graphist Gallery est un script de galerie d'image dynamique fonctionnant sans base de donnée. Toute votre galerie s'articule autour d'une arborescence de dossier et de fichiers, ce qui vous permet de mettre en place un site web galerie rapidement, sans se soucier du code.
-Le but étant donc de gagner un maximum de temps, l'utilisateur est donc plus concentré sur le contenu que sur le conteneur, tout étant géré automatiquement. Pour plus de renseignement, consultez la documentation de graphist gallery. Graphist Gallery est tout indiqué pour vos projets de Portfolio, galerie d'images, site web de présentations...
+    
+<h3>Fonctionnalités de Graphist Gallery</h3>
 
-<strong>Presentation EN</strong> : Graphist Gallery is a picture-gallery script that does not require database. Your whole gallery is built around folders and files, allowing you to set up a website gallery, regardless of the code.
-The aim is to win time because the user is more focused on content and not on the container and all managed automatically. For better information, read the graphist gallery's documentation. Graphist Gallery is good for a Portfolia, a gallery, a presentation website...
+       
+* Afficher des photos et des vidéos classées dans une arborescence de dossier
+* Commenter tout un dossier ou une image individuelle
+* Gérer des pages statiques pour mettre en place un véritable site web
+* S'adapter très facilement à tout type de thème
+* Programme multilingue et facile à traduire
+* Et plus encore...
+
+
+<h3>Installation</h3>
+
+Pour installer Graphist Gallery, vous devez simplement disposer d'un petit espace web acceptant PHP et d'un accès, par exemple ftp, à ce dernier. Téléchargez la dernière version de Graphist Gallery plus bas et extrayez le contenu de l'archive puis connectez vous à votre espace web et envoyez-y le contenu de l'archive. Graphist Gallery est prêt à être utilisé.
+
+<h3>Fonctionnement</h3>
+    
+Le but de Graphist Gallery est de gérer localement votre dossier de contenu, hors ligne, pour l'envoyer ensuite directement sur votre espace web, via ftp ou autre connexion. Le contenu doit se trouver dans le dossier <code>content/</code>. Vous pouvez classer images et vidéos dans une arborescence à deux niveaux (dossiers et sous-dossier). Il vous suffit simplement d'ajouter, par exemple, une image dans un dossier vide pour qu'il soit affiché sur votre site.
+            
+<pre><code>content/
+|
+|- Paysages/
+|       |- image1.jpg
+|       |- image2.jpg
+|
+|- Portraits/
+|       |- Noir et Blanc/
+|                   |- image1.jpg</code></pre>
+
+Tout le programme repose ainsi sur une arborescence de la sorte que vous gérez dans votre coin. Vous pouvez alors ajouter des images, des vidéos dans vos dossiers, classer le tout... Les commentaires ainsi que les pages peuvent aussi être gérés hors-ligne ou depuis l'interface d'administration du script !
+
+Pour apprendre dès maintenant à utiliser Graphist Gallery et ses fonctionnalités plus avancées, rendez vous sur <a href="https://github.com/Radek411/graphistgallery/wiki">la documentation</a> !
