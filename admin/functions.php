@@ -20,6 +20,12 @@
 require("../config.php");
 require("../".$rep_lang."/".$lang.".php");
 
+function no_extension($file) {
+    $dot = strpos($file, '.');
+    $noex_file = substr($file, 0, $dot);
+    return $noex_file;
+}
+
 function add_page($nom_fichier,$contenu_page) {
     require("../default_config.php");
     require("../config.php");
@@ -108,8 +114,7 @@ function show_list_pages() {
     require("../".$rep_lang.$lang.".php");
     
     $suppr=array(".", "..");
-    if(!isset($admin_rep_pages)){$admin_rep_pages="../".$rep_pages."";}
-    if($dir_pages=opendir($admin_rep_pages)) {
+    if($dir_pages=opendir("../".$rep_pages)) {
         while (false !== ($pages = readdir($dir_pages))) {
             if(!in_array($pages, $suppr)) {
                 echo "<tbody><tr>";
@@ -125,6 +130,58 @@ function show_list_pages() {
     closedir($dir_pages);
 }
 
+function show_form_list_pages() {
+    require("../default_config.php");
+    require("../config.php");
+    $suppr=array(".", "..");
+    if($dir_pages=opendir("../".$rep_pages)) {
+        while (false !== ($pages = readdir($dir_pages))) {
+            if(!in_array($pages, $suppr)) {
+                if($pages==$index) {$selected_page='selected="selected"';} else {$selected_page='';}
+                echo "<option ".$selected_page." value=\"".$pages."\">".$pages."</option>";
+            }
+        }
+    } else {
+        echo $erreur;
+    }
+    closedir($dir_pages);
+}
+
+function show_languages() {
+    require("../default_config.php");
+    require("../config.php");
+    $suppr=array(".", "..");
+    if($dir_lang=opendir("../".$rep_lang)) {
+        while (false !== ($languages = readdir($dir_lang))) {
+            if(!in_array($languages, $suppr)) {
+                if(no_extension($languages)==$lang) {$selected_language='selected="selected"';} else {$selected_language='';}
+                echo "<option ".$selected_language." value=\"".no_extension($languages)."\">".no_extension($languages)."</option>";
+            }
+        }
+    } else {
+        echo $erreur;
+    }
+    closedir($dir_lang);
+}
+
+function show_themes() {
+    require("../default_config.php");
+    require("../config.php");
+    $suppr=array(".", "..");
+    if($dir_themes=opendir("../".$rep_resources."template/")) {
+        while (false !== ($themes = readdir($dir_themes))) {
+            if(!in_array($themes, $suppr)) {
+                if($themes==$style) {$selected_theme='selected="selected"';} else {$selected_theme='';}
+                echo "<option ".$selected_theme." value=\"".$themes."\">".$themes."</option>";
+            }
+        }
+    } else {
+        echo $erreur;
+    }
+    closedir($dir_themes);
+}
+
+
 function admin_connection() {
     
     require("../default_config.php");
@@ -136,9 +193,7 @@ function admin_connection() {
 <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Authentification &ndash; Graphist Gallery</title>
-
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">
 <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 <link rel="stylesheet" href="template/admin_template.css">
@@ -146,7 +201,6 @@ function admin_connection() {
 <script>
     try { Typekit.load(); } catch (e) {}
 </script>
-
 </head>
 <body><div class="pure-g-r" id="layout">
     <a href="#menu" id="menuLink" class="pure-menu-link">
@@ -192,7 +246,6 @@ function admin_connection() {
         echo "<button type=\"submit\" class=\"pure-button pure-button-primary\">".$submit."</button>";
         echo "</fieldset></form>";
     }
-    
     echo '</div>
 </div>
 </div>
@@ -200,7 +253,6 @@ function admin_connection() {
     <div class="pure-u-2-5">
     <p>&nbsp;</p>
     </div>
-
     <div class="pure-u-1-5">
         <div class="l-box legal-logo">
             <a href="http://radek411.github.io/graphistgallery/">
@@ -213,16 +265,45 @@ function admin_connection() {
     <p>&nbsp;</p>
     </div>
 </div>
-
-
 </div>
 </div> 
-
-
 <script src="../resources/js/rainbow-min.js"></script>
-
 </body>
 </html>';
+}
+
+function write_config($name,$url,$index,$lang,$footer,$user,$psw,$style) {    
+    $config = fopen("../config.php", "w+");
+    $modif_config='
+    <?php
+// If you don\'t understand this file, read the documentation : http://codingteam.net/project/gallery/doc
+// Si vous ne comprenez pas ce fichier, référez vous à la documentation : http://codingteam.net/project/gallery/doc
+
+$style = "'.$style.'"; // Choose your template
+$lang ="'.$lang.'"; //FR_fr, EN_us
+$index ="'.$index.'"; //Name of your index page. You can change it by the name of a page who exist (folder pages/)
+$title ="'.$name.'"; //Website\'s title
+$footer_text ="'.$footer.'"; //Website\'s footer
+$site ="'.$url.'"; //Website\'s URL
+$user ="'.$user.'"; //Your admin username
+$psw ="'.$psw.'"; //Your admin password
+
+$show_exif_data =1; #1 - Show the exif data, 0 - Don\'t show
+$show_exif_make =1; #1 - Show the make, 0 - Don\'t
+$show_exif_model =1; #1 - Show the model, 0 - Don\'t
+$show_exif_aperture =1; #1 - Show the aperture, 0 - Don\'t
+$show_exif_exposure =1; #1 - Show the exposure, 0 - Don\'t
+$show_exif_iso =1; #1 - Show the iso, 0 - Don\'t
+$show_exif_date =1; #1 - Show the date, 0 - Don\'t
+
+$rep_content ="content/"; //The path to the content directory (from the site root)
+$rep_pages ="pages/"; //The path to the static pages directory (from the site root)
+$rep_lang ="lang/"; //The path to the langs directory (from the site root)
+$rep_img ="img/"; //The path to the images directory (from the site root)
+$rep_resources ="resources/"; //The path to the resources directory (from the site root)
+?>';
+    fputs($config, $modif_config);
+    fclose($config);
 }
 
 ?>

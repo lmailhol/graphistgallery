@@ -47,7 +47,6 @@ function display_pic($dir, $dir2, $folder_number) { // The first dir and the sec
     require("default_config.php");    
     require("config.php");
     require($rep_lang.$lang.".php");
-    $config = $pictures_view;
     if($folder_number==1) {
         $folder_number="";
         $folder_number_url="";

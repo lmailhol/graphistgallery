@@ -73,7 +73,7 @@ $modif_comment_done="Votre commentaire a été modifié";
 $suppr_page_done   ="Votre supression a &eacute;t&eacute; effectu&eacute;e";
 $suppr_comment_done="Vous avez bien supprimé le commentaire";
 $non_modif_page    ="Votre page n'a pas &eacute;t&eacute; supprimée.";
-
+$modif_config_done ="La configuration a bien été modifiée.";
 
 ### Error
 
@@ -84,7 +84,6 @@ $erreur_modif_page ="Une erreur s'est produite lors de la modification de votre 
 $erreur_modif_config ="Une erreur s'est produite lors de la modification de la configuration";  
 $erreur_suppr_page ="Une erreur s'est produite lors de la suppression de votre page";
 $erreur_login      ="Mot de passe ou identifiant erron&eacute;";
-
 
 #### Buttons
 
@@ -121,12 +120,15 @@ $site_url="Url du site";
 $site_index="Page d'accueil";
 $site_user="Nom de l'utilisateur";
 $site_password="Mot de passe";
+$site_footer="Footer de votre site";
+$site_lang="Langue de l'interface";
+$site_template="Thème du site";
 
 ### Template
 
 $info_theme        ="Vous utilisez actuellement le thème : ";
 $info_config_theme ="Vous pouvez dès que vous le souhaiter modifier les fichiers relatifs au thème : ";
-$admin_config_theme="Choisissez ici le thème que vous voulez utiliser. Vous pouvez aussi éditer les fichiers du thème.";
+$admin_config_theme="Vous pouvez éditer ici les fichiers de votre thème.";
 
 ### Help
 

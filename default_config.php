@@ -2,11 +2,7 @@
     //Set the configurations var at ther default values, if there is a problem
     if(!isset($index)){ $index="accueil"; }
     if(!isset($lang)){ $lang="EN_us"; }
-    if(!isset($pictures_view)){ $pictures_view=0; }
-    if(!isset($thumbnail_size)){ $thumbnail_size="50px"; }
     if(!isset($style)){ $style="bleu"; }   
-    if(!isset($open_at_load)){ $open_at_load=1; } 
-    if(!isset($include_jquery)){ $include_jquery=1; }
     if(!isset($rep_content)){ $rep_content="content/"; }   
     if(!isset($rep_pages)){ $rep_pages="pages/"; }  
     if(!isset($rep_lang)){ $rep_lang="lang/"; }

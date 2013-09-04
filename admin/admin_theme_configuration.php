@@ -39,20 +39,10 @@ include("include/header.php"); ?>
 
 <div class="content">    
     
-    <h2 class="content-subhead">Template</h2>
-    
-    <form class="pure-form">
-    <fieldset>
-        <select id="state" class="pure-input-1-2">
-            <option>Bleu</option>
-            <option>Blanc</option>
-            <option>Rouge</option>
-        </select>
-        <button type="submit" class="pure-button pure-button-primary">Choisir</button>
-    </fieldset>
-</form>
-    
-    <?php
+    <h2 action="admin_theme_configuration.php" method="post" class="content-subhead">Template</h2>
+
+<?php
+
 echo $admin_config_theme;
 
 echo "<p>".$info_theme.$style.".<br/>";

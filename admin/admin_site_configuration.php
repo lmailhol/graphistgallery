@@ -41,42 +41,69 @@ include("include/header.php"); ?>
 
     <h2 class="content-subhead">Configuration</h2>    
 <div class="pure-g-r">
-<div class="pure-u-3-5">     
-   <form class="pure-form pure-form-aligned">
+<div class="pure-u-3-5">
+<?php
+if(isset($_POST['name']) AND isset($_POST['url']) AND isset($_POST['index']) AND isset($_POST['lang']) AND isset($_POST['footer']) AND isset($_POST['user']) AND isset($_POST['password']) AND isset($_POST['template'])) {
+    write_config($_POST['name'],$_POST['url'],$_POST['index'],$_POST['lang'],$_POST['footer'],$_POST['user'],$_POST['password'],$_POST['template']);
+    echo $modif_config_done;
+    echo "<br/><a href=\"admin_site_configuration.php\">".$retour."</a>";
+} else {
+    
+?>
+   <form action="admin_site_configuration.php" method="post" class="pure-form pure-form-aligned">
     <fieldset>        
         <div class="pure-control-group">
             <label for="name"><?php echo $site_name; ?></label>
-            <input id="name" type="text" placeholder="Nom du site">
+            <input id="name" name="name" type="text" value="<?php echo $title; ?>" placeholder="Name">
         </div>
         
         <div class="pure-control-group">
-            <label for="name"><?php echo $site_url; ?></label>
-            <input id="name" type="text" placeholder="Url">
+            <label for="url"><?php echo $site_url; ?></label>
+            <input id="url" name="url" type="text" value="<?php echo $site; ?>" placeholder="Url">
         </div>
         
         <div class="pure-control-group">
-            <label for="state"><?php echo $site_index; ?></label>
-            <select id="state">
-                <option>Page 1</option>
-                <option>Page 2</option>
+            <label for="index"><?php echo $site_index; ?></label>
+            <select name="index" id="index">
+                <?php show_form_list_pages(); ?>
             </select>
         </div>
         
         <div class="pure-control-group">
-            <label for="name"><?php echo $site_user; ?></label>
-            <input id="name" type="text" placeholder="Utilisateur">
+            <label for="template"><?php echo $site_template; ?></label>
+            <select id="template" name="template">
+                <?php show_themes(); ?>
+            </select>
         </div>
         
         <div class="pure-control-group">
-            <label for="name"><?php echo $site_password; ?></label>
-            <input id="name" type="password" placeholder="Mot de passe">
+            <label for="footer"><?php echo $site_footer; ?></label>
+            <input id="footer" name="footer" type="text" value="<?php echo htmlspecialchars($footer_text); ?>" placeholder="Footer">
         </div>
-
-        <div class="pure-controls">
+        
+        <div class="pure-control-group">
+            <label for="user"><?php echo $site_user; ?></label>
+            <input id="user" name="user" type="text" value="<?php echo $user; ?>" placeholder="User">
+        </div>
+        
+        <div class="pure-control-group">
+            <label for="password"><?php echo $site_password; ?></label>
+            <input id="password" name="password" type="password" value="<?php echo $psw; ?>" placeholder="Password">
+        </div>
+    </fieldset>
+    <fieldset>
+       <div class="pure-control-group">
+            <label for="lang"><?php echo $site_lang; ?></label>
+            <select name="lang" id="lang">
+                <?php show_languages(); ?>
+            </select>
+        </div> 
+       <div class="pure-controls">
             <button type="submit" class="pure-button pure-button-primary"><?php echo $submit; ?></button>
         </div>
     </fieldset>
 </form>
+<?php } ?>
 </div>
 <div class="pure-u-2-5"><?php echo $config_text; ?></div>
 </div>
@@ -85,7 +112,7 @@ include("include/header.php"); ?>
     
     <?php
         echo $admin_config_site;
-        echo "<p><a href=\"admin_pages.php?fichier=../config.php&amp;action=modif\">".$info_modif_config."</a></p>";
+        echo "<p><a href=\"admin_pages.php?fichier=../config.php&amp;action=modif&amp;config=1\">".$info_modif_config."</a></p>";
     ?>  
 
 </div>

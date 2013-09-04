@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$menu = "pages";
+if(!isset($_GET['config'])){ $menu = "pages"; } else { $menu = "config"; }
 
 /*
  * Copyright (C) 2010 Mailhol Luca
