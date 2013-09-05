@@ -239,18 +239,16 @@ function show_pages($f_ul, $f_li) { //Set the first ul class and the first li cl
     $suppr=array(".","..","comment.md", $index);
     
 	echo "<ul class=\"".$f_ul."\" >";    
-	if($dir_pages=opendir($rep_pages)) {
+	if($dir_pages=scandir($rep_pages)) {
+        $dir_pages = array_diff($dir_pages, $suppr);
         echo "<li class=\"".$f_li."\"><a href=\"index.php?page=".$index."\">".ucfirst(str_replace('_','&nbsp;',$index))."</a></li>"; //Show the index page in first
-		$pages=array("");
-        while(false !== ($f_pages=readdir($dir_pages))) {
-			if(!in_array($f_pages, $suppr)) {
-                array_push($pages, $f_pages);
-			}
-		}
-        sort($pages);
-        foreach($pages as $page_url) {
+        foreach($dir_pages as $page_url) {
+            if(preg_match("#^[a-z]+_#", $page_url)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the pages)
+                list($null,$page_name) = explode('_',$page_url);
+                //$page_name = substr($page_url,2);
+            } else {$page_name=$page_url;}
             if($page_url != NULL) {
-                echo "<li class=\"".$f_li."\"><a href=\"index.php?page=".$page_url."\">".ucfirst(str_replace('_','&nbsp;',$page_url))."</a></li>";
+                echo "<li class=\"".$f_li."\"><a href=\"index.php?page=".$page_url."\">".ucfirst(str_replace('_','&nbsp;',$page_name))."</a></li>";
             }
         }
 	} else {
@@ -280,8 +278,9 @@ function show_categories($f_ul, $f_li_sr, $f_li, $s_ul, $s_li, $folder_number) {
                 $sub_dir =  array_diff($sub_dir, $suppr);
                 foreach($sub_dir as $sub_dir_link) {
                     
-                    if(preg_match("#^[a-z]_#", $dir_link)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the folders)
-                        $dir_name = substr($dir_link,2);
+                    if(preg_match("#^[a-z]+_#", $dir_link)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the folders)
+                        //$dir_name = substr($dir_link,2);
+                        list($null,$dir_name) = explode('_',$dir_link);
                     } else {$dir_name=$dir_link;}
                     
                     if(is_dir($sub_rep.$sub_dir_link) AND $i==NULL) { //One checks if the parent-folder countains sub-categories. If i not null, one doesn't re-run the condition to not display the same folder multiple times.
@@ -296,8 +295,9 @@ function show_categories($f_ul, $f_li_sr, $f_li, $s_ul, $s_li, $folder_number) {
                                 $LastDir =  array_diff($LastDir, $suppr);
                                 foreach($LastDir as $LastDir_link) {
                                     if($folder_number!=""){$folder_number_url="&amp;content=".$folder_number;} else {$folder_number_url="";} //If the content folder is not the first one, one send the number in the url
-                                    if(preg_match("#^[a-z]_#", $LastDir_link)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the folders)
-                                        $LastDir_name = substr($LastDir_link,2);
+                                    if(preg_match("#^[a-z]+_#", $LastDir_link)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the folders)
+                                        //$LastDir_name = substr($LastDir_link,2);
+                                        list($null,$LastDir_name) = explode('_',$LastDir_link);
                                     } else {$LastDir_name=$LastDir_link;}
                                     echo "<li class=\"".$s_li."\"><a href=\"index.php?dir=".$dir_link."&amp;dir2=".$LastDir_link.$folder_number_url."\">".trim($LastDir_name)."</a></li>";
                                     $i=1;
