@@ -44,7 +44,7 @@ function no_extension($file) {
 
 function display_pic($dir, $dir2, $folder_number) { // The first dir and the second (if it exist) 
 
-    require("default_config.php");    
+    require("default_config.php"); 
     require("config.php");
     require($rep_lang.$lang.".php");
     if($folder_number==1) {
@@ -79,13 +79,13 @@ function display_pic($dir, $dir2, $folder_number) { // The first dir and the sec
                     }
                     
                     if(comment_img_exist($link)==1) { //if there is a single-image comment
-                        echo "<div id=\"single_img_comment\">";
+                        //echo $before;
                             show_img_comment($link, $fichier);
-                        echo "</div><br/><br/>";
+                        //echo $after;
                     } else { //else, create one
-                        echo "<div id=\"single_img_comment\">";
+                        //echo $before;
                             create_img_comment($dir."&amp;".$dir2_url.$folder_number_url, $link);
-                        echo "</div><br/><br/>";
+                        //echo $after;
                     }
                 }
             }
@@ -120,20 +120,19 @@ function display_one_pic($dir, $dir2, $folder_number, $img) {
             if(!empty($dir2)) {$dir2_url="&amp;dir2=".$dir2."&amp;";} else {$dir2_url="";}
             
             if(comment_img_exist($link_img)==1) {
-                echo "<div id=\"single_img_comment\">";
+                //echo $before;
                 show_img_comment($link_img, $img);
+                //echo $after;
+            }
+            if($show_exif_data==1) {
+                echo "<div class=\"exif_display\">";
+                $exif_data_tab = exif_img($link_img);
+            
+                foreach($exif_data_tab as $exif_data) {
+                    echo $exif_data . "<br />";
+                }
                 echo "</div>";
             }
-            
-            echo "<div class=\"exif_display\">";
-            $exif_data_tab = exif_img($link_img);
-            
-            foreach($exif_data_tab as $exif_data) {
-                echo $exif_data . "<br />";
-            }
-
-            echo "</div>";
-                
             echo "<div class=\"single_img_retour\">";
             echo "<br/><br/><a href=\"index.php?dir=".$dir.$dir2_url.$folder_number_url."\">Retour aux images</a>";
             echo "</div>";
@@ -285,7 +284,7 @@ function show_categories($f_ul, $f_li_sr, $f_li, $s_ul, $s_li, $folder_number) {
                     } else {$dir_name=$dir_link;}
                     
                     if(is_dir($sub_rep.$sub_dir_link) AND $i==NULL) { //One checks if the parent-folder countains sub-categories. If i not null, one doesn't re-run the condition to not display the same folder multiple times.
-                        echo "<li class=\"".$f_li_sr."\"><span>\n".trim($dir_name)."</span>";
+                        echo "<li class=\"".$f_li_sr."\"><a href=\"#\">\n".trim($dir_name)."</a>";
                         echo "\n <ul class=\"".$s_ul."\">\n";
                         
                         if(isset($open)==isset($_GET['open'])){unset($open);}
@@ -499,13 +498,9 @@ function show_img_comment($img_link, $img_name) { //Take the link and the name o
                 }
             }
         } else {
-    
-    echo "<p>";
-
     echo Markdown(file_get_contents($img_link.".md"));
         
     if (isset($_SESSION['connection']) AND $_SESSION['connection']==1) {echo "<br/><a href=\"".$_SERVER['REQUEST_URI']."&amp;img_name=".$img_name."&amp;single_comment=edit\" class=\"ajax\">[Edit]</a>";}    
-    echo "</p>";
     }
     }
 }
@@ -559,6 +554,8 @@ function exif_img($img_link) {
     return $exif_data_tab;
     }
 }
+
+//
 
 ##########################
 ########## Body ##########
