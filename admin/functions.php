@@ -49,7 +49,7 @@ function modif_page($nom_fichier,$contenu_page, $nom_change) {
     require("../config.php");
     require("../".$rep_lang."/".$lang.".php");
     
-    if(!isset($admin_rep_pages)){$admin_rep_pages="../".$rep_pages."";}
+    if(!isset($admin_rep_pages)){$admin_rep_pages="../".$rep_pages;}
     if(file_exists($admin_rep_pages.$nom_fichier)) {
         if($modif_page = fopen($admin_rep_pages.$nom_fichier, "w+")) {
             fputs($modif_page, $contenu_page);
@@ -97,7 +97,7 @@ function suppr_page($nom_fichier) {
     require("../config.php");
     require("../".$rep_lang."/".$lang.".php");
     
-    if(!isset($admin_rep_pages)){$admin_rep_pages="../".$rep_pages."";}
+    if(!isset($admin_rep_pages)){$admin_rep_pages="../".$rep_pages;}
     if(unlink($admin_rep_pages.$nom_fichier)) {
         echo $suppr_page_done."<br/>";
         echo "<a href=\"admin_pages.php\">".$retour."</a>";

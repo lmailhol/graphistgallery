@@ -11,6 +11,7 @@ Graphist Gallery est un script de galerie multimédia dynamique ne demandant auc
 * Afficher des photos et des vidéos classées dans une arborescence de dossier
 * Commenter tout un dossier ou une image individuelle
 * Gérer des pages statiques pour mettre en place un véritable site web
+* Usage du Markdown pour la mise en page des commentaires et des pages
 * S'adapter très facilement à tout type de thème
 * Programme multilingue et facile à traduire
 * Et plus encore...

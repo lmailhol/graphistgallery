@@ -94,10 +94,10 @@ $template_admin_button ="Template";
 ### Page administration
 
 $comment_text="Vous pouvez aussi éditer les divers commentaires attribués à un média ou un dossier entier, il vous suffit de retourner sur votre site et de cliquer sur le boutton \"Edit\" affiché en dessous du commentaire choisi.";
-$page_text="Choisissez dans le tableau la page que vous souhaitez éditer ou ajoutez en une puis écrivez le contenu de cette dernière en HTML. Notez que le Markdown sera bientôt implémenté à Graphist Gallery...";
+$page_text="Choisissez dans le tableau la page que vous souhaitez éditer ou ajoutez en une puis écrivez le contenu de cette dernière en Markdown.";
 $form_name         ="Nom du fichier :";
 $form_name_modif   ="Nom du fichier (vous pouvez le modifier) :";
-$form_info_content ="Rentrez ici le contenu de votre page EN HTML !";
+$form_info_content ="Rentrez ici le contenu de votre page en Markdown !";
 $form_info_name    ="Rentrez ici le nom du fichier en veillant &agrave; remplacer les espaces par des underscores \"_\"";
 $ajout_page        ="Ajouter une page";
 

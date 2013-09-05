@@ -1,0 +1,1 @@
+Ceci est un commentaire d'image en _markdown_.

@@ -59,7 +59,7 @@ function display_pic($dir, $dir2, $folder_number) { // The first dir and the sec
     $dir_img=$folder_number.$rep_content.$dir."/".$dir2."/";
     if($pic_folder=@opendir($dir_img)) {
         while(false !== ($fichier=readdir($pic_folder))) {
-            if(!in_array($fichier,$suppr) AND !preg_match("#.txt#",$fichier) AND !preg_match("#.txt#",$fichier)) {
+            if(!in_array($fichier,$suppr) AND !preg_match("#.md#",$fichier) AND !preg_match("#.md#",$fichier)) {
                 $link=$dir_img."/".$fichier;
                 if(file_exists($link)) {
                     
@@ -163,12 +163,13 @@ function display_page($page) {
     require("config.php");
     require("default_config.php");    
     require($rep_lang.$lang.".php");
+    require_once($rep_resources."lib/Markdown.php");
     
     $suppr=array(".","..");
     if(!in_array($page, $suppr) AND !preg_match("#../#",$page)) {
 		if(file_exists($rep_pages.$page)) { //On vérifie si le fichier correspondant à la page existe
-            $page_file=file_get_contents($rep_pages.$page);
-            echo nl2br($page_file);
+            $page_file=Markdown(file_get_contents($rep_pages.$page));
+            echo $page_file;
 		} else {
 			echo $erreur;
 		}
@@ -194,6 +195,8 @@ function show_body() {
     
     require("config.php");   
     require("default_config.php");
+    require_once($rep_resources."lib/Markdown.php");
+    require($rep_lang.$lang.".php");
 
     if(isset($_GET['dir']) OR isset($_GET['dir2'])) { //Display pictures ?...
     
@@ -217,8 +220,8 @@ function show_body() {
     
         $page=$index;
         if(file_exists($rep_pages.$page)) {
-            $page=file_get_contents($rep_pages.$page);
-            echo nl2br($page);
+            $page=Markdown(file_get_contents($rep_pages.$page));
+            echo $page;
         } else {
             echo $erreur;
         }
@@ -233,7 +236,7 @@ function show_pages($f_ul, $f_li) { //Set the first ul class and the first li cl
     require($rep_lang.$lang.".php");
     require("default_config.php");
     
-    $suppr=array(".","..","comment.txt", $index);
+    $suppr=array(".","..","comment.md", $index);
     
 	echo "<ul class=\"".$f_ul."\" >";    
 	if($dir_pages=opendir($rep_pages)) {
@@ -264,7 +267,7 @@ function show_categories($f_ul, $f_li_sr, $f_li, $s_ul, $s_li, $folder_number) {
     require("config.php");
     require($rep_lang."/".$lang.".php");
      
-    $suppr=array(".","..","comment.txt");
+    $suppr=array(".","..","comment.md");
     if($folder_number==1){$folder_number="";}
     echo "<ul class=\"".$f_ul."\">";
     if($dir=scandir($folder_number.$rep_content)) { //If you have more than one "content/" folder, it will open <folder number (1,2,3...)>content/
@@ -334,7 +337,7 @@ function comment_exist() {
         if(isset($_GET['dir2'])) { $dir2=$_GET['dir2']; } else { $dir2=''; }
         
         $rep_comment = $folder_number.$rep_content.htmlspecialchars(($_GET['dir']))."/".htmlspecialchars($dir2);
-        if(file_exists($rep_comment."/comment.txt")) {
+        if(file_exists($rep_comment."/comment.md")) {
             return 1;
         } else {
             return 2;
@@ -365,7 +368,7 @@ function create_comment() {
                 echo "<input type=\"submit\" value=\"".$modif."\" />";
                 echo "</p></form>";
             } elseif($_GET['comment']=="creation_done") { //creation of the comment
-                if($comment = fopen($rep_comment."/comment.txt", "a+")) {
+                if($comment = fopen($rep_comment."/comment.md", "a+")) {
                         fputs($comment, $_POST['comment']);
                         fclose($comment);
                         echo $add_comment_done."<br/>";   
@@ -384,6 +387,7 @@ function show_comment() {
     require("config.php");  
     require("default_config.php");
     require($rep_lang."/".$lang.".php");
+    require_once($rep_resources."lib/Markdown.php");
     
     if(isset($_GET['dir']) OR isset($_GET['dir2'])) {
         if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else { $folder_number=''; }
@@ -393,33 +397,27 @@ function show_comment() {
             
         if(isset($_GET['comment']) AND $_GET['comment']=="edit" AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) {  //edition of the comment            
             echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;dir2=".$dir2."&amp;".$folder_number."&amp;comment=done\" method=\"post\">";
-            echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\" class=\"ed\">".file_get_contents($rep_comment."/comment.txt")."</textarea><br/>";
+            echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\" class=\"ed\">".file_get_contents($rep_comment."/comment.md")."</textarea><br/>";
             echo "<input type=\"submit\" value=\"".$modif."\" />";
             echo "</p></form>";
         } elseif(isset($_GET['comment']) AND $_GET['comment']=="done" AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) { // if one wanna delete or change the comment
-            if(file_exists($rep_comment."/comment.txt")) {
+            if(file_exists($rep_comment."/comment.md")) {
                 if($_POST['comment']!='') {
-                    if($comment = fopen($rep_comment."/comment.txt", "w+")) {
+                    if($comment = fopen($rep_comment."/comment.md", "w+")) {
                         fputs($comment, $_POST['comment']);
                         fclose($comment);
                         echo $modif_comment_done."<br/>";   
                     }
                 } else {
-                    unlink($rep_comment."/comment.txt");
+                    unlink($rep_comment."/comment.md");
                     echo $suppr_comment_done."<br/>";
                 }
             }
         } else {
 	
-        echo "<p>";
-        $comment = fopen($rep_comment."/comment.txt", "r+");
-        while($ligne = fgets($comment)) {
-            echo $ligne; //One shows the comment
-        }
-        if (isset($_SESSION['connection']) AND $_SESSION['connection']==1) {echo "<br/><a href=\"".$_SERVER['REQUEST_URI']."&amp;comment=edit\" class=\"ajax\">[Edit]</a>";}
-        fclose($comment);
-        echo "</p>";
+        echo Markdown(file_get_contents($rep_comment."/comment.md"));
             
+        if (isset($_SESSION['connection']) AND $_SESSION['connection']==1) {echo "<br/><a href=\"".$_SERVER['REQUEST_URI']."&amp;comment=edit\" class=\"ajax\">[Edit]</a>";}
         }
     }
 }
@@ -428,7 +426,7 @@ function show_comment() {
 
 function comment_img_exist($img_link) { //Take the link of the picture in arg
     
-    if(file_exists($img_link.".txt")) {
+    if(file_exists($img_link.".md")) {
         return 1;
     } else {
         return 0;
@@ -449,13 +447,13 @@ function create_img_comment($link, $img) {
             if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else { $folder_number=''; }
             if(isset($_GET['dir2'])) { $dir2=$_GET['dir2']; } else { $dir2=''; }
             
-            if($_GET['comment']=="create") { //if we want to show the textarea to create the comment
-                echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;dir2=".$dir2."&amp;".$folder_number."&amp;comment=creation_done\" method=\"post\">";
+            if($_GET['comment']=="create_img") { //if we want to show the textarea to create the comment
+                echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;dir2=".$dir2."&amp;".$folder_number."&amp;comment=creation_img_done\" method=\"post\">";
                 echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\" class=\"ed\"></textarea><br/>";
                 echo "<input type=\"submit\" value=\"".$modif."\" />";
                 echo "</p></form>";
-            } elseif($_GET['comment']=="creation_done") { //creation of the comment
-                if($comment = fopen($img.".txt", "a+")) {
+            } elseif($_GET['comment']=="creation_img_done") { //creation of the comment
+                if($comment = fopen($img.".md", "a+")) {
                         fputs($comment, $_POST['comment']);
                         fclose($comment);
                         echo $add_comment_done."<br/>";   
@@ -463,7 +461,7 @@ function create_img_comment($link, $img) {
             }
         }
     } elseif(isset($_SESSION['connection']) AND $_SESSION['connection']==1) {
-        echo "<br/><a href=\"".$_SERVER['REQUEST_URI']."&amp;comment=create\" class=\"ajax\">[Create]</a>";
+        echo "<br/><a href=\"".$_SERVER['REQUEST_URI']."&amp;comment=create_img\" class=\"ajax\">[Create]</a>";
     }
 }
 
@@ -475,6 +473,7 @@ function show_img_comment($img_link, $img_name) { //Take the link and the name o
     require("config.php");  
     require("default_config.php");
     require($rep_lang."/".$lang.".php");
+    require_once($rep_resources."lib/Markdown.php");
     
     if(isset($_GET['dir']) OR isset($_GET['dir2'])) {
         if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else { $folder_number=''; }
@@ -482,30 +481,27 @@ function show_img_comment($img_link, $img_name) { //Take the link and the name o
     
         if(isset($_GET['single_comment']) AND isset($_GET['img_name']) AND $_GET['single_comment']=="edit" AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) {  //edition of the comment            
             echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;dir2=".$dir2."&amp;".$folder_number."&amp;single_comment=done&amp;img_name=".$_GET['img_name']."\" method=\"post\">";
-            echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\" class=\"ed\">".file_get_contents($img_link.".txt")."</textarea><br/>";
+            echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\" class=\"ed\">".file_get_contents($img_link.".md")."</textarea><br/>";
             echo "<input type=\"submit\" value=\"".$modif."\" />";
             echo "</p></form>";
         } elseif(isset($_GET['single_comment']) AND isset($_GET['img_name']) AND $_GET['single_comment']=="done" AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) { // if one wanna delete or change the comment
-            if(file_exists($img_link.".txt")) {
+            if(file_exists($img_link.".md")) {
                 if($_POST['comment']!='') {
-                    if($single_comment = fopen($img_link.".txt", "w+")) {
+                    if($single_comment = fopen($img_link.".md", "w+")) {
                         fputs($single_comment, $_POST['comment']);
                         fclose($single_comment);
                         echo $modif_comment_done."<br/>";   
                     }
                 } else {
-                    unlink($img_link.".txt");
+                    unlink($img_link.".md");
                     echo $suppr_comment_done."<br/>";
                 }
             }
         } else {
     
     echo "<p>";
-    $comment_img = fopen($img_link.".txt", "r+");
-    while($ligne = fgets($comment_img)) {
-        echo $ligne; //One shows the comment
-    }
-    fclose($comment_img);
+
+    echo Markdown(file_get_contents($img_link.".md"));
         
     if (isset($_SESSION['connection']) AND $_SESSION['connection']==1) {echo "<br/><a href=\"".$_SERVER['REQUEST_URI']."&amp;img_name=".$img_name."&amp;single_comment=edit\" class=\"ajax\">[Edit]</a>";}    
     echo "</p>";
