@@ -57,12 +57,14 @@ function display_pic($dir, $dir2, $folder_number) { // The first dir and the sec
     $suppr=array(".","..");
     if(!in_array($dir, $suppr) AND !in_array($dir2, $suppr) AND !preg_match("#../#",$dir) AND !preg_match("#../#",$dir2)) {
     $dir_img=$folder_number.$rep_content.$dir."/".$dir2."/";
-    if($pic_folder=@opendir($dir_img)) {
-        while(false !== ($fichier=readdir($pic_folder))) {
-            if(!in_array($fichier,$suppr) AND !preg_match("#.md#",$fichier) AND !preg_match("#.md#",$fichier)) {
+    if($pic_folder=scandir($dir_img)) {
+        $pic_folder = array_diff($pic_folder, $suppr);
+        //while(false !== ($fichier=readdir($pic_folder))) {
+        foreach($pic_folder as $fichier) {
+            if(!preg_match("#.md#",$fichier) AND !preg_match("#.md#",$fichier)) {
                 $link=$dir_img."/".$fichier;
                 if(file_exists($link)) {
-                    
+                                        
                     if(!empty($dir2)) {$dir2_url="dir2=".$dir2."&amp;";} else {$dir2_url="";}
                                         
                     if(preg_match("#video#",$fichier)) { //check if the file is a video or a picture
@@ -88,8 +90,7 @@ function display_pic($dir, $dir2, $folder_number) { // The first dir and the sec
                 }
             }
         }
-        
-        closedir($pic_folder);
+        //closedir($pic_folder);
     } else {
         echo $erreur;
     }
