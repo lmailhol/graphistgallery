@@ -1,4 +1,14 @@
 <?php
+require("default_config.php");
+require("config.php");
+require($rep_lang.$lang.".php");
+
+include $rep_resources."lib/rain.tpl.class.php"; //include Rain TPL
+raintpl::$tpl_dir = $rep_resources."template/".$style."/"; // template directory
+raintpl::$cache_dir = "cache/"; // cache directory
+
+$tpl = new raintpl(); //include Rain TPL
+$tpl->assign( 'message', 'Hello World!' );
 
 /*
  * Copyright (C) 2010 Mailhol Luca
@@ -226,35 +236,6 @@ function show_body() {
             echo $erreur;
         }
     }
-}
-
-//Listing the statics pages (folder "pages/")
-
-function show_pages($f_ul, $f_li) { //Set the first ul class and the first li class
-	
-    require("config.php");
-    require($rep_lang.$lang.".php");
-    require("default_config.php");
-    
-    $suppr=array(".","..","comment.md", $index);
-    
-	echo "<ul class=\"".$f_ul."\" >";    
-	if($dir_pages=scandir($rep_pages)) {
-        $dir_pages = array_diff($dir_pages, $suppr);
-        echo "<li class=\"".$f_li."\"><a href=\"index.php?page=".$index."\">".ucfirst(str_replace('_','&nbsp;',$index))."</a></li>"; //Show the index page in first
-        foreach($dir_pages as $page_url) {
-            if(preg_match("#^[a-z]+_#", $page_url)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the pages)
-                list($null,$page_name) = explode('_',$page_url);
-                //$page_name = substr($page_url,2);
-            } else {$page_name=$page_url;}
-            if($page_url != NULL) {
-                echo "<li class=\"".$f_li."\"><a href=\"index.php?page=".$page_url."\">".ucfirst(str_replace('_','&nbsp;',$page_name))."</a></li>";
-            }
-        }
-	} else {
-		echo $erreur;
-	}
-	echo "</ul>";
 }
 
 //Listing the categories and sub-categories (folder "contenu/")
@@ -561,19 +542,32 @@ function exif_img($img_link) {
 ########## Body ##########
 ##########################
 
-require("default_config.php");
 $path_style = $rep_resources."template/".$style."/";
 
-if(isset($style) AND file_exists("".$rep_resources."/template/".$style."/".$style.".php")){
-    include("".$rep_resources."template/".$style."/".$style.".php");
-} else { 
-    $style="bleu";
-    if(file_exists("".$rep_resources."template/".$style."/".$style.".php")) {
-        include("".$rep_resources."template/".$style."/".$style.".php");
-    } else {
-        echo $error_template;
+// Showing the pages
+
+$suppr=array(".","..","comment.md");
+    
+if($dir_pages=scandir($rep_pages)) {
+    foreach($dir_pages as $key=>$page_url) {
+        if(preg_match("#^[a-z]+_#", $page_url)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the pages)
+            list($null,$page_name) = explode('_',$page_url);
+            $dir_pages[$key]=$page_name;
+        }
     }
+    $dir_pages = array_diff($dir_pages, $suppr);
+    $tpl->assign("pages",$dir_pages); //assign array pages for the template
+} else {
+	echo $erreur;
 }
+
+// Showing the categories
+
+
+
+
+$tpl->draw( 'index' );
+
 ?>
 
 
