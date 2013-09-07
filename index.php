@@ -238,74 +238,6 @@ function show_body() {
     }
 }
 
-//Listing the categories and sub-categories (folder "contenu/")
-
-function show_categories($f_ul, $f_li_sr, $f_li, $s_ul, $s_li, $folder_number) { //You can set the : first_ul class, first_li_class when there are sub-folders, first_li class when there are no sub-folders, second_ul class and second_li class
-	
-    require("default_config.php");
-    require("config.php");
-    require($rep_lang."/".$lang.".php");
-     
-    $suppr=array(".","..","comment.md");
-    if($folder_number==1){$folder_number="";}
-    echo "<ul class=\"".$f_ul."\">";
-    if($dir=scandir($folder_number.$rep_content)) { //If you have more than one "content/" folder, it will open <folder number (1,2,3...)>content/
-    $dir = array_diff($dir, $suppr);
-    foreach($dir as $dir_link) {   //One reads the content folder
-        if(is_dir($folder_number.$rep_content.$dir_link)) {
-            $sub_rep = $folder_number.$rep_content.$dir_link."/";
-            if($sub_dir = scandir($sub_rep)) {
-                $i = ""; //One initializes the variable i ← NULL. Like that, the folders will be displayed only once.
-                $sub_dir =  array_diff($sub_dir, $suppr);
-                foreach($sub_dir as $sub_dir_link) {
-                    
-                    if(preg_match("#^[a-z]+_#", $dir_link)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the folders)
-                        //$dir_name = substr($dir_link,2);
-                        list($null,$dir_name) = explode('_',$dir_link);
-                    } else {$dir_name=$dir_link;}
-                    
-                    if(is_dir($sub_rep.$sub_dir_link) AND $i==NULL) { //One checks if the parent-folder countains sub-categories. If i not null, one doesn't re-run the condition to not display the same folder multiple times.
-                        echo "<li class=\"".$f_li_sr."\"><a href=\"#\">\n".trim($dir_name)."</a>";
-                        echo "\n <ul class=\"".$s_ul."\">\n";
-                        
-                        if(isset($open)==isset($_GET['open'])){unset($open);}
-                        
-                        $sub_rep2 = $folder_number.$rep_content.$dir_link."/";
-                        
-                        if($LastDir = scandir($sub_rep2)) {
-                                $LastDir =  array_diff($LastDir, $suppr);
-                                foreach($LastDir as $LastDir_link) {
-                                    if($folder_number!=""){$folder_number_url="&amp;content=".$folder_number;} else {$folder_number_url="";} //If the content folder is not the first one, one send the number in the url
-                                    if(preg_match("#^[a-z]+_#", $LastDir_link)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the folders)
-                                        //$LastDir_name = substr($LastDir_link,2);
-                                        list($null,$LastDir_name) = explode('_',$LastDir_link);
-                                    } else {$LastDir_name=$LastDir_link;}
-                                    echo "<li class=\"".$s_li."\"><a href=\"index.php?dir=".$dir_link."&amp;dir2=".$LastDir_link.$folder_number_url."\">".trim($LastDir_name)."</a></li>";
-                                    $i=1;
-                                }
-                            
-                        } else {
-                           echo $erreur;
-                        }
-                        echo "</ul>\n";
-                        echo "</li>\n";
-                    } elseif(is_file($sub_rep.$sub_dir_link) AND $i==NULL) { //If instead of subfolder, they are files in the parent folder, one shows a direct link
-                        if($folder_number!=""){$folder_number_url="&amp;content=".$folder_number;} else {$folder_number_url="";}
-                        echo "<li class=\"".$f_li."\"><a href=\"index.php?dir=".$dir_link."".$folder_number_url."\">".trim($dir_name)."</a></li>\n"; 
-                        $i=1;
-                    }
-                }
-            } else {
-                echo $erreur;
-            }
-        }
-    }
-    echo "</ul>";
-    } else {
-        echo $erreur;
-    }
-}
-
 //checks if there is a comment
 
 function comment_exist() {
@@ -563,13 +495,46 @@ if($dir_pages=scandir($rep_pages)) {
 
 // Showing the categories
 
-
-
+if(isset($folder_number) AND $folder_number==1 OR !isset($folder_number)){$folder_number="";}
+if($dir=scandir($folder_number.$rep_content)) { //If you have more than one "content/" folder, it will open <folder number (1,2,3...)>content/
+    
+    $dir = array_diff($dir, $suppr);
+        
+    foreach($dir as $key=>$dir_link) {
+        if(preg_match("#^[a-z]+_#", $dir_link)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the pages)
+            list($null,$dir_name) = explode('_',$dir_link);
+            $dir[$key]=$dir_name;
+        }
+        $sub_rep = $folder_number.$rep_content.$dir_link."/";
+        if(is_dir($sub_rep)) {
+            if($sub_dir = scandir($sub_rep)) {
+                $sub_dir =  array_diff($sub_dir, $suppr);
+                
+                foreach($sub_dir as $sub_dir_link) {
+                    if(is_dir($sub_rep.$sub_dir_link)) {
+                        $sub_rep2 = $sub_rep;
+                        if($LastDir = scandir($sub_rep2)) {
+                            $sub_dir_isset=1;
+                            $tpl->assign("dir",$dir_link);
+                            $tpl->assign("sub_dir",$dir_link);
+                            $LastDir =  array_diff($LastDir, $suppr);
+                            foreach($LastDir as $LastDir_link) {
+                                if(preg_match("#^[a-z]+_#", $LastDir_link)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the pages)
+                                    list($null,$LastDir_name) = explode('_',$LastDir_link);
+                                    $LastDir_link[$key]=$LastDir_name;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    
+    $tpl->assign("categories",$dir); //first array of categories   
+    if(isset($sub_dir_isset) AND $sub_dir_isset==1) {$tpl->assign("categories2",$LastDir);}
 
 $tpl->draw( 'index' );
 
 ?>
-
-
-		
-

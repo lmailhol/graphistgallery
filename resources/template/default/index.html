@@ -30,13 +30,10 @@
     <div class="header">
         <div class="pure-menu pure-menu-open pure-menu-horizontal">
             <a class="pure-menu-heading" href="">Photo Gallery</a>
-            <!--<?php
-                show_pages("","");
-            ?>-->
             <ul>
-            {loop="pages"}
-            <li><a href="index.php?page={$value}">{$value}</a></li>
-            {/loop}
+                {loop="pages"}
+                    <li><a href="index.php?page={$value}">{$value}</a></li>
+                {/loop}
             </ul>
         </div>
     </div>
@@ -58,7 +55,18 @@
         <div class="pure-u-1-3">
             <div class="l-box">
                 <div class="menu">
-                    {function="show_categories("","","","","", 1)"}
+                    <ul>
+                    {loop="categories"}
+                        <li><a href="index.php?dir={$value}">{$value}</a></li>
+                        {if="isset($sub_dir) AND $sub_dir==$value"}
+                            <ul>
+                            {loop="categories2"}
+                                <li><a href="index.php?dir={$dir}&amp;dir2={$value}">{$value}</a></li>
+                            {/loop}
+                            </ul>
+                        {/if}
+                    {/loop}
+                    </ul>
                 </div>
             </div>
         </div>
