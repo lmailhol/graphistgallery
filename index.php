@@ -2,6 +2,8 @@
 require("default_config.php");
 require("config.php");
 require($rep_lang.$lang.".php");
+require_once($rep_resources."lib/Markdown.php");
+
 
 include $rep_resources."lib/rain.tpl.class.php"; //include Rain TPL
 raintpl::$tpl_dir = $rep_resources."template/".$style."/"; // template directory
@@ -197,45 +199,6 @@ function show_head() {
     require("config.php");
     require("default_config.php");
     if($include_jquery!=0){echo "<script type=\"text/javascript\" src=\"".$rep_resources."js/jquery.js\"></script>";}
-}
-
-//Show the body code
-
-function show_body() {
-    
-    require("config.php");   
-    require("default_config.php");
-    require_once($rep_resources."lib/Markdown.php");
-    require($rep_lang.$lang.".php");
-
-    if(isset($_GET['dir']) OR isset($_GET['dir2'])) { //Display pictures ?...
-    
-        $dir=htmlspecialchars(($_GET['dir']));
-		if(isset($_GET['dir2'])) { $dir2=htmlspecialchars(($_GET['dir2'])); } else { $dir2=''; }
-        if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else {$folder_number=1;}
-
-        if(isset($_GET['img'])) {
-            $img=htmlspecialchars(($_GET['img']));
-            display_one_pic($dir, $dir2, $folder_number, $img); 
-        } else {
-            display_pic($dir, $dir2, $folder_number);
-        }
-    
-    } elseif(isset($_GET['page'])) { //... a static page ?...
-    
-        $page=htmlspecialchars(($_GET['page']));
-    
-        display_page($page);
-    } else { //... or the index page ?
-    
-        $page=$index;
-        if(file_exists($rep_pages.$page)) {
-            $page=Markdown(file_get_contents($rep_pages.$page));
-            echo $page;
-        } else {
-            echo $erreur;
-        }
-    }
 }
 
 //checks if there is a comment
@@ -468,32 +431,36 @@ function exif_img($img_link) {
     }
 }
 
-//
+function no_underscore($var) {
+    if(preg_match("#^[a-z]+_#", $var)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the pages)
+            list($null,$var_name) = explode('_',$var);
+            return $var_name;
+    }
+}
+
+
 
 ##########################
 ########## Body ##########
 ##########################
 
-$path_style = $rep_resources."template/".$style."/";
 
-// Showing the pages
+#####################
+# Showing the pages #
+#####################
 
 $suppr=array(".","..","comment.md");
     
 if($dir_pages=scandir($rep_pages)) {
-    foreach($dir_pages as $key=>$page_url) {
-        if(preg_match("#^[a-z]+_#", $page_url)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the pages)
-            list($null,$page_name) = explode('_',$page_url);
-            $dir_pages[$key]=$page_name;
-        }
-    }
     $dir_pages = array_diff($dir_pages, $suppr);
     $tpl->assign("pages",$dir_pages); //assign array pages for the template
 } else {
 	echo $erreur;
 }
 
-// Showing the categories
+##########################
+# Showing the categories #
+##########################
 
 if(isset($folder_number) AND $folder_number==1 OR !isset($folder_number)){$folder_number="";}
 if($dir=scandir($folder_number.$rep_content)) { //If you have more than one "content/" folder, it will open <folder number (1,2,3...)>content/
@@ -531,9 +498,48 @@ if($dir=scandir($folder_number.$rep_content)) { //If you have more than one "con
         }
     }
 }
+
+$tpl->assign("categories",$dir); //first array of categories   
+if(isset($sub_dir_isset) AND $sub_dir_isset==1) {$tpl->assign("categories2",$LastDir);}
+
+#########################
+# Showing the main code #
+#########################
+
+function show_body() {
     
-    $tpl->assign("categories",$dir); //first array of categories   
-    if(isset($sub_dir_isset) AND $sub_dir_isset==1) {$tpl->assign("categories2",$LastDir);}
+    require("config.php");   
+    require("default_config.php");
+    require($rep_lang.$lang.".php");
+
+    if(isset($_GET['dir']) OR isset($_GET['dir2'])) { //Display pictures ?...
+    
+        $dir=htmlspecialchars(($_GET['dir']));
+		if(isset($_GET['dir2'])) { $dir2=htmlspecialchars(($_GET['dir2'])); } else { $dir2=''; }
+        if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else {$folder_number=1;}
+
+        if(isset($_GET['img'])) {
+            $img=htmlspecialchars(($_GET['img']));
+            display_one_pic($dir, $dir2, $folder_number, $img); 
+        } else {
+            display_pic($dir, $dir2, $folder_number);
+        }
+    
+    } elseif(isset($_GET['page'])) { //... a static page ?...
+    
+        $page=htmlspecialchars(($_GET['page']));
+        display_page($page);
+    } else { //... or the index page ?
+    
+        $page=$index;
+        if(file_exists($rep_pages.$page)) {
+            $page=Markdown(file_get_contents($rep_pages.$page));
+            echo $page;
+        } else {
+            echo $erreur;
+        }
+    }
+}
 
 $tpl->draw( 'index' );
 

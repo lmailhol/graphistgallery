@@ -5,14 +5,14 @@
 
 $style = "default"; // Choose your template
 $lang ="FR_fr"; //FR_fr, EN_us
-$index ="accueil"; //Name of your index page. You can change it by the name of a page who exist (folder pages/)
+$index ="a_accueil"; //Name of your index page. You can change it by the name of a page who exist (folder pages/)
 $title ="Site de Luca"; //Website's title
 $footer_text ="Je m'appelle footer !"; //Website's footer
 $site ="http://lucamailhol.org"; //Website's URL
 $user ="admin"; //Your admin username
 $psw ="admin"; //Your admin password
 
-$show_exif_data =0; #1 - Show the exif data, 0 - Don't show
+$show_exif_data =1; #1 - Show the exif data, 0 - Don't show
 $show_exif_make =1; #1 - Show the make, 0 - Don't
 $show_exif_model =1; #1 - Show the model, 0 - Don't
 $show_exif_aperture =1; #1 - Show the aperture, 0 - Don't

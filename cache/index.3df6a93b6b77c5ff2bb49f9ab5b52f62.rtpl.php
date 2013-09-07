@@ -1,22 +1,22 @@
-<!--<?php session_start(); 
+<?php if(!class_exists('raintpl')){exit;}?><!--&lt;?php session_start(); 
   if(isset($_SESSION['name']) AND isset($_SESSION['psw'])) {
         $_SESSION['connection']=1;
     } else {
         $_SESSION['connection']=0;
     }
-?>--><!doctype html>
+?&gt;--><!doctype html>
 <html lang="fr">
 <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title><!--<?php echo $title; ?>--></title>
+    <title><!--&lt;?php echo $title; ?&gt;--></title>
 
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">
 
-<link rel="stylesheet" href="default.css">
+<link rel="stylesheet" href="resources/template/default/default.css">
     
-<script type="text/javascript" src="js/menu.js"></script>
+<script type="text/javascript" src="resources/template/default/js/menu.js"></script>
 
 <script src="http://use.typekit.net/ajf8ggy.js"></script>
 <script>
@@ -31,9 +31,9 @@
         <div class="pure-menu pure-menu-open pure-menu-horizontal">
             <a class="pure-menu-heading" href="">Photo Gallery</a>
             <ul>
-                {loop="pages"}
-                    <li><a href="index.php?page={$value}">{function="no_underscore($value)"}</a></li>
-                {/loop}
+                <?php $counter1=-1; if( isset($pages) && is_array($pages) && sizeof($pages) ) foreach( $pages as $key1 => $value1 ){ $counter1++; ?>
+                    <li><a href="index.php?page=<?php echo $value1;?>"><?php echo no_underscore($value1); ?></a></li>
+                <?php } ?>
             </ul>
         </div>
     </div>
@@ -47,7 +47,7 @@
 
         <div class="pure-u-2-3 text-box">
             <div class="l-box">
-                <h1 class="text-box-head">{$message}</h1>
+                <h1 class="text-box-head"><?php echo $message;?></h1>
                 <p class="text-box-subhead">Plein de jolies images</p>
             </div>
         </div>
@@ -56,16 +56,16 @@
             <div class="l-box">
                 <div class="menu">
                     <ul>
-                    {loop="categories"}
-                        <li><a href="index.php?dir={$value}">{$value}</a></li>
-                        {if="isset($sub_dir) AND $sub_dir==$value"}
+                    <?php $counter1=-1; if( isset($categories) && is_array($categories) && sizeof($categories) ) foreach( $categories as $key1 => $value1 ){ $counter1++; ?>
+                        <li><a href="index.php?dir=<?php echo $value1;?>"><?php echo $value1;?></a></li>
+                        <?php if( isset($sub_dir) AND $sub_dir==$value1 ){ ?>
                             <ul>
-                            {loop="categories2"}
-                                <li><a href="index.php?dir={$dir}&amp;dir2={$value}">{$value}</a></li>
-                            {/loop}
+                            <?php $counter2=-1; if( isset($categories2) && is_array($categories2) && sizeof($categories2) ) foreach( $categories2 as $key2 => $value2 ){ $counter2++; ?>
+                                <li><a href="index.php?dir=<?php echo $dir;?>&amp;dir2=<?php echo $value2;?>"><?php echo $value2;?></a></li>
+                            <?php } ?>
                             </ul>
-                        {/if}
-                    {/loop}
+                        <?php } ?>
+                    <?php } ?>
                     </ul>
                 </div>
             </div>
@@ -73,19 +73,19 @@
         <div class="pure-u-2-3">
             <div class="l-box">
                 <div class="l-centered">
-                <!--<?php if(comment_exist()==1) {
+                <!--&lt;?php if(comment_exist()==1) {
                     echo "<blockquote>";
                         show_comment();
                     echo "</blockquote>";
-                } elseif(comment_exist()==2) { create_comment(); }?> -->
-                {function="show_body();"}
+                } elseif(comment_exist()==2) { create_comment(); }?&gt; -->
+                <?php echo show_body();; ?>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="footer">
-        <!--<?php echo $footer_text; ?>-->
+        <!--&lt;?php echo $footer_text; ?&gt;-->
     </div>
 </div>
 
