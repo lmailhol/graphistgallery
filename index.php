@@ -431,19 +431,48 @@ function exif_img($img_link) {
     }
 }
 
-function no_underscore($var) {
-    if(preg_match("#^[a-z]+_#", $var)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the pages)
-            list($null,$var_name) = explode('_',$var);
-            return $var_name;
-    }
-}
-
-
-
 ##########################
 ########## Body ##########
 ##########################
 
+function name($var) {
+    if(preg_match("#^[a-z]+_#", $var)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the pages)
+            list($null,$var_name) = explode('_',$var);
+            return $var_name;
+    }
+    if(preg_match("#dir2#", $var)) {
+            list($null,$var_name) = explode('dir2=',$var);
+            
+            if(preg_match("#^[a-z]+_#", $var_name)) {
+                list($null,$var_name) = explode('_',$var_name);
+            }
+        
+            return $var_name;
+    }   
+}
+
+function is_sub_dir($var) { //look if there is at least one folder in the folder $var
+    require("config.php");  
+    require("default_config.php");
+    $suppr=array(".","..");
+    
+    if($dir=scandir($rep_content.$var)){ //basically content/categorie/->
+        $dir = array_diff($dir, $suppr);
+        foreach($dir as $content) {
+            if(is_dir($rep_content.$var."/".$content)) {
+                return 1;
+            } else {return 0;}
+        }
+    }
+}
+
+function dir_name($var) { //$var : "?dir=something&dir2=something"
+    if(preg_match("#dir#", $var)) {
+            $var_name=strstr($var, '&', true);
+            list($null,$var_name) = explode('dir=',$var_name);    
+            return $var_name; //&var_name : "something"
+    }
+}
 
 #####################
 # Showing the pages #
@@ -462,16 +491,15 @@ if($dir_pages=scandir($rep_pages)) {
 # Showing the categories #
 ##########################
 
+$LastDir=array();
+
 if(isset($folder_number) AND $folder_number==1 OR !isset($folder_number)){$folder_number="";}
 if($dir=scandir($folder_number.$rep_content)) { //If you have more than one "content/" folder, it will open <folder number (1,2,3...)>content/
-    
+        
     $dir = array_diff($dir, $suppr);
         
     foreach($dir as $key=>$dir_link) {
-        if(preg_match("#^[a-z]+_#", $dir_link)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the pages)
-            list($null,$dir_name) = explode('_',$dir_link);
-            $dir[$key]=$dir_name;
-        }
+
         $sub_rep = $folder_number.$rep_content.$dir_link."/";
         if(is_dir($sub_rep)) {
             if($sub_dir = scandir($sub_rep)) {
@@ -479,19 +507,8 @@ if($dir=scandir($folder_number.$rep_content)) { //If you have more than one "con
                 
                 foreach($sub_dir as $sub_dir_link) {
                     if(is_dir($sub_rep.$sub_dir_link)) {
-                        $sub_rep2 = $sub_rep;
-                        if($LastDir = scandir($sub_rep2)) {
-                            $sub_dir_isset=1;
-                            $tpl->assign("dir",$dir_link);
-                            $tpl->assign("sub_dir",$dir_link);
-                            $LastDir =  array_diff($LastDir, $suppr);
-                            foreach($LastDir as $LastDir_link) {
-                                if(preg_match("#^[a-z]+_#", $LastDir_link)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the pages)
-                                    list($null,$LastDir_name) = explode('_',$LastDir_link);
-                                    $LastDir_link[$key]=$LastDir_name;
-                                }
-                            }
-                        }
+                        $sub_dir_isset=1;                        
+                        array_push($LastDir,"?dir=".$dir_link."&amp;dir2=".$sub_dir_link);
                     }
                 }
             }

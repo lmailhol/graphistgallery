@@ -32,7 +32,7 @@
             <a class="pure-menu-heading" href="">Photo Gallery</a>
             <ul>
                 <?php $counter1=-1; if( isset($pages) && is_array($pages) && sizeof($pages) ) foreach( $pages as $key1 => $value1 ){ $counter1++; ?>
-                    <li><a href="index.php?page=<?php echo $value1;?>"><?php echo no_underscore($value1); ?></a></li>
+                    <li><a href="index.php?page=<?php echo $value1;?>"><?php echo name($value1); ?></a></li>
                 <?php } ?>
             </ul>
         </div>
@@ -57,11 +57,12 @@
                 <div class="menu">
                     <ul>
                     <?php $counter1=-1; if( isset($categories) && is_array($categories) && sizeof($categories) ) foreach( $categories as $key1 => $value1 ){ $counter1++; ?>
-                        <li><a href="index.php?dir=<?php echo $value1;?>"><?php echo $value1;?></a></li>
-                        <?php if( isset($sub_dir) AND $sub_dir==$value1 ){ ?>
+                        <li><a href="index.php?dir=<?php echo $value1;?>"><?php echo name($value1); ?></a></li>
+                        <?php if( is_sub_dir($value1)==1 ){ ?>
+                            <?php $first_dir=$this->var['first_dir']=$value1;?>
                             <ul>
                             <?php $counter2=-1; if( isset($categories2) && is_array($categories2) && sizeof($categories2) ) foreach( $categories2 as $key2 => $value2 ){ $counter2++; ?>
-                                <li><a href="index.php?dir=<?php echo $dir;?>&amp;dir2=<?php echo $value2;?>"><?php echo $value2;?></a></li>
+                                <?php if( $first_dir==dir_name($value2) ){ ?><li><a href="index.php<?php echo $value2;?>"><?php echo name($value2); ?></a></li><?php } ?>
                             <?php } ?>
                             </ul>
                         <?php } ?>
@@ -77,8 +78,12 @@
                     echo "<blockquote>";
                         show_comment();
                     echo "</blockquote>";
-                } elseif(comment_exist()==2) { create_comment(); }?&gt; -->
-                <?php echo show_body();; ?>
+                } elseif(comment_exist()==2) { create_comment(); }?&gt; 
+                <?php echo show_body();; ?>-->
+                    
+                <?php if( isset($picture) AND $picture==1 ){ ?>
+                    Coucou les photos
+                <?php } ?>
                 </div>
             </div>
         </div>

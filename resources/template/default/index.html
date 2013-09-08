@@ -32,7 +32,7 @@
             <a class="pure-menu-heading" href="">Photo Gallery</a>
             <ul>
                 {loop="pages"}
-                    <li><a href="index.php?page={$value}">{function="no_underscore($value)"}</a></li>
+                    <li><a href="index.php?page={$value}">{function="name($value)"}</a></li>
                 {/loop}
             </ul>
         </div>
@@ -57,11 +57,12 @@
                 <div class="menu">
                     <ul>
                     {loop="categories"}
-                        <li><a href="index.php?dir={$value}">{$value}</a></li>
-                        {if="isset($sub_dir) AND $sub_dir==$value"}
+                        <li><a href="index.php?dir={$value}">{function="name($value)"}</a></li>
+                        {if="is_sub_dir($value)==1"}
+                            {$first_dir=$value}
                             <ul>
                             {loop="categories2"}
-                                <li><a href="index.php?dir={$dir}&amp;dir2={$value}">{$value}</a></li>
+                                {if="$first_dir==dir_name($value)"}<li><a href="index.php{$value}">{function="name($value)"}</a></li>{/if}
                             {/loop}
                             </ul>
                         {/if}
