@@ -1,16 +1,4 @@
-<?php
-require("default_config.php");
-require("config.php");
-require($rep_lang.$lang.".php");
-require_once($rep_resources."lib/Markdown.php");
-
-
-include $rep_resources."lib/rain.tpl.class.php"; //include Rain TPL
-raintpl::$tpl_dir = $rep_resources."template/".$style."/"; // template directory
-raintpl::$cache_dir = "cache/"; // cache directory
-
-$tpl = new raintpl(); //include Rain TPL
-$tpl->assign( 'message', 'Hello World!' );
+<?php session_start(); 
 
 /*
  * Copyright (C) 2010 Mailhol Luca
@@ -30,6 +18,27 @@ $tpl->assign( 'message', 'Hello World!' );
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
  
+
+  if(isset($_SESSION['name']) AND isset($_SESSION['psw'])) {
+        $_SESSION['connection']=1;
+    } else {
+        $_SESSION['connection']=0;
+    }
+
+require("default_config.php");
+require("config.php");
+require($rep_lang.$lang.".php");
+require_once($rep_resources."lib/Markdown.php");
+
+
+include $rep_resources."lib/rain.tpl.class.php"; //include Rain TPL
+raintpl::$tpl_dir = $rep_resources."template/".$style."/"; // template directory
+raintpl::$cache_dir = "cache/"; // cache directory
+raintpl::configure( 'path_replace', false );
+
+$tpl = new raintpl(); //include Rain TPL
+$tpl->assign( 'message', 'Hello World!' );
+
 // Hello world
 
 #####################################
@@ -52,27 +61,24 @@ function no_extension($file) {
     return $noex_file;
 }
 
-//Display the pictures
+//Return an array with the pictures
 
-function display_pic($dir, $dir2, $folder_number) { // The first dir and the second (if it exist) 
+function display_pic($dir_img) { // The first dir and the second (if it exist) 
 
     require("default_config.php"); 
     require("config.php");
     require($rep_lang.$lang.".php");
-    if($folder_number==1) {
-        $folder_number="";
-        $folder_number_url="";
-    } else {
-        $folder_number_url="content=".$folder_number."&amp;";
-    }
     	
-    $suppr=array(".","..");
-    if(!in_array($dir, $suppr) AND !in_array($dir2, $suppr) AND !preg_match("#../#",$dir) AND !preg_match("#../#",$dir2)) {
-    $dir_img=$folder_number.$rep_content.$dir."/".$dir2."/";
+    $suppr=array(".","..","comment.md");
+    
     if($pic_folder=scandir($dir_img)) {
         $pic_folder = array_diff($pic_folder, $suppr);
-        //while(false !== ($fichier=readdir($pic_folder))) {
-        foreach($pic_folder as $fichier) {
+        foreach($pic_folder as $key=>$fichier) {
+            $pic_folder[$key]=$dir_img.$fichier;
+        }
+        return $pic_folder;
+        
+        /*foreach($pic_folder as $fichier) {
             if(!preg_match("#.md#",$fichier) AND !preg_match("#.md#",$fichier)) {
                 $link=$dir_img."/".$fichier;
                 if(file_exists($link)) {
@@ -89,26 +95,19 @@ function display_pic($dir, $dir2, $folder_number) { // The first dir and the sec
                     } else {
                         echo "<a href=\"index.php?dir=".$dir."&amp;".$dir2_url.$folder_number_url."img=".$fichier."\"><img src=\"" . $link . "\" alt=\"" . $link . "\"/><br /></a>";            
                     }
-                    
-                    if(comment_img_exist($link)==1) { //if there is a single-image comment
-                        //echo $before;
-                            show_img_comment($link, $fichier);
-                        //echo $after;
-                    } else { //else, create one
-                        //echo $before;
-                            create_img_comment($dir."&amp;".$dir2_url.$folder_number_url, $link);
-                        //echo $after;
-                    }
                 }
             }
-        }
-        //closedir($pic_folder);
+        }*/
     } else {
         echo $erreur;
     }
-} else {
-	echo $erreur;
+
 }
+
+function is_img($var) { //check if the link ($var) is an image or a comment
+    if(preg_match("#.md#", $var) OR empty($var)) {
+        return 0;
+    } else {return 1;}
 }
 
 function display_one_pic($dir, $dir2, $folder_number, $img) {
@@ -247,12 +246,12 @@ function create_comment() {
                 if($comment = fopen($rep_comment."/comment.md", "a+")) {
                         fputs($comment, $_POST['comment']);
                         fclose($comment);
-                        echo $add_comment_done."<br/>";   
+                        echo $add_comment_done;   
                 }
             }
         }
     } elseif(isset($_SESSION['connection']) AND $_SESSION['connection']==1) {
-        echo "<br/><a href=\"".$_SERVER['REQUEST_URI']."&amp;comment=create\" class=\"ajax\">[Create]</a>";
+        echo "<a href=\"".$_SERVER['REQUEST_URI']."&amp;comment=create\" class=\"ajax\">[Create]</a>";
     }
 }
 
@@ -282,18 +281,18 @@ function show_comment() {
                     if($comment = fopen($rep_comment."/comment.md", "w+")) {
                         fputs($comment, $_POST['comment']);
                         fclose($comment);
-                        echo $modif_comment_done."<br/>";   
+                        echo $modif_comment_done;   
                     }
                 } else {
                     unlink($rep_comment."/comment.md");
-                    echo $suppr_comment_done."<br/>";
+                    echo $suppr_comment_done;
                 }
             }
         } else {
 	
         echo Markdown(file_get_contents($rep_comment."/comment.md"));
             
-        if (isset($_SESSION['connection']) AND $_SESSION['connection']==1) {echo "<br/><a href=\"".$_SERVER['REQUEST_URI']."&amp;comment=edit\" class=\"ajax\">[Edit]</a>";}
+        if (isset($_SESSION['connection']) AND $_SESSION['connection']==1) {echo "<a href=\"".$_SERVER['REQUEST_URI']."&amp;comment=edit\">[Edit]</a>";}
         }
     }
 }
@@ -302,7 +301,7 @@ function show_comment() {
 
 function comment_img_exist($img_link) { //Take the link of the picture in arg
     
-    if(file_exists($img_link.".md")) {
+    if(file_exists($img_link)) {
         return 1;
     } else {
         return 0;
@@ -312,7 +311,7 @@ function comment_img_exist($img_link) { //Take the link of the picture in arg
 
 //Creation of a comment for a single picture
 
-function create_img_comment($link, $img) {
+function create_img_comment($img_link) {
     
     require("config.php");  
     require("default_config.php");
@@ -321,63 +320,72 @@ function create_img_comment($link, $img) {
     if(isset($_GET['comment']) AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) {
         if(isset($_GET['dir']) OR isset($_GET['dir2'])){
             if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else { $folder_number=''; }
-            if(isset($_GET['dir2'])) { $dir2=$_GET['dir2']; } else { $dir2=''; }
+            if(isset($_GET['dir2'])) { $dir2="dir2=".$_GET['dir2']; } else { $dir2=''; }
             
             if($_GET['comment']=="create_img") { //if we want to show the textarea to create the comment
-                echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;dir2=".$dir2."&amp;".$folder_number."&amp;comment=creation_img_done\" method=\"post\">";
-                echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\" class=\"ed\"></textarea><br/>";
+                echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;".$dir2."&amp;".$folder_number."&amp;comment=creation_img_done\" method=\"post\">";
+                echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\"></textarea><br/>";
                 echo "<input type=\"submit\" value=\"".$modif."\" />";
                 echo "</p></form>";
             } elseif($_GET['comment']=="creation_img_done") { //creation of the comment
-                if($comment = fopen($img.".md", "a+")) {
+                if($comment = fopen($img_link.".md", "a+")) {
                         fputs($comment, $_POST['comment']);
                         fclose($comment);
-                        echo $add_comment_done."<br/>";   
+                        echo $add_comment_done;   
                 }
             }
         }
-    } elseif(isset($_SESSION['connection']) AND $_SESSION['connection']==1) {
-        echo "<br/><a href=\"".$_SERVER['REQUEST_URI']."&amp;comment=create_img\" class=\"ajax\">[Create]</a>";
+    } elseif(!file_exists($img_link.".md") AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) {
+        echo "<a href=\"".$_SERVER['REQUEST_URI']."&amp;comment=create_img\">[Create]</a>";
     }
 }
 
 
 //Showing and editing the comments for one picture, if it exits
 
-function show_img_comment($img_link, $img_name) { //Take the link and the name of the picture in arg
+function show_img_comment($img_link) { //Take the link and the name of the picture in arg
     
     require("config.php");  
     require("default_config.php");
     require($rep_lang."/".$lang.".php");
     require_once($rep_resources."lib/Markdown.php");
-    
+
+
     if(isset($_GET['dir']) OR isset($_GET['dir2'])) {
         if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else { $folder_number=''; }
-        if(isset($_GET['dir2'])) { $dir2=$_GET['dir2']; } else { $dir2=''; }
+        if(isset($_GET['dir2'])) { $dir2="dir2=".$_GET['dir2']; } else { $dir2=''; }
     
+        //it gets the image name in the image link : content/folder/image.jpg.md
+        $img_name=strstr($img_link, '/'); //remove the first part of the link (content)
+        $img_name=substr($img_name,1); //remove the "/"
+        $img_name=strstr($img_name, '/'); //remove the second part (folder)
+        $img_name=substr($img_name,1); //remove the second "/"
+        if($dir2!=NULL){$img_name=strstr($img_name, '/'); $img_name=substr($img_name,1);} //if there is a sub_folder
+        $img_name=substr($img_name,0,-3); //remove the ".md"
+        
+        //modif / suppr of a comment
         if(isset($_GET['single_comment']) AND isset($_GET['img_name']) AND $_GET['single_comment']=="edit" AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) {  //edition of the comment            
-            echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;dir2=".$dir2."&amp;".$folder_number."&amp;single_comment=done&amp;img_name=".$_GET['img_name']."\" method=\"post\">";
-            echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\" class=\"ed\">".file_get_contents($img_link.".md")."</textarea><br/>";
+            echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;".$dir2."&amp;".$folder_number."&amp;single_comment=done&amp;img_name=".$img_name."\" method=\"post\">";
+            echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\" class=\"ed\">".file_get_contents($img_link)."</textarea><br/>";
             echo "<input type=\"submit\" value=\"".$modif."\" />";
             echo "</p></form>";
         } elseif(isset($_GET['single_comment']) AND isset($_GET['img_name']) AND $_GET['single_comment']=="done" AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) { // if one wanna delete or change the comment
-            if(file_exists($img_link.".md")) {
+            if(file_exists($img_link)) {
                 if($_POST['comment']!='') {
-                    if($single_comment = fopen($img_link.".md", "w+")) {
+                    if($single_comment = fopen($img_link, "w+")) {
                         fputs($single_comment, $_POST['comment']);
                         fclose($single_comment);
-                        echo $modif_comment_done."<br/>";   
+                        echo $modif_comment_done;   
                     }
-                } else {
-                    unlink($img_link.".md");
-                    echo $suppr_comment_done."<br/>";
+                } else { //if the comment text is empty, delete the comment file
+                    unlink($img_link);
+                    echo $suppr_comment_done;
                 }
             }
-        } else {
-    echo Markdown(file_get_contents($img_link.".md"));
-        
-    if (isset($_SESSION['connection']) AND $_SESSION['connection']==1) {echo "<br/><a href=\"".$_SERVER['REQUEST_URI']."&amp;img_name=".$img_name."&amp;single_comment=edit\" class=\"ajax\">[Edit]</a>";}    
-    }
+        } else {    
+            echo Markdown(file_get_contents($img_link));
+            if (isset($_SESSION['connection']) AND $_SESSION['connection']==1) {echo "<a href=\"".$_SERVER['REQUEST_URI']."&amp;img_name=".$img_name."&amp;single_comment=edit\" class=\"ajax\">[Edit]</a>";}    
+        }
     }
 }
 
@@ -523,39 +531,25 @@ if(isset($sub_dir_isset) AND $sub_dir_isset==1) {$tpl->assign("categories2",$Las
 # Showing the main code #
 #########################
 
-function show_body() {
-    
-    require("config.php");   
-    require("default_config.php");
-    require($rep_lang.$lang.".php");
+if(isset($_GET['dir']) OR isset($_GET['dir2'])) { //Display pictures ?...
+    $dir=htmlspecialchars(($_GET['dir']));
+	if(isset($_GET['dir2'])) { $dir2=htmlspecialchars(($_GET['dir2'])); } else { $dir2=''; }
+    if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else {$folder_number="";}
 
-    if(isset($_GET['dir']) OR isset($_GET['dir2'])) { //Display pictures ?...
-    
-        $dir=htmlspecialchars(($_GET['dir']));
-		if(isset($_GET['dir2'])) { $dir2=htmlspecialchars(($_GET['dir2'])); } else { $dir2=''; }
-        if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else {$folder_number=1;}
-
-        if(isset($_GET['img'])) {
-            $img=htmlspecialchars(($_GET['img']));
-            display_one_pic($dir, $dir2, $folder_number, $img); 
-        } else {
-            display_pic($dir, $dir2, $folder_number);
-        }
-    
-    } elseif(isset($_GET['page'])) { //... a static page ?...
-    
+    if(isset($_GET['img'])) {
+        $img=htmlspecialchars(($_GET['img']));
+        display_one_pic($dir, $dir2, $folder_number, $img);
+    } else {
+        $path=$folder_number.$rep_content.$dir."/".$dir2;
+        $images = display_pic($path);
+        $tpl->assign("images",$images); //array of image
+    } 
+} elseif(isset($_GET['page'])) { //... a static page ?...
         $page=htmlspecialchars(($_GET['page']));
-        display_page($page);
-    } else { //... or the index page ?
-    
-        $page=$index;
-        if(file_exists($rep_pages.$page)) {
-            $page=Markdown(file_get_contents($rep_pages.$page));
-            echo $page;
-        } else {
-            echo $erreur;
-        }
-    }
+        $tpl->assign("page",$page);
+} else { //... or the index page ?
+    $page=$index;
+    $tpl->assign("page",$page);
 }
 
 $tpl->draw( 'index' );

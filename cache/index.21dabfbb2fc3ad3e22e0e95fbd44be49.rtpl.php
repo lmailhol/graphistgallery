@@ -1,10 +1,4 @@
-<?php if(!class_exists('raintpl')){exit;}?><!--&lt;?php session_start(); 
-  if(isset($_SESSION['name']) AND isset($_SESSION['psw'])) {
-        $_SESSION['connection']=1;
-    } else {
-        $_SESSION['connection']=0;
-    }
-?&gt;--><!doctype html>
+<?php if(!class_exists('raintpl')){exit;}?><!doctype html>
 <html lang="fr">
 <head>
     <meta charset="utf-8">
@@ -16,8 +10,6 @@
 
 <link rel="stylesheet" href="resources/template/default/default.css">
     
-<script type="text/javascript" src="resources/template/default/js/menu.js"></script>
-
 <script src="http://use.typekit.net/ajf8ggy.js"></script>
 <script>
     try { Typekit.load(); } catch (e) {}
@@ -74,18 +66,20 @@
         <div class="pure-u-2-3">
             <div class="l-box">
                 <div class="l-centered">
-                <!--&lt;?php if(comment_exist()==1) {
-                    echo "<blockquote>";
-                        show_comment();
-                    echo "</blockquote>";
-                } elseif(comment_exist()==2) { create_comment(); }?&gt; -->
+                <?php if( comment_exist()==1 ){ ?>
+                    <?php echo show_comment(); ?>
+                <?php }elseif( comment_exist()==2 ){ ?><?php echo create_comment(); ?>
+                <?php } ?>
                 
                 <?php if( isset($images) ){ ?>  
                     <?php $counter1=-1; if( isset($images) && is_array($images) && sizeof($images) ) foreach( $images as $key1 => $value1 ){ $counter1++; ?>
-                        <?php if( is_img($value1) ){ ?><img src="resources/template/default/<?php echo $value1;?>" />
-                        <?php }else{ ?><?php echo show_comment($value1,''); ?>
+                        <?php if( is_img($value1)==1 ){ ?><img src="<?php echo $value1;?>" />
+                            <?php echo create_img_comment($value1); ?>
+                        <?php }else{ ?><?php echo show_img_comment($value1); ?>
                         <?php } ?>
                     <?php } ?>
+                <?php }elseif( isset($page) ){ ?>
+                    <?php echo display_page($page); ?>
                 <?php } ?>  
                 </div>
             </div>

@@ -1,1 +1,1 @@
-Ceci est un commentaire d'image en _markdown_.
+Ceci est un commentaire en _markdown_ !
