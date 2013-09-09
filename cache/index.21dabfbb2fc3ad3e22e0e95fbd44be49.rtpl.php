@@ -73,12 +73,24 @@
                     
                 <?php if( isset($medias) ){ ?>  
                     <?php $counter1=-1; if( isset($medias) && is_array($medias) && sizeof($medias) ) foreach( $medias as $key1 => $value1 ){ $counter1++; ?>
-                        <?php if( is_img($value1)==1 ){ ?><img src="<?php echo $value1;?>" />
+                        <?php if( is_img($value1)==1 ){ ?><a href="index.php?path=<?php echo $value1;?>"><img src="<?php echo $value1;?>" /></a>
                             <?php echo create_img_comment($value1); ?>
                         <?php }elseif( is_vid($value1)==1 ){ ?><p><?php echo display_video($value1); ?></p>
                             <?php echo create_img_comment($value1); ?>
                         <?php }else{ ?><?php echo show_img_comment($value1); ?>
                         <?php } ?>
+                    <?php } ?>
+                <?php }elseif( isset($one_pic) ){ ?>
+                    <?php $counter1=-1; if( isset($one_pic) && is_array($one_pic) && sizeof($one_pic) ) foreach( $one_pic as $key1 => $value1 ){ $counter1++; ?>
+                        <?php if( is_img($value1)==1 ){ ?><img src="<?php echo $value1;?>" />
+                            <?php echo create_img_comment($value1); ?>
+                        <?php }else{ ?><?php echo show_img_comment($value1); ?>
+                        <?php } ?>
+                    <?php } ?>
+                    <?php $counter1=-1; if( isset($exif) && is_array($exif) && sizeof($exif) ) foreach( $exif as $key1 => $value1 ){ $counter1++; ?>
+                        <ul>
+                        <li><?php echo $value1;?></li>
+                        </ul>
                     <?php } ?>
                 <?php }elseif( isset($page) ){ ?>
                     <?php echo display_page($page); ?>

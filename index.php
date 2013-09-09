@@ -102,33 +102,13 @@ function display_one_pic($img_link) {
     require($rep_lang.$lang.".php");
     
     $suppr=array(".","..", "comment.md");
-     
-    if(!in_array($dir, $suppr) AND !in_array($dir2, $suppr) AND !preg_match("#../#",$dir) AND !preg_match("#../#",$dir2)) {
-        $link_img=$folder_number.$rep_content.$dir."/".$dir2."/".$img;
-        if(file_exists($link_img)) {
-            echo "<a href=\"".$link_img."\"><img src=\"" . $link_img . "\" alt=\"" . $link_img . "\"/><br /></a>";
-
-            if(!empty($dir2)) {$dir2_url="&amp;dir2=".$dir2."&amp;";} else {$dir2_url="";}
-            
-            if(comment_img_exist($link_img)==1) {
-                //echo $before;
-                show_img_comment($link_img, $img);
-                //echo $after;
-            }
-            if($show_exif_data==1) {
-                echo "<div class=\"exif_display\">";
-                $exif_data_tab = exif_img($link_img);
-            
-                foreach($exif_data_tab as $exif_data) {
-                    echo $exif_data . "<br />";
-                }
-                echo "</div>";
-            }
-            echo "<div class=\"single_img_retour\">";
-            echo "<br/><br/><a href=\"index.php?dir=".$dir.$dir2_url.$folder_number_url."\">Retour aux images</a>";
-            echo "</div>";
-        }
-    }
+    $image=array();
+    
+    array_push($image,$img_link);
+    
+    if(file_exists($img_link.".md")) {array_push($image,$img_link.".md");}
+    
+    return $image;
 }
 
 //Display a video from an other website or not
@@ -286,12 +266,13 @@ function create_img_comment($img_link) {
     require($rep_lang."/".$lang.".php");
     
     if(isset($_GET['comment']) AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) {
-        if(isset($_GET['dir']) OR isset($_GET['dir2'])){
-            if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else { $folder_number=''; }
+        if(isset($_GET['dir']) OR isset($_GET['dir2']) OR isset($_GET['path'])){
+            if(isset($_GET['content'])){$folder_number=htmlspecialchars("&amp;content=".$_GET['content']);} else { $folder_number=''; }
             if(isset($_GET['dir2'])) { $dir2="dir2=".$_GET['dir2']; } else { $dir2=''; }
             
             if($_GET['comment']=="create_img") { //if we want to show the textarea to create the comment
-                echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;".$dir2."&amp;".$folder_number."&amp;comment=creation_img_done\" method=\"post\">";
+                if(isset($_GET['path'])) {echo "<form action=\"index.php?path=".$_GET['path']."&amp;comment=creation_img_done\" method=\"post\">";}
+                else {echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;".$dir2.$folder_number."&amp;comment=creation_img_done\" method=\"post\">";}
                 echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\"></textarea><br/>";
                 echo "<input type=\"submit\" value=\"".$add."\" />";
                 echo "</p></form>";
@@ -319,7 +300,7 @@ function show_img_comment($img_link) { //Take the link and the name of the pictu
     require_once($rep_resources."lib/Markdown.php");
 
 
-    if(isset($_GET['dir']) OR isset($_GET['dir2'])) {
+    if(isset($_GET['dir']) OR isset($_GET['dir2']) OR isset($_GET['path'])) {
         if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else { $folder_number=''; }
         if(isset($_GET['dir2'])) { $dir2="dir2=".$_GET['dir2']; } else { $dir2=''; }
     
@@ -333,7 +314,8 @@ function show_img_comment($img_link) { //Take the link and the name of the pictu
         
         //modif / suppr of a comment
         if(isset($_GET['single_comment']) AND isset($_GET['img_name']) AND $_GET['single_comment']=="edit" AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) {  //edition of the comment            
-            echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;".$dir2."&amp;".$folder_number."&amp;single_comment=done&amp;img_name=".$img_name."\" method=\"post\">";
+            if(isset($_GET['path'])){echo "<form action=\"index.php?path=".$_GET['path']."&amp;single_comment=done&amp;img_name=".$img_name."\" method=\"post\">";} 
+            else {echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;".$dir2."&amp;".$folder_number."&amp;single_comment=done&amp;img_name=".$img_name."\" method=\"post\">";}
             echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\" class=\"ed\">".file_get_contents($img_link)."</textarea><br/>";
             echo "<input type=\"submit\" value=\"".$modif."\" />";
             echo "</p></form>";
@@ -499,18 +481,21 @@ if(isset($sub_dir_isset) AND $sub_dir_isset==1) {$tpl->assign("categories2",$Las
 # Showing the main code #
 #########################
 
-if(isset($_GET['dir']) OR isset($_GET['dir2'])) { //Display pictures ?...
-    $dir=htmlspecialchars(($_GET['dir']));
+if(isset($_GET['dir']) OR isset($_GET['dir2']) OR isset($_GET['path'])) { //Display pictures ?...
+    if(isset($_GET['dir'])) { $dir=htmlspecialchars(($_GET['dir']));}
 	if(isset($_GET['dir2'])) { $dir2=htmlspecialchars(($_GET['dir2'])); } else { $dir2=''; }
     if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else {$folder_number="";}
 
-    if(isset($_GET['img'])) {
-        $img=htmlspecialchars(($_GET['img']));
-        $path=$folder_number.$rep_content.$dir."/".$dir2."/".$img;
+    if(isset($_GET['path'])) {
+        $path=htmlspecialchars(($_GET['path']));
         $one_pic = display_one_pic($path);
+        if($show_exif_data==1) {
+            $exif = exif_img($path);
+            $tpl->assign("exif",$exif); //array of exifs data
+        }
         $tpl->assign("one_pic",$one_pic); //array of image
     } else {
-        $path=$folder_number.$rep_content.$dir."/".$dir2;
+        $path=$folder_number.$rep_content.$dir."/".$dir2."/";
         $medias = display_media($path);
         $tpl->assign("medias",$medias); //array of image
     } 

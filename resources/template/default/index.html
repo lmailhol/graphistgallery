@@ -73,7 +73,7 @@
                     
                 {if="isset($medias)"}  
                     {loop="medias"}
-                        {if="is_img($value)==1"}<img src="{$value}" />
+                        {if="is_img($value)==1"}<a href="index.php?path={$value}"><img src="{$value}" /></a>
                             {function="create_img_comment($value)"}
                         {elseif="is_vid($value)==1"}<p>{function="display_video($value)"}</p>
                             {function="create_img_comment($value)"}
@@ -81,8 +81,17 @@
                         {/if}
                     {/loop}
                 {elseif="isset($one_pic)"}
-                    
-                    
+                    {loop="one_pic"}
+                        {if="is_img($value)==1"}<img src="{$value}" />
+                            {function="create_img_comment($value)"}
+                        {else}{function="show_img_comment($value)"}
+                        {/if}
+                    {/loop}
+                    {loop="exif"}
+                        <ul>
+                        <li>{$value}</li>
+                        </ul>
+                    {/loop}
                 {elseif="isset($page)"}
                     {function="display_page($page)"}
                 {/if}  
