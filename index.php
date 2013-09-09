@@ -61,9 +61,9 @@ function no_extension($file) {
     return $noex_file;
 }
 
-//Return an array with the pictures
+//Return an array with the medias
 
-function display_pic($dir_img) { // The first dir and the second (if it exist) 
+function display_media($dir_media) { // The first dir and the second (if it exist) 
 
     require("default_config.php"); 
     require("config.php");
@@ -71,33 +71,12 @@ function display_pic($dir_img) { // The first dir and the second (if it exist)
     	
     $suppr=array(".","..","comment.md");
     
-    if($pic_folder=scandir($dir_img)) {
-        $pic_folder = array_diff($pic_folder, $suppr);
-        foreach($pic_folder as $key=>$fichier) {
-            $pic_folder[$key]=$dir_img.$fichier;
+    if($media_folder=scandir($dir_media)) {
+        $media_folder = array_diff($media_folder, $suppr);
+        foreach($media_folder as $key=>$fichier) {
+            $media_folder[$key]=$dir_media.$fichier;
         }
-        return $pic_folder;
-        
-        /*foreach($pic_folder as $fichier) {
-            if(!preg_match("#.md#",$fichier) AND !preg_match("#.md#",$fichier)) {
-                $link=$dir_img."/".$fichier;
-                if(file_exists($link)) {
-                                        
-                    if(!empty($dir2)) {$dir2_url="dir2=".$dir2."&amp;";} else {$dir2_url="";}
-                                        
-                    if(preg_match("#video#",$fichier)) { //check if the file is a video or a picture
-                        if(!isset($bck_name)) { //if it's a new video
-                            display_video($dir_img, $fichier);
-                            $bck_name=no_extension($fichier); //create a bck var to remember the name of the video and don't include the other version (webm, mp4...)                            
-                        } elseif($bck_name!=no_extension($fichier)) { //check if the file is a new video, despite of the bck var
-                            display_video($dir_img, $fichier);
-                        }
-                    } else {
-                        echo "<a href=\"index.php?dir=".$dir."&amp;".$dir2_url.$folder_number_url."img=".$fichier."\"><img src=\"" . $link . "\" alt=\"" . $link . "\"/><br /></a>";            
-                    }
-                }
-            }
-        }*/
+        return $media_folder;
     } else {
         echo $erreur;
     }
@@ -105,23 +84,24 @@ function display_pic($dir_img) { // The first dir and the second (if it exist)
 }
 
 function is_img($var) { //check if the link ($var) is an image or a comment
-    if(preg_match("#.md#", $var) OR empty($var)) {
+    if(preg_match("#.md#", $var) OR preg_match("#video#",$var) OR empty($var)) {
         return 0;
     } else {return 1;}
 }
 
-function display_one_pic($dir, $dir2, $folder_number, $img) {
+function is_vid($var) { //check if the link ($var) is an image or a comment
+    if(preg_match("#video#",$var)) {
+        return 1;
+    } else {return 0;}
+}
+
+function display_one_pic($img_link) {
     
     require("default_config.php");    
     require("config.php");
     require($rep_lang.$lang.".php");
-    if($folder_number==1) {
-        $folder_number="";
-        $folder_number_url="";
-    } else {
-        $folder_number_url="content=".$folder_number."&amp;";
-    }
-    $suppr=array(".","..");
+    
+    $suppr=array(".","..", "comment.md");
      
     if(!in_array($dir, $suppr) AND !in_array($dir2, $suppr) AND !preg_match("#../#",$dir) AND !preg_match("#../#",$dir2)) {
         $link_img=$folder_number.$rep_content.$dir."/".$dir2."/".$img;
@@ -153,16 +133,15 @@ function display_one_pic($dir, $dir2, $folder_number, $img) {
 
 //Display a video from an other website or not
 
-function display_video($link, $fichier) {
-    if(!preg_match("#.webm#",$fichier) AND !preg_match("#.mp4#",$fichier) AND !preg_match("#.ogv#",$fichier)) {
-        $video_link = file_get_contents($link."/".$fichier);
+function display_video($link) {
+    if(!preg_match("#.webm$#",$link) AND !preg_match("#.mp4$#",$link) AND !preg_match("#.ogv$#",$link)) {
+        $video_link = file_get_contents($link);
         echo $video_link;
     } else {
         echo "<video controls=\"controls\">";
-        $noex_fichier = no_extension($fichier);
-        if(file_exists($link."/".$noex_fichier.".mp4")) { echo "<source src=\"".$link."/".$noex_fichier.".mp4\" type=\"video/mp4\" />"; }
-        if(file_exists($link."/".$noex_fichier.".webm")) { echo "<source src=\"".$link."/".$noex_fichier.".webm\" type=\"video/webm\" />"; }
-        if(file_exists($link."/".$noex_fichier.".ogv")) { echo "<source src=\"".$link."/".$noex_fichier.".ogv\" type=\"video/ogg\" />"; }
+        if(file_exists(no_extension($link).".mp4")) { echo "<source src=\"".no_extension($link).".mp4\" type=\"video/mp4\" />"; }
+        if(file_exists(no_extension($link).".webm")) { echo "<source src=\"".no_extension($link).".webm\" type=\"video/webm\" />"; }
+        if(file_exists(no_extension($link).".ogv")) { echo "<source src=\"".no_extension($link).".ogv\" type=\"video/ogg\" />"; }
         echo "</video>";
     }
 }
@@ -187,17 +166,6 @@ function display_page($page) {
 	} else {
 		echo $erreur;
 	}
-}
-
-//Template functions
-
-//Import the differents files that Graphist Gallery need (css, js, etc.)
-
-function show_head() {
-    
-    require("config.php");
-    require("default_config.php");
-    if($include_jquery!=0){echo "<script type=\"text/javascript\" src=\"".$rep_resources."js/jquery.js\"></script>";}
 }
 
 //checks if there is a comment
@@ -240,7 +208,7 @@ function create_comment() {
             if($_GET['comment']=="create") { //if we want to show the textarea to create the comment
                 echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;dir2=".$dir2."&amp;".$folder_number."&amp;comment=creation_done\" method=\"post\">";
                 echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\" class=\"ed\"></textarea><br/>";
-                echo "<input type=\"submit\" value=\"".$modif."\" />";
+                echo "<input type=\"submit\" value=\"".$add."\" />";
                 echo "</p></form>";
             } elseif($_GET['comment']=="creation_done") { //creation of the comment
                 if($comment = fopen($rep_comment."/comment.md", "a+")) {
@@ -325,7 +293,7 @@ function create_img_comment($img_link) {
             if($_GET['comment']=="create_img") { //if we want to show the textarea to create the comment
                 echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;".$dir2."&amp;".$folder_number."&amp;comment=creation_img_done\" method=\"post\">";
                 echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\"></textarea><br/>";
-                echo "<input type=\"submit\" value=\"".$modif."\" />";
+                echo "<input type=\"submit\" value=\"".$add."\" />";
                 echo "</p></form>";
             } elseif($_GET['comment']=="creation_img_done") { //creation of the comment
                 if($comment = fopen($img_link.".md", "a+")) {
@@ -538,11 +506,13 @@ if(isset($_GET['dir']) OR isset($_GET['dir2'])) { //Display pictures ?...
 
     if(isset($_GET['img'])) {
         $img=htmlspecialchars(($_GET['img']));
-        display_one_pic($dir, $dir2, $folder_number, $img);
+        $path=$folder_number.$rep_content.$dir."/".$dir2."/".$img;
+        $one_pic = display_one_pic($path);
+        $tpl->assign("one_pic",$one_pic); //array of image
     } else {
         $path=$folder_number.$rep_content.$dir."/".$dir2;
-        $images = display_pic($path);
-        $tpl->assign("images",$images); //array of image
+        $medias = display_media($path);
+        $tpl->assign("medias",$medias); //array of image
     } 
 } elseif(isset($_GET['page'])) { //... a static page ?...
         $page=htmlspecialchars(($_GET['page']));

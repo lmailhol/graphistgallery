@@ -70,14 +70,19 @@
                     {function="show_comment()"}
                 {elseif="comment_exist()==2"}{function="create_comment()"}
                 {/if}
-                
-                {if="isset($images)"}  
-                    {loop="images"}
+                    
+                {if="isset($medias)"}  
+                    {loop="medias"}
                         {if="is_img($value)==1"}<img src="{$value}" />
+                            {function="create_img_comment($value)"}
+                        {elseif="is_vid($value)==1"}<p>{function="display_video($value)"}</p>
                             {function="create_img_comment($value)"}
                         {else}{function="show_img_comment($value)"}
                         {/if}
                     {/loop}
+                {elseif="isset($one_pic)"}
+                    
+                    
                 {elseif="isset($page)"}
                     {function="display_page($page)"}
                 {/if}  

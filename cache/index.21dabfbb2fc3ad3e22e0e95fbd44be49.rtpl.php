@@ -70,10 +70,12 @@
                     <?php echo show_comment(); ?>
                 <?php }elseif( comment_exist()==2 ){ ?><?php echo create_comment(); ?>
                 <?php } ?>
-                
-                <?php if( isset($images) ){ ?>  
-                    <?php $counter1=-1; if( isset($images) && is_array($images) && sizeof($images) ) foreach( $images as $key1 => $value1 ){ $counter1++; ?>
+                    
+                <?php if( isset($medias) ){ ?>  
+                    <?php $counter1=-1; if( isset($medias) && is_array($medias) && sizeof($medias) ) foreach( $medias as $key1 => $value1 ){ $counter1++; ?>
                         <?php if( is_img($value1)==1 ){ ?><img src="<?php echo $value1;?>" />
+                            <?php echo create_img_comment($value1); ?>
+                        <?php }elseif( is_vid($value1)==1 ){ ?><p><?php echo display_video($value1); ?></p>
                             <?php echo create_img_comment($value1); ?>
                         <?php }else{ ?><?php echo show_img_comment($value1); ?>
                         <?php } ?>

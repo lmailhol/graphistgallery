@@ -55,6 +55,7 @@ $erreur_deco       ="Vous n'êtes pas connect&eacute;";
 $retour_site       ="Retour au site";
 $retour            ="Retour";
 $modif             ="Modifier";
+$add               ="Ajouter";
 $suppression       ="Supprimer";
 $submit            ="Valider";
 $publication       ="Publier";
