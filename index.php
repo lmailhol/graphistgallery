@@ -41,6 +41,8 @@ $tpl->assign( 'message', 'Hello World!' );
 
 // Hello world
 
+$tpl->assign( 'serv_url', $_SERVER['REQUEST_URI']);
+
 #####################################
 ########## Include/Require ##########
 #####################################
@@ -95,7 +97,7 @@ function is_img($var) { //check if the link ($var) is an image or a comment
 }
 
 function is_vid($var) { //check if the link ($var) is an image or a comment
-    if(preg_match("#video#",$var)) {
+    if(preg_match("#video#",$var) AND !preg_match("#.md$#",$var)) {
         return 1;
     } else {return 0;}
 }
@@ -160,45 +162,12 @@ function comment_exist() {
 
 }
 
-//Creation of a comment for a picture list
-
-function create_comment() {
-    
-    require("config.php");  
-    require("default_config.php");
-    require($rep_lang."/".$lang.".php");
-    
-    if(isset($_GET['comment']) AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) {
-        if(isset($_GET['dir']) OR isset($_GET['dir2'])){
-            if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else { $folder_number=''; }
-            if(isset($_GET['dir2'])) { $dir2=$_GET['dir2']; } else { $dir2=''; }
-            $rep_comment = $folder_number.$rep_content.htmlspecialchars($_GET['dir'])."/".htmlspecialchars($dir2);
-            
-            if($_GET['comment']=="create") { //if we want to show the textarea to create the comment
-                echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;dir2=".$dir2."&amp;".$folder_number."&amp;comment=creation_done\" method=\"post\">";
-                echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\" class=\"ed\"></textarea><br/>";
-                echo "<input type=\"submit\" value=\"".$add."\" />";
-                echo "</p></form>";
-            } elseif($_GET['comment']=="creation_done") { //creation of the comment
-                if($comment = fopen($rep_comment."/comment.md", "a+")) {
-                        fputs($comment, $_POST['comment']);
-                        fclose($comment);
-                        echo $add_comment_done;   
-                }
-            }
-        }
-    } elseif(isset($_SESSION['connection']) AND $_SESSION['connection']==1) {
-        echo "<a href=\"".$_SERVER['REQUEST_URI']."&amp;comment=create\" class=\"ajax\">[Create]</a>";
-    }
-}
-
 //Showing and editing the comments for a picture list, if they exits
 
 function show_comment() {
     
     require("config.php");  
     require("default_config.php");
-    require($rep_lang."/".$lang.".php");
     require_once($rep_resources."lib/Markdown.php");
     
     if(isset($_GET['dir']) OR isset($_GET['dir2'])) {
@@ -206,31 +175,8 @@ function show_comment() {
         if(isset($_GET['dir2'])) { $dir2=$_GET['dir2']; } else { $dir2=''; }
         
         $rep_comment = $folder_number.$rep_content.htmlspecialchars(($_GET['dir']))."/".htmlspecialchars($dir2);
-            
-        if(isset($_GET['comment']) AND $_GET['comment']=="edit" AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) {  //edition of the comment            
-            echo "<form action=\"index.php?dir=".$_GET['dir']."&amp;dir2=".$dir2."&amp;".$folder_number."&amp;comment=done\" method=\"post\">";
-            echo "<textarea name=\"comment\" id=\"comment\" cols=\"40\" class=\"ed\">".file_get_contents($rep_comment."/comment.md")."</textarea><br/>";
-            echo "<input type=\"submit\" value=\"".$modif."\" />";
-            echo "</p></form>";
-        } elseif(isset($_GET['comment']) AND $_GET['comment']=="done" AND isset($_SESSION['connection']) AND $_SESSION['connection']==1) { // if one wanna delete or change the comment
-            if(file_exists($rep_comment."/comment.md")) {
-                if($_POST['comment']!='') {
-                    if($comment = fopen($rep_comment."/comment.md", "w+")) {
-                        fputs($comment, $_POST['comment']);
-                        fclose($comment);
-                        echo $modif_comment_done;   
-                    }
-                } else {
-                    unlink($rep_comment."/comment.md");
-                    echo $suppr_comment_done;
-                }
-            }
-        } else {
 	
-        echo Markdown(file_get_contents($rep_comment."/comment.md"));
-            
-        if (isset($_SESSION['connection']) AND $_SESSION['connection']==1) {echo "<a href=\"".$_SERVER['REQUEST_URI']."&amp;comment=edit\">[Edit]</a>";}
-        }
+        echo Markdown(file_get_contents($rep_comment."/comment.md"));        
     }
 }
 
@@ -248,33 +194,59 @@ function comment_img_exist($img_link) { //Take the link of the picture in arg
 
 //Creation of a comment for a single picture
 
-function create_img_comment($img_link) {
+function create_comment($img_link) {
     
     require("config.php");  
     require("default_config.php");
     require($rep_lang."/".$lang.".php");
     
+    //creation of the image-comment
     if(isset($_GET['single_comment']) AND $_GET['single_comment']=="add" AND !isset($_POST['comment'])) {
         
         echo '<form action="index.php?path='.$img_link.'&amp;single_comment=done" method="post">
         <textarea name="comment" id="comment" cols="40"></textarea><br/>
         <input type="submit" value="'.$add.'" />';
     
-    //creation of the comment
+    //modification of the image-comment
     } elseif(isset($_GET['single_comment']) AND $_GET['single_comment']=="edit" AND !isset($_POST['comment'])) {
     
         echo '<form action="index.php?path='.$img_link.'&amp;single_comment=done" method="post">
         <textarea name="comment" id="comment" cols="40">'.file_get_contents($img_link.".md").'</textarea><br/>
+        <input type="submit" value="'.$modif.'" />';
+    
+    //creation of the list-comment
+    } elseif(isset($_GET['comment']) AND $_GET['comment']=="add" AND !isset($_POST['comment'])) {
+        
+        echo '<form action="index.php?path='.$img_link.'&amp;comment=done" method="post">
+        <textarea name="comment" id="comment" cols="40"></textarea><br/>
         <input type="submit" value="'.$add.'" />';
     
-    } elseif(isset($_POST['comment']) AND !empty($_POST['comment'])) {    
+    //modification of the list-comment
+    } elseif(isset($_GET['comment']) AND $_GET['comment']=="edit" AND !isset($_POST['comment'])) {
+        
+        echo '<form action="index.php?path='.$img_link.'&amp;comment=done" method="post">
+        <textarea name="comment" id="comment" cols="40">'.file_get_contents($img_link."/comment.md").'</textarea><br/>
+        <input type="submit" value="'.$add.'" />';
+    
+    //file operations
+    } elseif(isset($_POST['comment']) AND !empty($_POST['comment']) AND isset($_GET['comment'])) {
+        if($comment = fopen($img_link."comment.md", "w+")) {
+            fputs($comment, $_POST['comment']);
+            fclose($comment);
+            echo $add_comment_done;
+        }
+    } elseif(isset($_POST['comment']) AND !empty($_POST['comment']) AND isset($_GET['single_comment'])) {    
         if($comment = fopen($img_link.".md", "w+")) {
             fputs($comment, $_POST['comment']);
             fclose($comment);
             echo $add_comment_done;
-        }    
-    } elseif(isset($_POST['comment']) AND empty($_POST['comment'])) {
+        }
+    //suppression of the image-comment
+    } elseif(isset($_POST['comment']) AND empty($_POST['comment']) AND isset($_GET['single_comment'])) {
         unlink($img_link.".md");
+        echo $suppr_comment_done;
+    } elseif(isset($_POST['comment']) AND empty($_POST['comment']) AND isset($_GET['comment'])) {
+        unlink($img_link."/comment.md");
         echo $suppr_comment_done;
     }
 }
@@ -437,16 +409,17 @@ if(isset($_GET['dir']) OR isset($_GET['dir2']) OR isset($_GET['path'])) { //Disp
     if(isset($_GET['dir'])) { $dir=htmlspecialchars(($_GET['dir']));}
 	if(isset($_GET['dir2'])) { $dir2=htmlspecialchars($_GET['dir2'])."/"; } else { $dir2=''; }
     if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else {$folder_number="";}
-
-    if(isset($_GET['path']) AND !isset($_GET['single_comment'])) {
-        $path=htmlspecialchars(($_GET['path']));
+    if(isset($_GET['dir']) OR isset($_GET['dir2']) AND isset($_GET['comment'])) {$tpl->assign("comment_path",$folder_number.$rep_content.$dir."/".$dir2);}
+    
+    if(isset($_GET['path']) AND !isset($_GET['single_comment']) AND !isset($_GET['comment'])) {
+        $img_path=htmlspecialchars(($_GET['path']));
         if($show_exif_data==1) {
-            $exif = exif_img($path);
+            $exif = exif_img($img_path);
             $tpl->assign("exif",$exif); //array of exifs data
         }
-        $tpl->assign("one_pic",$path); //array of image
-    } elseif(isset($_GET['path']) AND isset($_GET['single_comment'])) {
-        $tpl->assign("add_img_comment",$_GET['path']); //array of exifs data
+        $tpl->assign("one_pic",$img_path); //array of image
+    } elseif(isset($_GET['path']) AND isset($_GET['single_comment']) OR isset($_GET['comment'])) {
+        $tpl->assign("add_comment",$_GET['path']); //array of exifs data
     } else {
         $path=$folder_number.$rep_content.$dir."/".$dir2;
         $medias = display_media($path);

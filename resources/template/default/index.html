@@ -68,7 +68,9 @@
                 <div class="l-centered">
                 {if="comment_exist()==1"}
                     {function="show_comment()"}
-                {elseif="comment_exist()==2"}{function="create_comment()"}
+                    {if="logged()==1"}<a href="index.php?path={$comment_path}&amp;comment=edit">[Edit]</a>{/if}
+                {elseif="comment_exist()==2"}
+                    {if="logged()==1"}<a href="index.php?path={$comment_path}&amp;comment=add">[Create]</a>{/if}
                 {/if}
                 <!-- MEDIA -->
                 {if="isset($medias)"}  
@@ -79,7 +81,7 @@
                             {if="logged()==1 AND comment_img_exist($value)==0"}<a href="index.php?path={$value}&amp;single_comment=add">[Create]</a>
                             {elseif="comment_img_exist($value)==1"}
                                 {function="show_img_comment($value)"}
-                                {if="logged()==1"}<a href="index.php?path={$value}&amp;single_comment=edit">[Modif]</a>{/if}
+                                {if="logged()==1"}<a href="index.php?path={$value}&amp;single_comment=edit">[Edit]</a>{/if}
                             {/if}
                         <!-- video -->
                         {elseif="is_vid($value)==1"}<p>{function="display_video($value)"}</p>
@@ -87,22 +89,22 @@
                             {if="logged()==1 AND comment_img_exist($value)==0"}<a href="index.php?path={$value}&amp;single_comment=add">[Create]</a>
                             {elseif="comment_img_exist($value)==1"}
                                 {function="show_img_comment($value)"}
-                                {if="logged()==1"}<a href="index.php?path={$value}&amp;single_comment=edit">[Modif]</a>{/if}
+                                {if="logged()==1"}<a href="index.php?path={$value}&amp;single_comment=edit">[Edit]</a>{/if}
                             {/if}
                         {/if}
                     {/loop}
                 <!-- COMMENT CREATION -->
-                {elseif="isset($add_img_comment) AND logged()==1"}
-                    {function="create_img_comment($add_img_comment)"}
+                {elseif="isset($add_comment) AND logged()==1"}
+                    {function="create_comment($add_comment)"}
                 <!-- SINGLE IMAGE -->
                 {elseif="isset($one_pic)"}
                     <!-- picture -->
                     <img src="{$one_pic}" />
-                    {if="logged()==1 AND comment_img_exist($one_pic)==0"}<a href="index.php?path={$value}&amp;single_comment=add">[Create]</a>
+                    {if="logged()==1 AND comment_img_exist($one_pic)==0"}<a href="index.php?path={$one_pic}&amp;single_comment=add">[Create]</a>
                     <!-- comment -->
                     {elseif="comment_img_exist($one_pic)==1"}
                         {function="show_img_comment($one_pic)"}
-                        {if="logged()==1"}<a href="index.php?path={$value}&amp;single_comment=edit">[Modif]</a>{/if}
+                        {if="logged()==1"}<a href="index.php?path={$one_pic}&amp;single_comment=edit">[Edit]</a>{/if}
                     {/if}
                     <!-- exif data -->
                     {loop="exif"}

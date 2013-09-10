@@ -68,7 +68,9 @@
                 <div class="l-centered">
                 <?php if( comment_exist()==1 ){ ?>
                     <?php echo show_comment(); ?>
-                <?php }elseif( comment_exist()==2 ){ ?><?php echo create_comment(); ?>
+                    <?php if( logged()==1 ){ ?><a href="index.php?path=<?php echo $comment_path;?>&amp;comment=edit">[Edit]</a><?php } ?>
+                <?php }elseif( comment_exist()==2 ){ ?>
+                    <?php if( logged()==1 ){ ?><a href="index.php?path=<?php echo $comment_path;?>&amp;comment=add">[Create]</a><?php } ?>
                 <?php } ?>
                 <!-- MEDIA -->
                 <?php if( isset($medias) ){ ?>  
@@ -79,7 +81,7 @@
                             <?php if( logged()==1 AND comment_img_exist($value1)==0 ){ ?><a href="index.php?path=<?php echo $value1;?>&amp;single_comment=add">[Create]</a>
                             <?php }elseif( comment_img_exist($value1)==1 ){ ?>
                                 <?php echo show_img_comment($value1); ?>
-                                <?php if( logged()==1 ){ ?><a href="index.php?path=<?php echo $value1;?>&amp;single_comment=edit">[Modif]</a><?php } ?>
+                                <?php if( logged()==1 ){ ?><a href="index.php?path=<?php echo $value1;?>&amp;single_comment=edit">[Edit]</a><?php } ?>
                             <?php } ?>
                         <!-- video -->
                         <?php }elseif( is_vid($value1)==1 ){ ?><p><?php echo display_video($value1); ?></p>
@@ -87,22 +89,22 @@
                             <?php if( logged()==1 AND comment_img_exist($value1)==0 ){ ?><a href="index.php?path=<?php echo $value1;?>&amp;single_comment=add">[Create]</a>
                             <?php }elseif( comment_img_exist($value1)==1 ){ ?>
                                 <?php echo show_img_comment($value1); ?>
-                                <?php if( logged()==1 ){ ?><a href="index.php?path=<?php echo $value1;?>&amp;single_comment=edit">[Modif]</a><?php } ?>
+                                <?php if( logged()==1 ){ ?><a href="index.php?path=<?php echo $value1;?>&amp;single_comment=edit">[Edit]</a><?php } ?>
                             <?php } ?>
                         <?php } ?>
                     <?php } ?>
                 <!-- COMMENT CREATION -->
-                <?php }elseif( isset($add_img_comment) AND logged()==1 ){ ?>
-                    <?php echo create_img_comment($add_img_comment); ?>
+                <?php }elseif( isset($add_comment) AND logged()==1 ){ ?>
+                    <?php echo create_comment($add_comment); ?>
                 <!-- SINGLE IMAGE -->
                 <?php }elseif( isset($one_pic) ){ ?>
                     <!-- picture -->
                     <img src="<?php echo $one_pic;?>" />
-                    <?php if( logged()==1 AND comment_img_exist($one_pic)==0 ){ ?><a href="index.php?path=<?php echo $value;?>&amp;single_comment=add">[Create]</a>
+                    <?php if( logged()==1 AND comment_img_exist($one_pic)==0 ){ ?><a href="index.php?path=<?php echo $one_pic;?>&amp;single_comment=add">[Create]</a>
                     <!-- comment -->
                     <?php }elseif( comment_img_exist($one_pic)==1 ){ ?>
                         <?php echo show_img_comment($one_pic); ?>
-                        <?php if( logged()==1 ){ ?><a href="index.php?path=<?php echo $value;?>&amp;single_comment=edit">[Modif]</a><?php } ?>
+                        <?php if( logged()==1 ){ ?><a href="index.php?path=<?php echo $one_pic;?>&amp;single_comment=edit">[Edit]</a><?php } ?>
                     <?php } ?>
                     <!-- exif data -->
                     <?php $counter1=-1; if( isset($exif) && is_array($exif) && sizeof($exif) ) foreach( $exif as $key1 => $value1 ){ $counter1++; ?>
