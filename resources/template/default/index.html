@@ -4,16 +4,73 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title><!--<?php echo $title; ?>--></title>
+    <title>{$title}</title>
 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">
-
 <link rel="stylesheet" href="resources/template/default/default.css">
+<script type="text/javascript" src="resources/template/default/js/menu.js">
     
 <script src="http://use.typekit.net/ajf8ggy.js"></script>
 <script>
     try { Typekit.load(); } catch (e) {}
 </script>
+<script type="text/javascript">
+    $(window).load(function(){  
+    //for each description div...  
+    $('div.description').each(function(){  
+        //...set the opacity to 0...  
+        $(this).css('opacity', 0);  
+        //..set width same as the image...  
+        $(this).css('width', $(this).siblings('img').width());  
+        //...get the parent (the wrapper) and set it's width same as the image width... '  
+        $(this).parent().css('width', $(this).siblings('img').width());  
+        //...set the display to block  
+        $(this).css('display', 'block');  
+    });  
+  
+    $('div.wrapper').hover(function(){  
+        //when mouse hover over the wrapper div  
+        //get it's children elements with class description '  
+        //and show it using fadeTo  
+        $(this).children('.description').stop().fadeTo(500, 0.7);  
+    },function(){  
+        //when mouse out of the wrapper div  
+        //use fadeTo to hide the div  
+        $(this).children('.description').stop().fadeTo(500, 0);  
+    });  
+  
+});     
+</script>
+    
+<script type="text/javascript">
+$(document).ready( function () {
+    // On cache les sous-menus :
+    $(".navigation ul.subMenu").hide();
+    // On sélectionne tous les items de liste portant la classe "toggleSubMenu"
+    // et on remplace l'élément span qu'ils contiennent par un lien :
+    $(".navigation li.toggleSubMenu span").each( function () {
+        // On stocke le contenu du span :
+        var TexteSpan = $(this).text();
+        $(this).replaceWith('<a href="" title="Afficher le sous-menu">' + TexteSpan + '<\/a>') ;
+    } ) ;
+    // On modifie l'évènement "click" sur les liens dans les items de liste
+    // qui portent la classe "toggleSubMenu" :
+    $(".navigation li.toggleSubMenu > a").click( function () {
+        // Si le sous-menu était déjà ouvert, on le referme :
+        if ($(this).next("ul.subMenu:visible").length != 0) {
+            $(this).next("ul.subMenu").slideUp("normal");
+        }
+        // Si le sous-menu est caché, on ferme les autres et on l'affiche :
+        else {
+            $(".navigation ul.subMenu").slideUp("normal");
+            $(this).next("ul.subMenu").slideDown("normal");
+        }
+        // On empêche le navigateur de suivre le lien :
+        return false;
+    });    
+} ) ;
+</script>    
 
 </head>
 <body>
@@ -21,7 +78,7 @@
 <div>
     <div class="header">
         <div class="pure-menu pure-menu-open pure-menu-horizontal">
-            <a class="pure-menu-heading" href="">Photo Gallery</a>
+            <a class="pure-menu-heading" href="{$site_url}">Photo Gallery</a>
             <ul>
                 {loop="pages"}
                     <li><a href="index.php?page={$value}">{function="name($value)"}</a></li>
@@ -39,25 +96,27 @@
 
         <div class="pure-u-2-3 text-box">
             <div class="l-box">
-                <h1 class="text-box-head">{$message}</h1>
-                <p class="text-box-subhead">Plein de jolies images</p>
+                <h1 class="text-box-head">{$title}</h1>
+                <p class="text-box-subhead">Propulsé par Graphist Gallery</p>
             </div>
         </div>
 
         <div class="pure-u-1-3">
             <div class="l-box">
                 <div class="menu">
-                    <ul>
+                    <p class="header-menu">Menu</p>
+                    <ul class="navigation">
                     {loop="categories"}
-                        <li><a href="index.php?dir={$value}">{function="name($value)"}</a></li>
-                        {if="is_sub_dir($value)==1"}
+                        {if="is_sub_dir($value)!=1"}<li><a href="index.php?dir={$value}">{function="name($value)"}</a>
+                        {else}<li class="toggleSubMenu"><span>{function="name($value)"}</span>
                             {$first_dir=$value}
-                            <ul>
+                            <ul class="subMenu">
                             {loop="categories2"}
                                 {if="$first_dir==dir_name($value)"}<li><a href="index.php{$value}">{function="name($value)"}</a></li>{/if}
                             {/loop}
                             </ul>
                         {/if}
+                        </li>
                     {/loop}
                     </ul>
                 </div>
@@ -67,31 +126,37 @@
             <div class="l-box">
                 <div class="l-centered">
                 {if="comment_exist()==1"}
-                    {function="show_comment()"}
-                    {if="logged()==1"}<a href="index.php?path={$comment_path}&amp;comment=edit">[Edit]</a>{/if}
+                    <blockquote class="content-quote">{function="show_comment()"}
+                    {if="logged()==1"}<a href="index.php?path={$comment_path}&amp;comment=edit" class="pure-button">Edit</a>{/if}</blockquote>
                 {elseif="comment_exist()==2"}
-                    {if="logged()==1"}<a href="index.php?path={$comment_path}&amp;comment=add">[Create]</a>{/if}
+                    {if="logged()==1"}<a href="index.php?path={$comment_path}&amp;comment=add" class="pure-button">Create</a>{/if}
                 {/if}
                 <!-- MEDIA -->
                 {if="isset($medias)"}  
+        
                     {loop="medias"}
+                        <div class="wrapper">
                         <!-- pictures -->
                         {if="is_img($value)==1"}<a href="index.php?path={$value}"><img src="{$value}" /></a>
                             <!-- comment -->
-                            {if="logged()==1 AND comment_img_exist($value)==0"}<a href="index.php?path={$value}&amp;single_comment=add">[Create]</a>
+                            <div class='description'> 
+                            {if="logged()==1 AND comment_img_exist($value)==0"}<a href="index.php?path={$value}&amp;single_comment=add" class="pure-button ">Create</a>
                             {elseif="comment_img_exist($value)==1"}
-                                {function="show_img_comment($value)"}
-                                {if="logged()==1"}<a href="index.php?path={$value}&amp;single_comment=edit">[Edit]</a>{/if}
+                                <div class='description_content'>{function="show_img_comment($value)"}
+                                {if="logged()==1"}<a href="index.php?path={$value}&amp;single_comment=edit" class="pure-button pure-button-primary">Edit</a>{/if}
+                                </div>
                             {/if}
+                            </div>
                         <!-- video -->
                         {elseif="is_vid($value)==1"}<p>{function="display_video($value)"}</p>
                             <!-- comment -->            
-                            {if="logged()==1 AND comment_img_exist($value)==0"}<a href="index.php?path={$value}&amp;single_comment=add">[Create]</a>
+                            {if="logged()==1 AND comment_img_exist($value)==0"}<a href="index.php?path={$value}&amp;single_comment=add" class="pure-button pure-button-primary">Create</a>
                             {elseif="comment_img_exist($value)==1"}
                                 {function="show_img_comment($value)"}
-                                {if="logged()==1"}<a href="index.php?path={$value}&amp;single_comment=edit">[Edit]</a>{/if}
+                                {if="logged()==1"}<a href="index.php?path={$value}&amp;single_comment=edit" class="pure-button">Edit</a>{/if}
                             {/if}
                         {/if}
+                        </div>
                     {/loop}
                 <!-- COMMENT CREATION -->
                 {elseif="isset($add_comment) AND logged()==1"}
@@ -100,11 +165,11 @@
                 {elseif="isset($one_pic)"}
                     <!-- picture -->
                     <img src="{$one_pic}" />
-                    {if="logged()==1 AND comment_img_exist($one_pic)==0"}<a href="index.php?path={$one_pic}&amp;single_comment=add">[Create]</a>
+                    {if="logged()==1 AND comment_img_exist($one_pic)==0"}<a href="index.php?path={$one_pic}&amp;single_comment=add" class="pure-button">Create</a>
                     <!-- comment -->
                     {elseif="comment_img_exist($one_pic)==1"}
                         {function="show_img_comment($one_pic)"}
-                        {if="logged()==1"}<a href="index.php?path={$one_pic}&amp;single_comment=edit">[Edit]</a>{/if}
+                        {if="logged()==1"}<a href="index.php?path={$one_pic}&amp;single_comment=edit" class="pure-button">Edit</a>{/if}
                     {/if}
                     <!-- exif data -->
                     {loop="exif"}
@@ -122,7 +187,7 @@
     </div>
 
     <div class="footer">
-        <!--<?php echo $footer_text; ?>-->
+        {$footer_text}
     </div>
 </div>
 

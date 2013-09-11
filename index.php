@@ -30,18 +30,21 @@ require("config.php");
 require($rep_lang.$lang.".php");
 require_once($rep_resources."lib/Markdown.php");
 
-
 include $rep_resources."lib/rain.tpl.class.php"; //include Rain TPL
 raintpl::$tpl_dir = $rep_resources."template/".$style."/"; // template directory
 raintpl::$cache_dir = "cache/"; // cache directory
 raintpl::configure( 'path_replace', false );
 
 $tpl = new raintpl(); //include Rain TPL
-$tpl->assign( 'message', 'Hello World!' );
 
 // Hello world
 
-$tpl->assign( 'serv_url', $_SERVER['REQUEST_URI']);
+// Some assign
+$tpl->assign( 'serv_url', $_SERVER['REQUEST_URI'] );
+
+$tpl->assign( 'title', $title );
+$tpl->assign( 'footer_text', $footer_text );
+$tpl->assign( 'site_url', $site );
 
 #####################################
 ########## Include/Require ##########

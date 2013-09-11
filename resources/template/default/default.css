@@ -6,19 +6,68 @@ h1,h2,h3,h4,h5,h6 {
     color: #111;
 }
 
-.menu ul{list-style:none;z-index:1}
-.menu a{border:1px solid transparent;border-left:0;border-right:0;text-decoration:none;}.
-.menu li a:hover,.menu li a:focus{background:#eee}
-.menu {color:#565d64;text-transform:uppercase;font-size:90%;margin-top:.5em;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#dfdfdf}
-.menu a{color:#000}
+.menu {
+    list-style:none;
+    margin-left: -150px; 
+    width: 290px;
+    position: absolute;
+    top: 285px;
+    left: 150px;
+    bottom: 0;
+    z-index: 0; 
+    background: rgb(235, 235, 235);
+    overflow-y: auto;
+    box-shadow: 0px 0px 10px 1.3px rgba(119, 119, 119, 0.75);
+    -moz-box-shadow: 0px 0px 10px 1.3px rgba(119, 119, 119, 0.75);
+    -webkit-box-shadow: 0px 0px 10px 1.3px rgba(119, 119, 119, 0.75);  
+}
+
+.menu ul {
+    list-style:none;
+}
+
+.menu a {
+    color: #fff;
+    border: none;
+    white-space: normal;
+    padding: 0.6em 0 0.6em 0.6em;
+}
+.menu li {
+    color: black ;
+    margin-bottom: 5px ;
+}
+
+.menu li a {
+    display: block ;
+    color: black ;
+    line-height: 1em ;
+    text-decoration: none ;
+}
+
+.menu li a:hover, .menu li a:focus, .menu li a:active {
+    background: rgb(230, 230, 230) ;
+}
+
+.header-menu {
+    color: black ;
+    padding-left:8px;
+    margin-left:0px;
+    padding-bottom:5px;
+    border-bottom: 1px solid rgb(109, 109, 109);
+}
+
+blockquote {
+    border-left:2px solid #02A1CB;
+    padding-left:8px;
+    margin-left:0px;
+}
 
 .l-box {
     padding: 2em;
 }
 
-.header .pure-menu {
-    border-bottom-color: black;
-    border-radius: 0;
+.photo-box {
+    z-index: 2;   
 }
 
 .photo-box, .text-box {
@@ -27,37 +76,47 @@ h1,h2,h3,h4,h5,h6 {
     height: 250px;
 }
 
+.photo-box img { 
+    min-height: 200px;
+    width: 100%;
+}
 
-    .photo-box img {
-        min-height: 250px;
-        width: 100%;
-    }
+div.wrapper {
+    position:relative; /* important(so we can absolutely position the description div */  
+}
 
-    .photo-box aside {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        padding: 1em 0.5em;
-        color: white;
-        width: 100%;
-        font-size: 80%;
-        text-align: right;
-        background: -moz-linear-gradient(top,  rgba(16,27,30,0) 0%, rgba(12,2,2,1) 90%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(16,27,30,0)), color-stop(90%,rgba(12,2,2,1))); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top,  rgba(16,27,30,0) 0%,rgba(12,2,2,1) 90%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top,  rgba(16,27,30,0) 0%,rgba(12,2,2,1) 90%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top,  rgba(16,27,30,0) 0%,rgba(12,2,2,1) 90%); /* IE10+ */
-        background: linear-gradient(to bottom,  rgba(16,27,30,0) 0%,rgba(12,2,2,1) 90%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00101b1e', endColorstr='#0c0202',GradientType=0 ); /* IE6-9 */
+div.description{  
+    position:absolute; /* absolute position (so we can position it where we want)*/  
+    bottom:0px; /* position will be on bottom */  
+    left:0px;  
+    display:none; /* hide it */  
+    /* styling bellow */  
+    background-color:black;  
+    font-family: 'tahoma';  
+    font-size:15px;  
+    color:white; 
+}  
 
-    }
+div.description_content{  
+    padding:10px;  
+} 
+
+.wrapper img {
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0px 0px 10px 2px rgba(119, 119, 119, 0.75);
+    -moz-box-shadow: 0px 0px 10px 2px rgba(119, 119, 119, 0.75);
+    -webkit-box-shadow: 0px 0px 10px 2px rgba(119, 119, 119, 0.75);
+}
 
 .text-box {
     background: rgb(235, 235, 235); /* bluish grey */
+    z-index: 1;
 }
 
     .text-box-head {
         color: #000;
+        border-bottom:2px solid rgb(204, 204, 204);
         padding-bottom: 0.2em;
     }
 
@@ -68,9 +127,11 @@ h1,h2,h3,h4,h5,h6 {
     }
 
 .footer {
-    background: #111;
+    width:250px;
+    position:absolute;
+    bottom:0;
+    z-index:10;
     color: #666;
-    text-align: center;
     padding: 1em;
     font-size: 80%;
 }
@@ -79,12 +140,24 @@ h1,h2,h3,h4,h5,h6 {
     .photo-box, .text-box {
         text-align: center;
     }
-
         .photo-box img {
-            width: 100%;
+            z-index:1;
+            width: 100%; 
+        }    
+    
+        .photo-box img {
+            width: 100%; 
         }
 
     .text-box {
         height: auto;
     }
+    
+    .menu {
+        width: 100%;
+        z-index:2;
+        position: absolute;
+        top:400px; 
+    }
+
 }
