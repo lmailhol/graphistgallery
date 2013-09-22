@@ -99,12 +99,12 @@
             
                 <ul class="menujs">
                 {loop="categories"}
-                    {if="is_sub_dir($value)!=1"}<li><a href="index.php?dir={$value}">{function="name($value)"}</a>
+                    {if="is_sub_dir($value)!=1"}<li><a href="index.php?path=content/{$value}">{function="name($value)"}</a>
                     {else}<li><a href="#">{function="name($value)"}</a>
                         {$first_dir=$value}
                         <ul>
                         {loop="categories2"}
-                            {if="$first_dir==dir_name($value)"}<li><a href="index.php{$value}">{function="name($value)"}</a></li>{/if}
+                            {if="$first_dir==dir_name($value)"}<li><a href="index.php?path=content/{$value}">{function="name($value)"}</a></li>{/if}
                         {/loop}
                         </ul>
                     {/if}
@@ -113,20 +113,21 @@
                 </ul>
         </div>
 		<div class="thirteen columns">
-			{if="comment_exist()==1"}
-                    <blockquote class="content-quote">{function="show_comment()"}
-                    {if="logged()==1"}<a href="index.php?path={$comment_path}&amp;comment=edit" class="button">Edit</a>{/if}</blockquote>
-                {elseif="comment_exist()==2"}
-                    {if="logged()==1"}<a href="index.php?path={$comment_path}&amp;comment=add" class="button">Create</a>{/if}
-                {/if}
-            
-                <div class="twelve columns">
+			    <div class="twelve columns">
                 <!-- MEDIA -->
-                {if="isset($medias)"}  
+                {if="isset($medias)"}
+                    
+                    {if="comment_exist()==1"}
+                    <blockquote class="content-quote">{function="show_comment()"}
+                        {if="logged()==1"}<a href="index.php?path={$comment_path}&amp;comment=edit" class="button">Edit</a>{/if}</blockquote>
+                    {elseif="comment_exist()==2"}
+                        {if="logged()==1"}<a href="index.php?path={$comment_path}&amp;comment=add" class="button">Create</a>{/if}
+                    {/if}
+                    
                     {loop="medias"}
                         <div class="wrapper">
                         <!-- pictures -->
-                        {if="is_img($value)==1"}<a href="index.php?path={$value}"><img src="{$value}" class="scale-with-grid" /></a>
+                        {if="is_img($value)==1"}<a href="index.php?path={$value}&amp;single"><img src="{$value}" class="scale-with-grid" /></a>
                             <!-- comment -->
                             <div class='description'> 
                             {if="logged()==1 AND comment_img_exist($value)==0"}<a href="index.php?path={$value}&amp;single_comment=add" class="button">Create</a>

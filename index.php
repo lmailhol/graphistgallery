@@ -149,11 +149,8 @@ function comment_exist() {
     require("config.php");  
     require("default_config.php");
     
-    if(isset($_GET['dir']) OR isset($_GET['dir2'])) {
-        if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else { $folder_number=''; }
-        if(isset($_GET['dir2'])) { $dir2=$_GET['dir2']; } else { $dir2=''; }
-        
-        $rep_comment = $folder_number.$rep_content.htmlspecialchars(($_GET['dir']))."/".htmlspecialchars($dir2);
+    if(isset($_GET['path'])) {        
+        $rep_comment = htmlspecialchars($_GET['path']);
         if(file_exists($rep_comment."/comment.md")) {
             return 1;
         } else {
@@ -173,12 +170,8 @@ function show_comment() {
     require("default_config.php");
     require_once($rep_resources."lib/Markdown.php");
     
-    if(isset($_GET['dir']) OR isset($_GET['dir2'])) {
-        if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else { $folder_number=''; }
-        if(isset($_GET['dir2'])) { $dir2=$_GET['dir2']; } else { $dir2=''; }
-        
-        $rep_comment = $folder_number.$rep_content.htmlspecialchars(($_GET['dir']))."/".htmlspecialchars($dir2);
-	
+    if(isset($_GET['path'])) {        
+        $rep_comment = ($_GET['path']);
         echo Markdown(file_get_contents($rep_comment."/comment.md"));        
     }
 }
@@ -237,28 +230,28 @@ function create_comment($img_link) {
     
     //file operations
     } elseif(isset($_POST['comment']) AND !empty($_POST['comment']) AND isset($_GET['comment']) AND isset($_POST['path'])) {
-        if($comment = fopen($img_link."comment.md", "w+")) {
+        if($comment = fopen($img_link."/comment.md", "w+")) {
             fputs($comment, $_POST['comment']);
             fclose($comment);
             echo $add_comment_done;
-            echo '<a href="index.php?path='.$_POST['path'].'">'.$retour.'</a>';
+            echo '<br/><a href="index.php?path='.$_POST['path'].'">'.$retour.'</a>';
         }
     } elseif(isset($_POST['comment']) AND !empty($_POST['comment']) AND isset($_GET['single_comment']) AND isset($_POST['path'])) {    
         if($comment = fopen($img_link.".md", "w+")) {
             fputs($comment, $_POST['comment']);
             fclose($comment);
             echo $add_comment_done;
-            echo '<a href="index.php?path='.$_POST['path'].'">'.$retour.'</a>';
+            echo '<br/><a href="index.php?path='.$_POST['path'].'&amp;single">'.$retour.'</a>';
         }
     //suppression of the image-comment
     } elseif(isset($_POST['comment']) AND empty($_POST['comment']) AND isset($_GET['single_comment']) AND isset($_POST['path'])) {
         unlink($img_link.".md");
         echo $suppr_comment_done;
-        echo '<a href="index.php?path='.$_POST['path'].'">'.$retour.'</a>';
+        echo '<br/><a href="index.php?path='.$_POST['path'].'&amp;single">'.$retour.'</a>';
     } elseif(isset($_POST['comment']) AND empty($_POST['comment']) AND isset($_GET['comment']) AND isset($_POST['path'])) {
         unlink($img_link."/comment.md");
         echo $suppr_comment_done;
-        echo '<a href="index.php?path='.$_POST['path'].'">'.$retour.'</a>';
+        echo '<br/><a href="index.php?path='.$_POST['path'].'">'.$retour.'</a>';
     }
 }
 
@@ -277,38 +270,44 @@ function show_img_comment($img_link) { //Take the link and the name of the pictu
 //Exif DATA
 
 function exif_img($img_link) {
-    
+        
     require("config.php");  
     require("default_config.php");
     require($rep_lang."/".$lang.".php");
         
       if($exif_ifd0 = read_exif_data($img_link ,'IFD0' ,0) AND $exif_exif = read_exif_data($img_link ,'EXIF' ,0)) {    
            
+      $notFound = "Unavailable";
      
       if (@array_key_exists('Make', $exif_ifd0)) {
         $camMake = $exif_ifd0['Make'];
-      }
+      } else { $camMake = $notFound; }
      
+      // Model
       if (@array_key_exists('Model', $exif_ifd0)) {
         $camModel = $exif_ifd0['Model'];
-      }
+      } else { $camModel = $notFound; }
      
+      // Exposure
       if (@array_key_exists('ExposureTime', $exif_ifd0)) {
         $camExposure = $exif_ifd0['ExposureTime'];
-      }
+      } else { $camExposure = $notFound; }
 
+      // Aperture
       if (@array_key_exists('ApertureFNumber', $exif_ifd0['COMPUTED'])) {
         $camAperture = $exif_ifd0['COMPUTED']['ApertureFNumber'];
-      }
+      } else { $camAperture = $notFound; }
      
+      // Date
       if (@array_key_exists('DateTime', $exif_ifd0)) {
         $camDate = $exif_ifd0['DateTime'];
-      }
+      } else { $camDate = $notFound; }
      
+      // ISO
       if (@array_key_exists('ISOSpeedRatings',$exif_exif)) {
         $camIso = $exif_exif['ISOSpeedRatings'];
-      }
-
+      } else { $camIso = $notFound; }
+          
       $return = array();
       $return['make'] = $camMake;
       $return['model'] = $camModel;
@@ -317,6 +316,8 @@ function exif_img($img_link) {
       $return['date'] = $camDate;
       $return['iso'] = $camIso;
       return $return;
+          
+          
       } else {return 0;}
 }
 
@@ -325,19 +326,20 @@ function exif_img($img_link) {
 ##########################
 
 function name($var) {
-    if(preg_match("#^[a-z]+_#", $var)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the pages)
-            list($null,$var_name) = explode('_',$var);
-            return $var_name;
-    }
-    if(preg_match("#dir2#", $var)) {
-            list($null,$var_name) = explode('dir2=',$var);
+    if(preg_match("#/#", $var)) {
+            list($null,$var_name) = explode('/',$var);
             
-            if(preg_match("#^[a-z]+_#", $var_name)) {
+            if(preg_match("#^[a-z]*[_]#", $var_name)) {
                 list($null,$var_name) = explode('_',$var_name);
             }
         
             return $var_name;
-    }   
+    } else {
+        if(preg_match("#^[a-z]*\_#", $var)) { //if the name begin w/ [a-z]_, we remove this part of the name (it allows to sort the pages)
+            list($null,$var_name) = explode('_',$var);
+            return $var_name;
+    } else {return $var;}
+    }
 }
 
 function is_sub_dir($var) { //look if there is at least one folder in the folder $var
@@ -355,12 +357,10 @@ function is_sub_dir($var) { //look if there is at least one folder in the folder
     }
 }
 
-function dir_name($var) { //$var : "?dir=something&dir2=something"
-    if(preg_match("#dir#", $var)) {
-            $var_name=strstr($var, '&', true);
-            list($null,$var_name) = explode('dir=',$var_name);    
-            return $var_name; //&var_name : "something"
-    }
+function dir_name($var) { //$var : "something/something"
+    list($var_name,$null) = explode('/',$var);  
+    return $var_name; //$var_name : "something"
+    
 }
 
 #####################
@@ -397,7 +397,7 @@ if($dir=scandir($folder_number.$rep_content)) { //If you have more than one "con
                 foreach($sub_dir as $sub_dir_link) {
                     if(is_dir($sub_rep.$sub_dir_link)) {
                         $sub_dir_isset=1;                        
-                        array_push($LastDir,"?dir=".$dir_link."&amp;dir2=".$sub_dir_link);
+                        array_push($LastDir,$dir_link."/".$sub_dir_link);
                     }
                 }
             }
@@ -412,14 +412,11 @@ if(isset($sub_dir_isset) AND $sub_dir_isset==1) {$tpl->assign("categories2",$Las
 # Showing the main code #
 #########################
 
-if(isset($_GET['dir']) OR isset($_GET['dir2']) OR isset($_GET['path']) OR isset($_GET['path'])) { //Display pictures ?...
-    if(isset($_GET['dir'])) { $dir=htmlspecialchars(($_GET['dir']));}
-	if(isset($_GET['dir2'])) { $dir2=htmlspecialchars($_GET['dir2'])."/"; } else { $dir2=''; }
-    if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else {$folder_number="";}
-    if(isset($_GET['dir']) OR isset($_GET['dir2']) AND isset($_GET['comment'])) {$tpl->assign("comment_path",$folder_number.$rep_content.$dir."/".$dir2);}
+if(isset($_GET['path']) OR isset($_GET['path']) OR isset($_GET['single'])) { //Display pictures ?...
+    if(isset($_GET['path'])) {$tpl->assign("comment_path", htmlspecialchars($_GET['path']));}
     
-    if(isset($_GET['path']) AND !isset($_GET['single_comment']) AND !isset($_GET['comment'])) {
-        $img_path=htmlspecialchars(($_GET['path']));
+    if(isset($_GET['path']) AND isset($_GET['single']) AND !isset($_GET['single_comment']) AND !isset($_GET['comment'])) {
+        $img_path=htmlspecialchars($_GET['path']);
         $tpl->assign("one_pic",$img_path); //array of image
         if($show_exif_data==1) {
             $exif = exif_img($img_path);
@@ -427,8 +424,8 @@ if(isset($_GET['dir']) OR isset($_GET['dir2']) OR isset($_GET['path']) OR isset(
         }
     } elseif(isset($_GET['path']) AND isset($_GET['single_comment']) OR isset($_GET['comment'])) {
         $tpl->assign("add_comment",$_GET['path']); //array of exifs data
-    } else {
-        $path=$folder_number.$rep_content.$dir."/".$dir2;
+    } elseif(isset($_GET['path'])) {
+        $path=htmlspecialchars($_GET['path'])."/";
         $medias = display_media($path);
         $tpl->assign("medias",$medias); //array of image
     } 

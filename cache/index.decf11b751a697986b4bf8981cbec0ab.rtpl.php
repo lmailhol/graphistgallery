@@ -1,15 +1,19 @@
 <?php if(!class_exists('raintpl')){exit;}?><!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Blog &ndash; Layout Examples &ndash; Pure</title>
+    <title><?php echo $title;?></title>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
 <link rel="stylesheet" href="resources/template/default1/default.css">
-
+    
+<script src="http://use.typekit.net/ajf8ggy.js"></script>
+<script>
+    try { Typekit.load(); } catch (e) {}
+</script>
 <script type="text/javascript">
     $(window).load(function(){  
     //for each description div...  
@@ -67,8 +71,6 @@ $(document).ready( function () {
 } ) ;
 </script>    
 
-
-
 </head>
 <body>
 
@@ -81,27 +83,21 @@ $(document).ready( function () {
     <div class="sidebar pure-u">
         <header class="header">
             <hgroup>
-                <h1 class="brand-title">A Sample Blog</h1>
-                <h2 class="brand-tagline">Creating a blog layout using Pure</h2>
-            </hgroup>
-
-            <nav class="nav">
-                <p class="header">Menu</p>
                 <ul class="navigation">
-                <?php $counter1=-1; if( isset($categories) && is_array($categories) && sizeof($categories) ) foreach( $categories as $key1 => $value1 ){ $counter1++; ?>
-                    <?php if( is_sub_dir($value1)!=1 ){ ?><li><a href="index.php?dir=<?php echo $value1;?>"><?php echo name($value1); ?></a>
-                    <?php }else{ ?><li class="toggleSubMenu"><span><?php echo name($value1); ?></span>
-                        <?php $first_dir=$this->var['first_dir']=$value1;?>
-                        <ul class="subMenu">
-                        <?php $counter2=-1; if( isset($categories2) && is_array($categories2) && sizeof($categories2) ) foreach( $categories2 as $key2 => $value2 ){ $counter2++; ?>
-                            <?php if( $first_dir==dir_name($value2) ){ ?><li><a href="index.php<?php echo $value2;?>"><?php echo name($value2); ?></a></li><?php } ?>
+                    <?php $counter1=-1; if( isset($categories) && is_array($categories) && sizeof($categories) ) foreach( $categories as $key1 => $value1 ){ $counter1++; ?>
+                        <?php if( is_sub_dir($value1)!=1 ){ ?><li><a href="index.php?dir=<?php echo $value1;?>"><?php echo name($value1); ?></a>
+                        <?php }else{ ?><li class="toggleSubMenu"><span><?php echo name($value1); ?></span>
+                            <?php $first_dir=$this->var['first_dir']=$value1;?>
+                            <ul class="subMenu">
+                            <?php $counter2=-1; if( isset($categories2) && is_array($categories2) && sizeof($categories2) ) foreach( $categories2 as $key2 => $value2 ){ $counter2++; ?>
+                                <?php if( $first_dir==dir_name($value2) ){ ?><li><a href="index.php<?php echo $value2;?>"><?php echo name($value2); ?></a></li><?php } ?>
+                            <?php } ?>
+                            </ul>
                         <?php } ?>
-                        </ul>
+                        </li>
                     <?php } ?>
-                    </li>
-                <?php } ?>
-                </ul>
-            </nav>
+                    </ul>
+            </hgroup>
         </header>
     </div>
 
