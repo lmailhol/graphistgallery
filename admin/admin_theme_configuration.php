@@ -46,7 +46,7 @@ include("include/header.php"); ?>
 echo $admin_config_theme;
 
 echo "<p>".$info_theme.$style.".<br/>";
-echo "".$info_config_theme."|&nbsp;<a href=\"admin_pages.php?fichier=../".$rep_resources."template/".$style."/".$style.".php&amp;action=modif\">".$style.".php</a>&nbsp;|&nbsp;";
+echo "".$info_config_theme."|&nbsp;<a href=\"admin_pages.php?fichier=../".$rep_resources."template/".$style."/index.html&amp;action=modif\">index.html</a>&nbsp;|&nbsp;";
 if(file_exists("../".$rep_resources."template/".$style."/config_".$style.".php")) {
     echo "<a href=\"admin_pages.php?fichier=../".$rep_resources."template/".$style."/config_".$style.".php&amp;action=modif\">Config_".$style.".php</a>&nbsp;|";
 }

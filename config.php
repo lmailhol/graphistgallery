@@ -12,13 +12,7 @@ $site ="http://lucamailhol.org"; //Website's URL
 $user ="admin"; //Your admin username
 $psw ="admin"; //Your admin password
 
-$show_exif_data =0; #1 - Show the exif data, 0 - Don't show
-$show_exif_make =1; #1 - Show the make, 0 - Don't
-$show_exif_model =1; #1 - Show the model, 0 - Don't
-$show_exif_aperture =1; #1 - Show the aperture, 0 - Don't
-$show_exif_exposure =1; #1 - Show the exposure, 0 - Don't
-$show_exif_iso =1; #1 - Show the iso, 0 - Don't
-$show_exif_date =1; #1 - Show the date, 0 - Don't
+$show_exif_data =1; #1 - Show the exif data, 0 - Don't show
 
 $rep_content ="content/"; //The path to the content directory (from the site root)
 $rep_pages ="pages/"; //The path to the static pages directory (from the site root)

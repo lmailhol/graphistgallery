@@ -45,6 +45,7 @@ $tpl->assign( 'serv_url', $_SERVER['REQUEST_URI'] );
 $tpl->assign( 'title', $title );
 $tpl->assign( 'footer_text', $footer_text );
 $tpl->assign( 'site_url', $site );
+$tpl->assign( 'path_style', $rep_resources."template/".$style );
 
 #####################################
 ########## Include/Require ##########
@@ -112,7 +113,6 @@ function display_video($link) {
         $video_link = file_get_contents($link);
         echo $video_link;
     } else {
-        echo "<video controls=\"controls\">";
         if(file_exists(no_extension($link).".mp4")) { echo "<source src=\"".no_extension($link).".mp4\" type=\"video/mp4\" />"; }
         if(file_exists(no_extension($link).".webm")) { echo "<source src=\"".no_extension($link).".webm\" type=\"video/webm\" />"; }
         if(file_exists(no_extension($link).".ogv")) { echo "<source src=\"".no_extension($link).".ogv\" type=\"video/ogg\" />"; }
@@ -208,6 +208,7 @@ function create_comment($img_link) {
         
         echo '<form action="index.php?path='.$img_link.'&amp;single_comment=done" method="post">
         <textarea name="comment" id="comment" cols="40"></textarea><br/>
+        <input type="hidden" name="path" value="'.$img_link.'" />
         <input type="submit" value="'.$add.'" />';
     
     //modification of the image-comment
@@ -215,6 +216,7 @@ function create_comment($img_link) {
     
         echo '<form action="index.php?path='.$img_link.'&amp;single_comment=done" method="post">
         <textarea name="comment" id="comment" cols="40">'.file_get_contents($img_link.".md").'</textarea><br/>
+        <input type="hidden" name="path" value="'.$img_link.'" />
         <input type="submit" value="'.$modif.'" />';
     
     //creation of the list-comment
@@ -222,6 +224,7 @@ function create_comment($img_link) {
         
         echo '<form action="index.php?path='.$img_link.'&amp;comment=done" method="post">
         <textarea name="comment" id="comment" cols="40"></textarea><br/>
+        <input type="hidden" name="path" value="'.$img_link.'" />
         <input type="submit" value="'.$add.'" />';
     
     //modification of the list-comment
@@ -229,28 +232,33 @@ function create_comment($img_link) {
         
         echo '<form action="index.php?path='.$img_link.'&amp;comment=done" method="post">
         <textarea name="comment" id="comment" cols="40">'.file_get_contents($img_link."/comment.md").'</textarea><br/>
+        <input type="hidden" name="path" value="'.$img_link.'" />
         <input type="submit" value="'.$add.'" />';
     
     //file operations
-    } elseif(isset($_POST['comment']) AND !empty($_POST['comment']) AND isset($_GET['comment'])) {
+    } elseif(isset($_POST['comment']) AND !empty($_POST['comment']) AND isset($_GET['comment']) AND isset($_POST['path'])) {
         if($comment = fopen($img_link."comment.md", "w+")) {
             fputs($comment, $_POST['comment']);
             fclose($comment);
             echo $add_comment_done;
+            echo '<a href="index.php?path='.$_POST['path'].'">'.$retour.'</a>';
         }
-    } elseif(isset($_POST['comment']) AND !empty($_POST['comment']) AND isset($_GET['single_comment'])) {    
+    } elseif(isset($_POST['comment']) AND !empty($_POST['comment']) AND isset($_GET['single_comment']) AND isset($_POST['path'])) {    
         if($comment = fopen($img_link.".md", "w+")) {
             fputs($comment, $_POST['comment']);
             fclose($comment);
             echo $add_comment_done;
+            echo '<a href="index.php?path='.$_POST['path'].'">'.$retour.'</a>';
         }
     //suppression of the image-comment
-    } elseif(isset($_POST['comment']) AND empty($_POST['comment']) AND isset($_GET['single_comment'])) {
+    } elseif(isset($_POST['comment']) AND empty($_POST['comment']) AND isset($_GET['single_comment']) AND isset($_POST['path'])) {
         unlink($img_link.".md");
         echo $suppr_comment_done;
-    } elseif(isset($_POST['comment']) AND empty($_POST['comment']) AND isset($_GET['comment'])) {
+        echo '<a href="index.php?path='.$_POST['path'].'">'.$retour.'</a>';
+    } elseif(isset($_POST['comment']) AND empty($_POST['comment']) AND isset($_GET['comment']) AND isset($_POST['path'])) {
         unlink($img_link."/comment.md");
         echo $suppr_comment_done;
+        echo '<a href="index.php?path='.$_POST['path'].'">'.$retour.'</a>';
     }
 }
 
@@ -273,47 +281,43 @@ function exif_img($img_link) {
     require("config.php");  
     require("default_config.php");
     require($rep_lang."/".$lang.".php");
-    
-    if($show_exif_data==1) {
-    
-    if(in_array(strtolower(end(explode('.', $img_link))), array('jpg', 'jpeg', 'tif', 'tiff'))) { //If the image is a jpg or a tiff file
-        if($exif = exif_read_data($img_link, EXIF, true)) { //Check if there are exif data
-            foreach ($exif as $key => $section) {       
-                foreach ($section as $name => $value) {
-                    $exif_tab[$name] .= $value;
-                }
-            }
-        }
-    }
+        
+      if($exif_ifd0 = read_exif_data($img_link ,'IFD0' ,0) AND $exif_exif = read_exif_data($img_link ,'EXIF' ,0)) {    
+           
+     
+      if (@array_key_exists('Make', $exif_ifd0)) {
+        $camMake = $exif_ifd0['Make'];
+      }
+     
+      if (@array_key_exists('Model', $exif_ifd0)) {
+        $camModel = $exif_ifd0['Model'];
+      }
+     
+      if (@array_key_exists('ExposureTime', $exif_ifd0)) {
+        $camExposure = $exif_ifd0['ExposureTime'];
+      }
 
-    $exif_data_tab=array("");
+      if (@array_key_exists('ApertureFNumber', $exif_ifd0['COMPUTED'])) {
+        $camAperture = $exif_ifd0['COMPUTED']['ApertureFNumber'];
+      }
+     
+      if (@array_key_exists('DateTime', $exif_ifd0)) {
+        $camDate = $exif_ifd0['DateTime'];
+      }
+     
+      if (@array_key_exists('ISOSpeedRatings',$exif_exif)) {
+        $camIso = $exif_exif['ISOSpeedRatings'];
+      }
 
-    if($show_exif_make==1 AND $exif_tab['Make']) {// Marque de l'appareil
-        $make = $exif_tab['Make'];
-        array_push($exif_data_tab, $exif_make.$make);
-    }
-    if($show_exif_model==1 AND $exif_tab['Model']) {// Modèle de l'appareil
-        $model = $exif_tab['Model'];
-        array_push($exif_data_tab, $exif_model.$model);
-    }
-    if($show_exif_aperture==1 AND $exif_tab['ApertureFNumber']) {// Vitesse d'obturation
-        $aperture = $exif_tab['ApertureFNumber'];
-        array_push($exif_data_tab, $exif_aperture.$aperture);
-    }
-    if($show_exif_exposure==1 AND $exif_tab['ExposureTime']) {// Vitesse d'obturation
-        $exposure = $exif_tab['ExposureTime'];
-        array_push($exif_data_tab, $exif_exposure.$exposure);
-    }
-    if($show_exif_iso==1 AND $exif_tab['ISOSpeedRatings']) {// Valeur iso 
-        $iso = $exif_tab['ISOSpeedRatings'];
-        array_push($exif_data_tab, $exif_iso.$iso);
-    }
-    if($show_exif_date==1 AND $exif_tab['DateTimeOriginal']) {
-        $date = $exif_tab['DateTimeOriginal'];
-        array_push($exif_data_tab, $date);
-    }
-    return $exif_data_tab;
-    }
+      $return = array();
+      $return['make'] = $camMake;
+      $return['model'] = $camModel;
+      $return['exposure'] = $camExposure;
+      $return['aperture'] = $camAperture;
+      $return['date'] = $camDate;
+      $return['iso'] = $camIso;
+      return $return;
+      } else {return 0;}
 }
 
 ##########################
@@ -408,7 +412,7 @@ if(isset($sub_dir_isset) AND $sub_dir_isset==1) {$tpl->assign("categories2",$Las
 # Showing the main code #
 #########################
 
-if(isset($_GET['dir']) OR isset($_GET['dir2']) OR isset($_GET['path'])) { //Display pictures ?...
+if(isset($_GET['dir']) OR isset($_GET['dir2']) OR isset($_GET['path']) OR isset($_GET['path'])) { //Display pictures ?...
     if(isset($_GET['dir'])) { $dir=htmlspecialchars(($_GET['dir']));}
 	if(isset($_GET['dir2'])) { $dir2=htmlspecialchars($_GET['dir2'])."/"; } else { $dir2=''; }
     if(isset($_GET['content'])){$folder_number=htmlspecialchars(($_GET['content']));} else {$folder_number="";}
@@ -416,11 +420,11 @@ if(isset($_GET['dir']) OR isset($_GET['dir2']) OR isset($_GET['path'])) { //Disp
     
     if(isset($_GET['path']) AND !isset($_GET['single_comment']) AND !isset($_GET['comment'])) {
         $img_path=htmlspecialchars(($_GET['path']));
+        $tpl->assign("one_pic",$img_path); //array of image
         if($show_exif_data==1) {
             $exif = exif_img($img_path);
             $tpl->assign("exif",$exif); //array of exifs data
         }
-        $tpl->assign("one_pic",$img_path); //array of image
     } elseif(isset($_GET['path']) AND isset($_GET['single_comment']) OR isset($_GET['comment'])) {
         $tpl->assign("add_comment",$_GET['path']); //array of exifs data
     } else {

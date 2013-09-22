@@ -1,21 +1,40 @@
-<!doctype html>
-<html lang="fr">
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="fr"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="fr"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="fr"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="fr"> <!--<![endif]-->
 <head>
-    <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{$title}</title>
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="utf-8">
+	<title>{$title}</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">
-<link rel="stylesheet" href="resources/template/default/default.css">
-<script type="text/javascript" src="resources/template/default/js/menu.js">
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- CSS
+  ================================================== -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+	<link rel="stylesheet" href="{$path_style}/stylesheets/base.css">
+	<link rel="stylesheet" href="{$path_style}/stylesheets/skeleton.css">
+	<link rel="stylesheet" href="{$path_style}/stylesheets/layout.css">
+
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="{$path_style}/images/favicon.ico">
+	<link rel="apple-touch-icon" href="{$path_style}/images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="{$path_style}/images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="{$path_style}/images/apple-touch-icon-114x114.png">
     
-<script src="http://use.typekit.net/ajf8ggy.js"></script>
-<script>
-    try { Typekit.load(); } catch (e) {}
-</script>
-<script type="text/javascript">
+    <script type="text/javascript">
     $(window).load(function(){  
     //for each description div...  
     $('div.description').each(function(){  
@@ -40,120 +59,90 @@
         $(this).children('.description').stop().fadeTo(500, 0);  
     });  
   
-});     
-</script>
+    });     
+    </script>
     
-<script type="text/javascript">
-$(document).ready( function () {
-    // On cache les sous-menus :
-    $(".navigation ul.subMenu").hide();
-    // On sélectionne tous les items de liste portant la classe "toggleSubMenu"
-    // et on remplace l'élément span qu'ils contiennent par un lien :
-    $(".navigation li.toggleSubMenu span").each( function () {
-        // On stocke le contenu du span :
-        var TexteSpan = $(this).text();
-        $(this).replaceWith('<a href="" title="Afficher le sous-menu">' + TexteSpan + '<\/a>') ;
-    } ) ;
-    // On modifie l'évènement "click" sur les liens dans les items de liste
-    // qui portent la classe "toggleSubMenu" :
-    $(".navigation li.toggleSubMenu > a").click( function () {
-        // Si le sous-menu était déjà ouvert, on le referme :
-        if ($(this).next("ul.subMenu:visible").length != 0) {
-            $(this).next("ul.subMenu").slideUp("normal");
-        }
-        // Si le sous-menu est caché, on ferme les autres et on l'affiche :
-        else {
-            $(".navigation ul.subMenu").slideUp("normal");
-            $(this).next("ul.subMenu").slideDown("normal");
-        }
-        // On empêche le navigateur de suivre le lien :
-        return false;
-    });    
-} ) ;
-</script>    
-
+    <!-- http://www.designchemical.com/blog/index.php/jquery/jquery-simple-vertical-accordion-menu/ -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.menujs > li > a').click(function(){
+            if ($(this).attr('class') != 'active'){
+                $('.menujs li ul').slideUp();
+                $(this).next().slideToggle();
+                $('.menujs li a').removeClass('active');
+                $(this).addClass('active');
+            }
+            });
+        });
+</script>
 </head>
 <body>
 
-<div>
-    <div class="header">
-        <div class="pure-menu pure-menu-open pure-menu-horizontal">
-            <a class="pure-menu-heading" href="{$site_url}">Photo Gallery</a>
-            <ul>
+
+
+	<!-- Primary Page Layout
+	================================================== -->
+
+	<!-- Delete everything in this .container and get started on your own site! -->
+
+	<div class="container">
+		<div class="sixteen columns">
+			<h1 class="remove-bottom" style="margin-top: 40px">{$title}</h1>
+			<hr />
+		</div>
+		<div class="three columns">
+            <ul class="menujs">
                 {loop="pages"}
-                    <li><a href="index.php?page={$value}">{function="name($value)"}</a></li>
+                    <li class="toggleSubMenu"><a href="index.php?page={$value}">{function="name($value)"}</a></li>
                 {/loop}
             </ul>
+            
+                <ul class="menujs">
+                {loop="categories"}
+                    {if="is_sub_dir($value)!=1"}<li><a href="index.php?dir={$value}">{function="name($value)"}</a>
+                    {else}<li><a href="#">{function="name($value)"}</a>
+                        {$first_dir=$value}
+                        <ul>
+                        {loop="categories2"}
+                            {if="$first_dir==dir_name($value)"}<li><a href="index.php{$value}">{function="name($value)"}</a></li>{/if}
+                        {/loop}
+                        </ul>
+                    {/if}
+                    </li>
+                {/loop}
+                </ul>
         </div>
-    </div>
-
-    <div class="pure-g-r">
-        <div class="pure-u-1-3 photo-box">
-            <div class="#">
-            <img src="http://lucamailhol.fr/content/Photographies/Observation/IMG_4660.jpg" alt="Coucou"/>
-            </div>
-        </div>
-
-        <div class="pure-u-2-3 text-box">
-            <div class="l-box">
-                <h1 class="text-box-head">{$title}</h1>
-                <p class="text-box-subhead">Propulsé par Graphist Gallery</p>
-            </div>
-        </div>
-
-        <div class="pure-u-1-3">
-            <div class="l-box">
-                <div class="menu">
-                    <p class="header-menu">Menu</p>
-                    <ul class="navigation">
-                    {loop="categories"}
-                        {if="is_sub_dir($value)!=1"}<li><a href="index.php?dir={$value}">{function="name($value)"}</a>
-                        {else}<li class="toggleSubMenu"><span>{function="name($value)"}</span>
-                            {$first_dir=$value}
-                            <ul class="subMenu">
-                            {loop="categories2"}
-                                {if="$first_dir==dir_name($value)"}<li><a href="index.php{$value}">{function="name($value)"}</a></li>{/if}
-                            {/loop}
-                            </ul>
-                        {/if}
-                        </li>
-                    {/loop}
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="pure-u-2-3">
-            <div class="l-box">
-                <div class="l-centered">
-                {if="comment_exist()==1"}
+		<div class="thirteen columns">
+			{if="comment_exist()==1"}
                     <blockquote class="content-quote">{function="show_comment()"}
-                    {if="logged()==1"}<a href="index.php?path={$comment_path}&amp;comment=edit" class="pure-button">Edit</a>{/if}</blockquote>
+                    {if="logged()==1"}<a href="index.php?path={$comment_path}&amp;comment=edit" class="button">Edit</a>{/if}</blockquote>
                 {elseif="comment_exist()==2"}
-                    {if="logged()==1"}<a href="index.php?path={$comment_path}&amp;comment=add" class="pure-button">Create</a>{/if}
+                    {if="logged()==1"}<a href="index.php?path={$comment_path}&amp;comment=add" class="button">Create</a>{/if}
                 {/if}
+            
+                <div class="twelve columns">
                 <!-- MEDIA -->
                 {if="isset($medias)"}  
-        
                     {loop="medias"}
                         <div class="wrapper">
                         <!-- pictures -->
-                        {if="is_img($value)==1"}<a href="index.php?path={$value}"><img src="{$value}" /></a>
+                        {if="is_img($value)==1"}<a href="index.php?path={$value}"><img src="{$value}" class="scale-with-grid" /></a>
                             <!-- comment -->
                             <div class='description'> 
-                            {if="logged()==1 AND comment_img_exist($value)==0"}<a href="index.php?path={$value}&amp;single_comment=add" class="pure-button ">Create</a>
+                            {if="logged()==1 AND comment_img_exist($value)==0"}<a href="index.php?path={$value}&amp;single_comment=add" class="button">Create</a>
                             {elseif="comment_img_exist($value)==1"}
                                 <div class='description_content'>{function="show_img_comment($value)"}
-                                {if="logged()==1"}<a href="index.php?path={$value}&amp;single_comment=edit" class="pure-button pure-button-primary">Edit</a>{/if}
+                                {if="logged()==1"}<a href="index.php?path={$value}&amp;single_comment=edit" class="button">Edit</a>{/if}
                                 </div>
                             {/if}
                             </div>
                         <!-- video -->
-                        {elseif="is_vid($value)==1"}<p>{function="display_video($value)"}</p>
+                        {elseif="is_vid($value)==1"}<p><video class="scale-with-grid-resize" controls="controls">{function="display_video($value)"}</video></p>
                             <!-- comment -->            
-                            {if="logged()==1 AND comment_img_exist($value)==0"}<a href="index.php?path={$value}&amp;single_comment=add" class="pure-button pure-button-primary">Create</a>
+                            {if="logged()==1 AND comment_img_exist($value)==0"}<a href="index.php?path={$value}&amp;single_comment=add" class="button">Create</a>
                             {elseif="comment_img_exist($value)==1"}
                                 {function="show_img_comment($value)"}
-                                {if="logged()==1"}<a href="index.php?path={$value}&amp;single_comment=edit" class="pure-button">Edit</a>{/if}
+                                {if="logged()==1"}<a href="index.php?path={$value}&amp;single_comment=edit" class="button">Edit</a>{/if}
                             {/if}
                         {/if}
                         </div>
@@ -164,45 +153,36 @@ $(document).ready( function () {
                 <!-- SINGLE IMAGE -->
                 {elseif="isset($one_pic)"}
                     <!-- picture -->
-                    <img src="{$one_pic}" />
-                    {if="logged()==1 AND comment_img_exist($one_pic)==0"}<a href="index.php?path={$one_pic}&amp;single_comment=add" class="pure-button">Create</a>
+                    <img src="{$one_pic}" class="scale-with-grid" />
+                    {if="logged()==1 AND comment_img_exist($one_pic)==0"}<a href="index.php?path={$one_pic}&amp;single_comment=add" class="button">Create</a>
                     <!-- comment -->
                     {elseif="comment_img_exist($one_pic)==1"}
                         {function="show_img_comment($one_pic)"}
-                        {if="logged()==1"}<a href="index.php?path={$one_pic}&amp;single_comment=edit" class="pure-button">Edit</a>{/if}
+                        {if="logged()==1"}<a href="index.php?path={$one_pic}&amp;single_comment=edit" class="button">Edit</a>{/if}
                     {/if}
                     <!-- exif data -->
-                    {loop="exif"}
+                    {if="$exif!=0"}
                         <ul>
-                        <li>{$value}</li>
+                        <li>{$exif.date}</li>
+                        <li>Modèle : {$exif.model}</li>
+                        <li>{$exif.aperture} - {$exif.exposure} - ISO {$exif.iso}</li>
                         </ul>
-                    {/loop}
+                    {/if}
                 <!-- PAGE -->
                 {elseif="isset($page)"}
                     {function="display_page($page)"}
                 {/if}
-                </div>
             </div>
+		</div>
+		<div class="sixteen columns">
+            <hr />
+            {$footer_text}
         </div>
-    </div>
 
-    <div class="footer">
-        {$footer_text}
-    </div>
-</div>
-
-<script src="http://yui.yahooapis.com/3.10.1/build/yui/yui-min.js"></script>
-<script>
-YUI().use('node-base', 'node-event-delegate', function (Y) {
-    // This just makes sure that the href="#" attached to the <a> elements
-    // don't scroll you back up the page.
-    Y.one('body').delegate('click', function (e) {
-        e.preventDefault();
-    }, 'a[href="#"]');
-});
-</script>
+	</div><!-- container -->
 
 
-
+<!-- End Document
+================================================== -->
 </body>
 </html>

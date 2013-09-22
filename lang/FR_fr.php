@@ -24,16 +24,6 @@
 
 $erreur             ="Une erreur s'est produite. Veuillez recommencer. Si le problème persiste, contactez l'administrateur";
 
-##########
-## Exif ##
-##########
-
-$exif_make="Marque : ";
-$exif_model="Modèle : ";
-$exif_aperture="Ouverture : ";
-$exif_exposure="Exposition : ";
-$exif_iso="ISO : ";
-
 #############
 ### Admin ###
 #############
@@ -99,7 +89,7 @@ $page_text="Choisissez dans le tableau la page que vous souhaitez éditer ou ajo
 $form_name         ="Nom du fichier :";
 $form_name_modif   ="Nom du fichier (vous pouvez le modifier) :";
 $form_info_content ="Rentrez ici le contenu de votre page en Markdown !";
-$form_info_name    ="Rentrez ici le nom du fichier en veillant &agrave; remplacer les espaces par des underscores \"_\"";
+$form_info_name    ="Rentrez ici le nom de la nouvelle page...";
 $ajout_page        ="Ajouter une page";
 
 
