@@ -80,7 +80,7 @@ function display_media($dir_media) { // The first dir and the second (if it exis
     require("config.php");
     require($rep_lang.$lang.".php");
     	
-    $suppr=array(".","..","comment.md");
+    $suppr=array(".","..","comment.md","config.php");
     
     if($media_folder=scandir($dir_media)) {
         $media_folder = array_diff($media_folder, $suppr);
@@ -428,6 +428,7 @@ if(isset($_GET['path']) OR isset($_GET['path']) OR isset($_GET['single'])) { //D
         $path=htmlspecialchars($_GET['path'])."/";
         $medias = display_media($path);
         $tpl->assign("medias",$medias); //array of image
+        if(file_exists($path."/config.php")) {include($path."/config.php");}
     } 
 } elseif(isset($_GET['page'])) { //... a static page ?...
         $page=htmlspecialchars(($_GET['page']));
