@@ -16,8 +16,8 @@ document.write("<link href=\"editor/styles.css\" rel=\"stylesheet\" type=\"text/
 
 function edToolbar(obj) {
    
-	document.write("<img class=\"button\" src=\"../img/bold.png\" name=\"btnBold\" title=\"Bold\" onClick=\"doAddTags('*','*','" + obj + "')\">");
-    document.write("<img class=\"button\" src=\"../img/italic.png\" name=\"btnItalic\" title=\"Italic\" onClick=\"doAddTags('_','_','" + obj + "')\">");
+	document.write("<img class=\"button\" src=\"../img/bold.png\" name=\"btnBold\" title=\"Bold\" onClick=\"doAddTags('**','**','" + obj + "')\">");
+    document.write("<img class=\"button\" src=\"../img/italic.png\" name=\"btnItalic\" title=\"Italic\" onClick=\"doAddTags('*','*','" + obj + "')\">");
 	document.write("<img class=\"button\" src=\"../img/link.png\" name=\"btnLink\" title=\"Insert Link\" onClick=\"doURL('" + obj + "')\">");
 	document.write("<img class=\"button\" src=\"../img/image.png\" name=\"btnPicture\" title=\"Insert Picture\" onClick=\"doImage('" + obj + "')\">");
 	document.write("<img class=\"button\" src=\"../img/unordered.png\" name=\"btnList\" title=\"Unordered List\" onClick=\"doList('" + obj + "')\">");
@@ -68,7 +68,7 @@ if (url != '' && url != null) {
 	if (document.selection) {
 				textarea.focus();
 				var sel = document.selection.createRange();
-				sel.text = '[' + alt + '](' + url + ')';
+				sel.text = '![' + alt + '](' + url + ')';
 			}
    else 
     {
@@ -78,7 +78,7 @@ if (url != '' && url != null) {
 		
         var sel = textarea.value.substring(start, end);
 	    //alert(sel);
-		var rep = '[' + alt + '](' + url + ')';
+		var rep = '![' + alt + '](' + url + ')';
         textarea.value =  textarea.value.substring(0,start) + rep + textarea.value.substring(end,len);
 		textarea.scrollTop = scrollTop;
 		textarea.scrollLeft = scrollLeft;
@@ -147,7 +147,7 @@ textarea = document.getElementById(obj);
 		
 				for(i=0;i<list.length;i++) 
 				{
-				list[i] = '*' + list[i];
+				list[i] = '-' + list[i];
 				}
 				//alert(list.join("\n"));
 				sel.text = list.join("\n");
@@ -172,7 +172,7 @@ textarea = document.getElementById(obj);
 		
 		for(i=0;i<list.length;i++) 
 		{
-		list[i] = '*' + list[i];
+		list[i] = '-' + list[i];
 		}
 		//alert(list.join("<br>"));
         
