@@ -113,6 +113,7 @@ function display_video($link) {
         $video_link = file_get_contents($link);
         echo $video_link;
     } else {
+        echo '<video class="scale-with-grid-resize" controls="controls">';
         if(file_exists(no_extension($link).".mp4")) { echo "<source src=\"".no_extension($link).".mp4\" type=\"video/mp4\" />"; }
         if(file_exists(no_extension($link).".webm")) { echo "<source src=\"".no_extension($link).".webm\" type=\"video/webm\" />"; }
         if(file_exists(no_extension($link).".ogv")) { echo "<source src=\"".no_extension($link).".ogv\" type=\"video/ogg\" />"; }

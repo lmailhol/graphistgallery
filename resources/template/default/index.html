@@ -133,7 +133,7 @@
                             {/if}
                             </div>
                         <!-- video -->
-                        {elseif="is_vid($value)==1"}<p><video class="scale-with-grid-resize" controls="controls">{function="display_video($value)"}</video></p>
+                        {elseif="is_vid($value)==1"}<p>{function="display_video($value)"}</p>
                             <!-- comment -->            
                             {if="logged()==1 AND comment_img_exist($value)==0"}<a href="index.php?path={$value}&amp;single_comment=add" class="button">Create</a>
                             {elseif="comment_img_exist($value)==1"}
