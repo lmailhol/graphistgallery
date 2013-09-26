@@ -342,15 +342,17 @@ function name($var) {
     }
 }
 
-function is_sub_dir($var) { //look if there is at least one folder in the folder $var
+function is_sub_dir($var,$num) { //look if there is at least one folder in the folder $var
     require("config.php");  
     require("default_config.php");
     $suppr=array(".","..");
     
-    if($dir=scandir($rep_content.$var)){ //basically content/categorie/->
+    if($num==1) {$num="";} else {$num=$num."_";}
+    
+    if($dir=scandir($num.$rep_content.$var)){ //basically content/categorie/->
         $dir = array_diff($dir, $suppr);
         foreach($dir as $content) {
-            if(is_dir($rep_content.$var."/".$content)) {
+            if(is_dir($num.$rep_content.$var."/".$content)) {
                 return 1;
             } else {return 0;}
         }
@@ -361,6 +363,20 @@ function dir_name($var) { //$var : "something/something"
     list($var_name,$null) = explode('/',$var);  
     return $var_name; //$var_name : "something"
     
+}
+
+function count_content() { //count the number of contents folders
+    $content = array();
+    if ($current_dir = opendir(getcwd())) {
+        while (($file = readdir($current_dir)) !== false) {
+            if(preg_match("#content#",$file)) {
+                array_push($content, $file);
+            }
+        }       
+        closedir($current_dir);
+        $count = count($content);
+        return $count;
+    }
 }
 
 #####################
@@ -380,9 +396,16 @@ if($dir_pages=scandir($rep_pages)) {
 # Showing the categories #
 ##########################
 
-$LastDir=array();
+$content = count_content();
 
-if(isset($folder_number) AND $folder_number==1 OR !isset($folder_number)){$folder_number="";}
+$i=1;
+
+while($i<=$content) {
+
+$LastDir=array();
+    
+if($i==1){$folder_number="";} else {$folder_number=$i."_";}
+    
 if($dir=scandir($folder_number.$rep_content)) { //If you have more than one "content/" folder, it will open <folder number (1,2,3...)>content/
         
     $dir = array_diff($dir, $suppr);
@@ -404,9 +427,13 @@ if($dir=scandir($folder_number.$rep_content)) { //If you have more than one "con
         }
     }
 }
+   
+$tpl->assign("categories_".$i,$dir); //first array of categories   
+if(isset($sub_dir_isset) AND $sub_dir_isset==1) {$tpl->assign("categories2_".$i,$LastDir);}
+    
+$i++;
 
-$tpl->assign("categories",$dir); //first array of categories   
-if(isset($sub_dir_isset) AND $sub_dir_isset==1) {$tpl->assign("categories2",$LastDir);}
+}
 
 #########################
 # Showing the main code #
