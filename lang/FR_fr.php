@@ -51,6 +51,8 @@ $submit            ="Valider";
 $publication       ="Publier";
 $admin_menu        ="Menu d'administration";
 $auth_text         ="Bienvenue sur l'interface d'administration de Graphist Gallery. Vous pouvez dès à présent vous connecter avec vos identifiants pour gérer votre site.";
+$yes ="Oui";
+$no="Non";
 
 ### Messages
 
@@ -97,9 +99,9 @@ $ajout_page        ="Ajouter une page";
 
 $admin_welcome     ="Bienvenue sur l'interface d'administration de Graphist Gallery !";
 $admin_features    ="Fonctionnalités de Graphist Gallery";
-$admin_features2   ="<li>Afficher des photos et des vidéos classées dans une arborescence de dossier</li><li>Commenter tout un dossier ou un média individuel</li><li>Gérer des pages statiques</li><li>S'adapter très facilement à tout type de thème</li><li><a href=\"help.php\">Et plus encore...</a></li>";
+$admin_features2   ="<li>Afficher des photos et des vidéos classées dans une arborescence de dossier</li><li>Commenter tout un dossier ou un média individuel</li><li>Gérer des pages statiques</li><li>S'adapter très facilement à tout type de thème</li><li><a href=\"https://github.com/radek411/graphistgallery/wiki\">Et plus encore...</a></li>";
 $admin_version     ="Version";
-$admin_version2    ="Vous utilisez actuellement la la v1.0 (dev) de Graphist Gallery. N'hésitez pas à vous rendre sur le <a href=\"http://radek411.github.io/graphistgallery\">site du projet</a> pour vérifier l'arrivée de nouveautés.";
+$admin_version2    ="Vous utilisez actuellement la la v1.0 de Graphist Gallery. N'hésitez pas à vous rendre sur le <a href=\"http://radek411.github.io/graphistgallery\">site du projet</a> pour vérifier l'arrivée de nouveautés.";
 
 ### Configuration
 
@@ -114,17 +116,13 @@ $site_password="Mot de passe";
 $site_footer="Footer de votre site";
 $site_lang="Langue de l'interface";
 $site_template="Thème du site";
+$site_exif="Afficher exif";
 
 ### Template
 
 $info_theme        ="Vous utilisez actuellement le thème : ";
 $info_config_theme ="Vous pouvez dès que vous le souhaiter modifier les fichiers relatifs au thème : ";
 $admin_config_theme="Vous pouvez éditer ici les fichiers de votre thème.";
-
-### Help
-
-$admin_help="Aide";
-$admin_help2="Bienvenue dans l'aide de Graphist Gallery. Dans l'état actuel des choses, l'utilisation de Graphist Gallery est très simple mais nécessite un minimum de connaissances. Si vous êtes bloqués sur un quelconque point, vous devriez pouvoir trouver ici le bon endroit à consulter dans la documentation du projet.";
 
 ### About
 

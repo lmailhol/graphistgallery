@@ -5,14 +5,14 @@
 
 $style = "default"; // Choose your template
 $lang ="FR_fr"; //FR_fr, EN_us
-$index ="a_accueil"; //Name of your index page. You can change it by the name of a page who exist (folder pages/)
-$title ="Site de Luca"; //Website's title
+$index ="a_Accueil"; //Name of your index page. You can change it by the name of a page who exist (folder pages/)
+$title ="Nouvelle installation de Graphist Gallery"; //Website's title
 $footer_text ="Je m'appelle footer !"; //Website's footer
-$site ="http://lucamailhol.org"; //Website's URL
+$site ="http://radek411.github.io/graphistgallery/"; //Website's URL
 $user ="admin"; //Your admin username
 $psw ="admin"; //Your admin password
 
-$show_exif_data =1; #1 - Show the exif data, 0 - Don't show
+$show_exif_data ="1"; #1 - Show the exif data, 0 - Don't show
 
 $rep_content ="content/"; //The path to the content directory (from the site root)
 $rep_pages ="pages/"; //The path to the static pages directory (from the site root)

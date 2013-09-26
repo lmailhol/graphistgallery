@@ -43,8 +43,8 @@ include("include/header.php"); ?>
 <div class="pure-g-r">
 <div class="pure-u-3-5">
 <?php
-if(isset($_POST['name']) AND isset($_POST['url']) AND isset($_POST['index']) AND isset($_POST['lang']) AND isset($_POST['footer']) AND isset($_POST['user']) AND isset($_POST['password']) AND isset($_POST['template'])) {
-    write_config($_POST['name'],$_POST['url'],$_POST['index'],$_POST['lang'],$_POST['footer'],$_POST['user'],$_POST['password'],$_POST['template']);
+if(isset($_POST['name']) AND isset($_POST['url']) AND isset($_POST['index']) AND isset($_POST['lang']) AND isset($_POST['footer']) AND isset($_POST['user']) AND isset($_POST['password']) AND isset($_POST['template'])  AND isset($_POST['exif'])) {
+    write_config($_POST['name'],$_POST['url'],$_POST['index'],$_POST['lang'],$_POST['footer'],$_POST['user'],$_POST['password'],$_POST['template'], $_POST['exif']);
     echo $modif_config_done;
     echo "<br/><a href=\"admin_site_configuration.php\">".$retour."</a>";
 } else {
@@ -82,6 +82,14 @@ if(isset($_POST['name']) AND isset($_POST['url']) AND isset($_POST['index']) AND
         </div>
         
         <div class="pure-control-group">
+            <label for="exif"><?php echo $site_exif; ?></label>
+            <select name="exif" id="exif">
+                <option <?php if($show_exif_data==1){echo 'selected="selected"';} ?> value="1"><?php echo $yes; ?></option>
+                <option <?php if($show_exif_data==0){echo 'selected="selected"';} ?> value="0"><?php echo $no; ?></option>
+            </select>
+        </div>
+        
+        <div class="pure-control-group">
             <label for="user"><?php echo $site_user; ?></label>
             <input id="user" name="user" type="text" value="<?php echo $user; ?>" placeholder="User">
         </div>
@@ -108,14 +116,6 @@ if(isset($_POST['name']) AND isset($_POST['url']) AND isset($_POST['index']) AND
 <div class="pure-u-2-5"><?php echo $config_text; ?></div>
 </div>
     
-    <h2 class="content-subhead">Configuration avancée</h2>
-    
-    <?php
-        echo $admin_config_site;
-        echo "<p><a href=\"admin_pages.php?fichier=../config.php&amp;action=modif&amp;config=1\">".$info_modif_config."</a></p>";
-    ?>  
-
-</div>
 </div>
 
 <?php

@@ -56,7 +56,7 @@ echo'<!doctype html>
     <h1>Graphist Gallery</h1>
     <h2>Authentification</h2>
 </div>
-<div class="content"><h2 class="content-subhead">Administration</h2><div class="l-centered">';
+<div class="content"><h2 class="content-subhead">&nbsp;</h2><div class="l-centered">';
 
 if(isset($_SESSION['name']) AND isset($_SESSION['psw'])) {
     session_destroy();
@@ -68,23 +68,6 @@ if(isset($_SESSION['name']) AND isset($_SESSION['psw'])) {
 }
 echo '</div></div>
 </div>
-</div>
-<div class="legal pure-g-r">
-    <div class="pure-u-2-5">
-    <p>&nbsp;</p>
-    </div>
-
-    <div class="pure-u-1-5">
-        <div class="l-box legal-logo">
-            <a href="http://radek411.github.io/graphistgallery/">
-                <img src="../img/logo_gg_gris.jpg" height="30"
-                     alt="Graphist Gallery">
-            </a>
-        </div>
-    </div>
-    <div class="pure-u-2-5">
-    <p>&nbsp;</p>
-    </div>
 </div>
 
 

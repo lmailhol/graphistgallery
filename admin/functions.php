@@ -272,7 +272,7 @@ function admin_connection() {
 </html>';
 }
 
-function write_config($name,$url,$index,$lang,$footer,$user,$psw,$style) {    
+function write_config($name,$url,$index,$lang,$footer,$user,$psw,$style,$exif) {    
     $config = fopen("../config.php", "w+");
     $modif_config='
     <?php
@@ -288,7 +288,7 @@ $site ="'.$url.'"; //Website\'s URL
 $user ="'.$user.'"; //Your admin username
 $psw ="'.$psw.'"; //Your admin password
 
-$show_exif_data =1; #1 - Show the exif data, 0 - Don\'t show
+$show_exif_data ="'.$exif.'"; #1 - Show the exif data, 0 - Don\'t show
 
 $rep_content ="content/"; //The path to the content directory (from the site root)
 $rep_pages ="pages/"; //The path to the static pages directory (from the site root)
