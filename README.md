@@ -42,4 +42,4 @@ Pour apprendre dès maintenant à utiliser Graphist Gallery et ses fonctionnalit
 
 -------
 
-Pour le moment, vous pouvez voir Graphist Gallery en fonctionnement ici : (http://lucamailhol.fr)
+Pour le moment, vous pouvez voir Graphist Gallery en fonctionnement ici : http://lucamailhol.fr
