@@ -61,10 +61,14 @@ if(file_exists("".$rep_resources."template/".$style."/config_".$style.".php")){
 ########## Fonctions ##########
 ###############################
 
+//Checks if the user is logged
+
 function logged() {
     if(isset($_SESSION['connection']) AND $_SESSION['connection']==1) {return 1;}
     else {return 0;}
 }
+
+//Return a file name without the extension
 
 function no_extension($file) {
     $dot = strpos($file, '.');
@@ -94,11 +98,15 @@ function display_media($dir_media) { // The first dir and the second (if it exis
 
 }
 
+//Checks if $var is a picture
+
 function is_img($var) { //check if the link ($var) is an image or a comment
     if(preg_match("#.md#", $var) OR preg_match("#video#",$var) OR empty($var)) {
         return 0;
     } else {return 1;}
 }
+
+//Checks if $var is a video
 
 function is_vid($var) { //check if the link ($var) is an image or a comment
     if(preg_match("#video#",$var) AND !preg_match("#.md$#",$var)) {
@@ -256,7 +264,6 @@ function create_comment($img_link) {
     }
 }
 
-
 //Showing and editing the comments for one picture, if it exits
 
 function show_img_comment($img_link) { //Take the link and the name of the picture in arg
@@ -326,6 +333,8 @@ function exif_img($img_link) {
 ########## Body ##########
 ##########################
 
+//Return a name without the "a_", "b_"... used to sort the folder
+
 function name($var) {
     if(preg_match("#/#", $var)) {
             list($null,$var_name) = explode('/',$var);
@@ -343,7 +352,9 @@ function name($var) {
     }
 }
 
-function is_sub_dir($var,$num) { //look if there is at least one folder in the folder $var
+//looks if there is at least one folder in the folder $var
+
+function is_sub_dir($var,$num) { 
     require("config.php");  
     require("default_config.php");
     $suppr=array(".","..");
@@ -403,37 +414,36 @@ $i=1;
 
 while($i<=$content) {
 
-$LastDir=array();
+    $LastDir=array();
     
-if($i==1){$folder_number="";} else {$folder_number=$i."_";}
+    if($i==1){$folder_number="";} else {$folder_number=$i."_";}
     
-if($dir=scandir($folder_number.$rep_content)) { //If you have more than one "content/" folder, it will open <folder number (1,2,3...)>content/
+    if($dir=scandir($folder_number.$rep_content)) { //If you have more than one "content/" folder, it will open <folder number (1,2,3...)>content/
         
-    $dir = array_diff($dir, $suppr);
+        $dir = array_diff($dir, $suppr);
         
-    foreach($dir as $key=>$dir_link) {
+        foreach($dir as $key=>$dir_link) {
 
-        $sub_rep = $folder_number.$rep_content.$dir_link."/";
-        if(is_dir($sub_rep)) {
-            if($sub_dir = scandir($sub_rep)) {
-                $sub_dir =  array_diff($sub_dir, $suppr);
+            $sub_rep = $folder_number.$rep_content.$dir_link."/";
+            if(is_dir($sub_rep)) {
+                if($sub_dir = scandir($sub_rep)) {
+                    $sub_dir =  array_diff($sub_dir, $suppr);
                 
-                foreach($sub_dir as $sub_dir_link) {
-                    if(is_dir($sub_rep.$sub_dir_link)) {
-                        $sub_dir_isset=1;                        
-                        array_push($LastDir,$dir_link."/".$sub_dir_link);
+                    foreach($sub_dir as $sub_dir_link) {
+                        if(is_dir($sub_rep.$sub_dir_link)) {
+                            $sub_dir_isset=1;                        
+                            array_push($LastDir,$dir_link."/".$sub_dir_link);
+                        }
                     }
                 }
             }
         }
     }
-}
    
-$tpl->assign("categories_".$i,$dir); //first array of categories   
-if(isset($sub_dir_isset) AND $sub_dir_isset==1) {$tpl->assign("categories2_".$i,$LastDir);}
+    $tpl->assign("categories_".$i,$dir); //first array of categories   
+    if(isset($sub_dir_isset) AND $sub_dir_isset==1) {$tpl->assign("categories2_".$i,$LastDir);}
     
-$i++;
-
+    $i++;
 }
 
 #########################

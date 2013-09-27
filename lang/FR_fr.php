@@ -22,7 +22,7 @@
 ### Messages ###
 ################
 
-$erreur             ="Une erreur s'est produite. Veuillez recommencer. Si le problème persiste, contactez l'administrateur";
+$erreur             ="I'm sorry Dave, i'm affraid i can't do that";
 
 #############
 ### Admin ###
@@ -53,6 +53,8 @@ $admin_menu        ="Menu d'administration";
 $auth_text         ="Bienvenue sur l'interface d'administration de Graphist Gallery. Vous pouvez dès à présent vous connecter avec vos identifiants pour gérer votre site.";
 $yes ="Oui";
 $no="Non";
+$help="Aide";
+$about="À propos";
 
 ### Messages
 
@@ -66,7 +68,6 @@ $modif_comment_done="Votre commentaire a été modifié";
 $suppr_page_done   ="Votre supression a &eacute;t&eacute; effectu&eacute;e";
 $suppr_comment_done="Vous avez bien supprimé le commentaire";
 $non_modif_page    ="Votre page n'a pas &eacute;t&eacute; supprimée.";
-$modif_config_done ="La configuration a bien été modifiée.";
 
 ### Error
 
@@ -106,8 +107,6 @@ $admin_version2    ="Vous utilisez actuellement la la v1.0 de Graphist Gallery. 
 ### Configuration
 
 $config_text="Vous pouvez configurer les informations principales de votre site grâce à ce formulaire.";
-$info_modif_config ="Editez votre <em>config.php</em>";
-$admin_config_site ="Vous pouvez configurer certaines fonctions avancées de votre site gr&acirc;ce au fichier <em>config.php</em>. Ne l'éditez qu'en sachant ce que vous comptez faire.";
 $site_name ="Nom du site";
 $site_url="Url du site";
 $site_index="Page d'accueil";
@@ -121,7 +120,7 @@ $site_exif="Afficher exif";
 ### Template
 
 $info_theme        ="Vous utilisez actuellement le thème : ";
-$info_config_theme ="Vous pouvez dès que vous le souhaiter modifier les fichiers relatifs au thème : ";
+$info_config_theme ="Vous pouvez dès que vous le souhaitez modifier les fichiers relatifs au thème : ";
 $admin_config_theme="Vous pouvez éditer ici les fichiers de votre thème.";
 
 ### About

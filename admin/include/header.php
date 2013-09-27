@@ -31,8 +31,8 @@
             <li <?php if(isset($menu) AND $menu=="pages") {echo "class=\"pure-menu-selected\"";} ?> ><a href="admin_pages.php"><?php echo $pages_admin; ?></a></li>
             <li <?php if(isset($menu) AND $menu=="config") {echo "class=\"pure-menu-selected\"";} ?> ><a href="admin_site_configuration.php"><?php echo $config_admin; ?></a></li>
             <li <?php if(isset($menu) AND $menu=="theme") {echo "class=\"pure-menu-selected\"";} ?> ><a href="admin_theme_configuration.php"><?php echo $template_admin; ?></a></li>
-            <li class="menu-item-divided"><a href="https://github.com/radek411/graphistgallery/wiki">Aide</a></li>
-            <li <?php if(isset($menu) AND $menu=="a_propos") {echo "class=\"pure-menu-selected\"";} ?> ><a href="about.php">A propos</a></li>
+            <li class="menu-item-divided"><a href="https://github.com/radek411/graphistgallery/wiki"><?php echo $help; ?></a></li>
+            <li <?php if(isset($menu) AND $menu=="a_propos") {echo "class=\"pure-menu-selected\"";} ?> ><a href="about.php"><?php echo $about; ?></a></li>
         </ul>
     </div>
 </div>
