@@ -17,8 +17,8 @@ body {
 
 
 /* --------------------------
- * Element Styles
- * --------------------------
+* Element Styles
+* --------------------------
 */
 
 
@@ -50,8 +50,8 @@ dd {
 }
 
 /* --------------------------
- * Layout Styles
- * --------------------------
+* Layout Styles
+* --------------------------
 */
 
 #layout {
@@ -79,8 +79,8 @@ dd {
 
 
 /* --------------------------
- * Header Module Styles
- * --------------------------
+* Header Module Styles
+* --------------------------
 */
 .header {
      min-height: 80px;
@@ -114,9 +114,9 @@ aside {
 
 
  /* --------------------------
-  * Content Module Styles
-  * --------------------------
- */
+* Content Module Styles
+* --------------------------
+*/
 
 /* The content div is placed as a wrapper around all the docs */
 .content {
@@ -157,8 +157,8 @@ aside {
 
 
 /* --------------------------
- * Footer Module Styles
- * --------------------------
+* Footer Module Styles
+* --------------------------
 */
 .legal {
     font-size: 80%;
@@ -187,8 +187,8 @@ aside {
     }
 
 /* --------------------------
- * Main Navigation Bar Styles
- * --------------------------
+* Main Navigation Bar Styles
+* --------------------------
 */
 
 #menu {
@@ -322,8 +322,8 @@ aside {
 
 
 /* ---------------------
- * Smaller Module Styles
- * ---------------------
+* Smaller Module Styles
+* ---------------------
 */
 
 /* example code blocks */
@@ -350,8 +350,8 @@ a.pure-button-primary {
 }
 
 /* --------------------------
- * Responsive Styles
- * --------------------------
+* Responsive Styles
+* --------------------------
 */
 
 @media (max-width: 870px) {
@@ -409,10 +409,10 @@ a.pure-button-primary {
 }
 
 /**
- * Baby Blue theme for RainbowJS
- *
- * @author tilomitra
- */
+* Baby Blue theme for RainbowJS
+*
+* @author tilomitra
+*/
 
 pre {
     word-wrap: break-word;
@@ -467,10 +467,59 @@ pre .constant.numeric, pre .keyword.unit, pre .hex-color {
 }
 
 pre .attribute, pre .variable, pre .support {
-    color:  #757575; /* skinbuilder block-page-text-normal with #1f8dd6 as primary */
+    color: #757575; /* skinbuilder block-page-text-normal with #1f8dd6 as primary */
 }
 
-pre .string, pre .support.value  {
+pre .string, pre .support.value {
     font-weight: normal;
     color: #3b8bba; /* skinbuilder block-mine-text-low with #1f8dd6 as primary */
+}
+
+.rslides {
+  position: relative;
+  list-style: none;
+  overflow: hidden;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  box-shadow: 0px 0px 15px 3px rgba(171, 171, 171, 0.6);
+-moz-box-shadow: 0px 0px 15px 3px rgba(171, 171, 171, 0.6);
+-webkit-box-shadow: 0px 0px 15px 3px rgba(171, 171, 171, 0.6);
+  }
+
+.rslides li {
+  -webkit-backface-visibility: hidden;
+  position: absolute;
+  display: none;
+  width: 100%;
+  left: 0;
+  top: 0;
+  }
+
+.rslides li:first-child {
+  position: relative;
+  display: block;
+  float: left;
+  }
+
+.rslides img {
+  display: block;
+  height: auto;
+  float: left;
+  width: 100%;
+  border: 0;
+  }
+
+
+.caption {
+  position: absolute;
+  display: block;
+  bottom: -20px;
+  left: 0;
+  right: 0;
+  padding: 15px;
+  text-align: center;
+  background: #000;
+  background: rgba(0,0,0, .8);
+  color: #fff;
 }
