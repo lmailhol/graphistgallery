@@ -1,5 +1,21 @@
-## Bienvenue sur ma galerie
+# Bienvenue sur votre galerie
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+Graphist Gallery est maintenant prêt à être utilisé...
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+### Fonctionnement
+    
+Commencez par créer, sur votre ordinateur, un dossier qui contiendra votre travail. Il vous suffit de le classer dans une arborescence de dossier.
+
+content/  
+|  
+|- Paysages/  
+|       |- image1.jpg  
+|       |- image2.jpg  
+|  
+|- Portraits/  
+|       |- Noir et Blanc/  
+|                   |- image1.jpg
+
+Ceci fait, connectez vous à votre espace web et envoyez votre contenu dans le dossier "content/" ! Votre portfolio est prêt.
+
+Pour apprendre dès maintenant à utiliser Graphist Gallery et ses fonctionnalités plus avancées, rendez vous sur <a href="https://github.com/Radek411/graphistgallery/wiki">la documentation</a> !

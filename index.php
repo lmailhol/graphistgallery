@@ -1,7 +1,9 @@
-<?php session_start(); 
+<?php
 
 /*
- * Copyright (C) 2010 Mailhol Luca
+ * Copyright (C) 2010-2015 Mailhol Luca
+ * - http://lucamailhol.fr
+ * - http://github.com/lmailhol
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,18 +18,10 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
- 
-
-if(isset($_SESSION['name']) AND isset($_SESSION['psw'])) {
-    $_SESSION['connection']=1;
-} else {
-    $_SESSION['connection']=0;
-}
+*/
 
 require("default_config.php");
 require("config.php");
-require($rep_lang.$lang.".php");
 require_once($rep_resources."lib/Markdown.php");
 
 include $rep_resources."lib/rain.tpl.class.php"; //include Rain TPL
@@ -41,7 +35,6 @@ $tpl = new raintpl(); //include Rain TPL
 
 // Some assign
 $tpl->assign( 'serv_url', $_SERVER['REQUEST_URI'] );
-
 $tpl->assign( 'title', $title );
 $tpl->assign( 'footer_text', $footer_text );
 $tpl->assign( 'site_url', $site );
@@ -52,7 +45,6 @@ $tpl->assign( 'path_style', $rep_resources."template/".$style );
 #####################################
 
 require("config.php");
-require($rep_lang.$lang.".php");
 if(file_exists("".$rep_resources."template/".$style."/config_".$style.".php")){
     require("".$rep_resources."template/".$style."/config_".$style.".php");
 }
@@ -60,13 +52,6 @@ if(file_exists("".$rep_resources."template/".$style."/config_".$style.".php")){
 ###############################
 ########## Fonctions ##########
 ###############################
-
-//Checks if the user is logged
-
-function logged() {
-    if(isset($_SESSION['connection']) AND $_SESSION['connection']==1) {return 1;}
-    else {return 0;}
-}
 
 //Return a file name without the extension
 
@@ -82,9 +67,8 @@ function display_media($dir_media) { // The first dir and the second (if it exis
 
     require("default_config.php"); 
     require("config.php");
-    require($rep_lang.$lang.".php");
     	
-    $suppr=array(".","..","comment.md","config.php");
+    $suppr=array(".","..","comment.md","config.php",".DS_Store");
     
     if($media_folder=scandir($dir_media)) {
         $media_folder = array_diff($media_folder, $suppr);
@@ -114,7 +98,7 @@ function is_vid($var) { //check if the link ($var) is an image or a comment
     } else {return 0;}
 }
 
-//Display a video from an other website or not
+//Display a video
 
 function display_video($link) {
     if(!preg_match("#.webm$#",$link) AND !preg_match("#.mp4$#",$link) AND !preg_match("#.ogv$#",$link)) {
@@ -135,12 +119,11 @@ function display_page($page) {
     
     require("config.php");
     require("default_config.php");    
-    require($rep_lang.$lang.".php");
     require_once($rep_resources."lib/Markdown.php");
     
-    $suppr=array(".","..");
+    $suppr=array(".","..",".DS_Store");
     if(!in_array($page, $suppr) AND !preg_match("#../#",$page)) {
-		if(file_exists($rep_pages.$page)) { //On vérifie si le fichier correspondant à la page existe
+		if(file_exists($rep_pages.$page)) {
             $page_file=Markdown(file_get_contents($rep_pages.$page));
             echo $page_file;
 		} else {
@@ -168,7 +151,6 @@ function comment_exist() {
     } elseif(isset($_GET['page'])) {
         return 0;
     }
-
 }
 
 //Showing and editing the comments for a picture list, if they exits
@@ -197,77 +179,9 @@ function comment_img_exist($img_link) { //Take the link of the picture in arg
 
 }
 
-//Creation of a comment for a single picture
-
-function create_comment($img_link) {
-    
-    require("config.php");  
-    require("default_config.php");
-    require($rep_lang."/".$lang.".php");
-    
-    //creation of the image-comment
-    if(isset($_GET['single_comment']) AND $_GET['single_comment']=="add" AND !isset($_POST['comment'])) {
-        
-        echo '<form action="index.php?path='.$img_link.'&amp;single_comment=done" method="post">
-        <textarea name="comment" id="comment" cols="40"></textarea><br/>
-        <input type="hidden" name="path" value="'.$img_link.'" />
-        <input type="submit" value="'.$add.'" />';
-    
-    //modification of the image-comment
-    } elseif(isset($_GET['single_comment']) AND $_GET['single_comment']=="edit" AND !isset($_POST['comment'])) {
-    
-        echo '<form action="index.php?path='.$img_link.'&amp;single_comment=done" method="post">
-        <textarea name="comment" id="comment" cols="40">'.file_get_contents($img_link.".md").'</textarea><br/>
-        <input type="hidden" name="path" value="'.$img_link.'" />
-        <input type="submit" value="'.$modif.'" />';
-    
-    //creation of the list-comment
-    } elseif(isset($_GET['comment']) AND $_GET['comment']=="add" AND !isset($_POST['comment'])) {
-        
-        echo '<form action="index.php?path='.$img_link.'&amp;comment=done" method="post">
-        <textarea name="comment" id="comment" cols="40"></textarea><br/>
-        <input type="hidden" name="path" value="'.$img_link.'" />
-        <input type="submit" value="'.$add.'" />';
-    
-    //modification of the list-comment
-    } elseif(isset($_GET['comment']) AND $_GET['comment']=="edit" AND !isset($_POST['comment'])) {
-        
-        echo '<form action="index.php?path='.$img_link.'&amp;comment=done" method="post">
-        <textarea name="comment" id="comment" cols="40">'.file_get_contents($img_link."/comment.md").'</textarea><br/>
-        <input type="hidden" name="path" value="'.$img_link.'" />
-        <input type="submit" value="'.$add.'" />';
-    
-    //file operations
-    } elseif(isset($_POST['comment']) AND !empty($_POST['comment']) AND isset($_GET['comment']) AND isset($_POST['path'])) {
-        if($comment = fopen($img_link."/comment.md", "w+")) {
-            fputs($comment, $_POST['comment']);
-            fclose($comment);
-            echo $add_comment_done;
-            echo '<br/><a href="index.php?path='.$_POST['path'].'">'.$retour.'</a>';
-        }
-    } elseif(isset($_POST['comment']) AND !empty($_POST['comment']) AND isset($_GET['single_comment']) AND isset($_POST['path'])) {    
-        if($comment = fopen($img_link.".md", "w+")) {
-            fputs($comment, $_POST['comment']);
-            fclose($comment);
-            echo $add_comment_done;
-            echo '<br/><a href="index.php?path='.$_POST['path'].'&amp;single">'.$retour.'</a>';
-        }
-    //suppression of the image-comment
-    } elseif(isset($_POST['comment']) AND empty($_POST['comment']) AND isset($_GET['single_comment']) AND isset($_POST['path'])) {
-        unlink($img_link.".md");
-        echo $suppr_comment_done;
-        echo '<br/><a href="index.php?path='.$_POST['path'].'&amp;single">'.$retour.'</a>';
-    } elseif(isset($_POST['comment']) AND empty($_POST['comment']) AND isset($_GET['comment']) AND isset($_POST['path'])) {
-        unlink($img_link."/comment.md");
-        echo $suppr_comment_done;
-        echo '<br/><a href="index.php?path='.$_POST['path'].'">'.$retour.'</a>';
-    }
-}
-
-//Showing and editing the comments for one picture, if it exits
+//Showing the comments for one picture, if it exits
 
 function show_img_comment($img_link) { //Take the link and the name of the picture in arg
-    
     require("config.php");  
     require("default_config.php");
     require_once($rep_resources."lib/Markdown.php");
@@ -281,7 +195,6 @@ function exif_img($img_link) {
         
     require("config.php");  
     require("default_config.php");
-    require($rep_lang."/".$lang.".php");
         
       if($exif_ifd0 = read_exif_data($img_link ,'IFD0' ,0) AND $exif_exif = read_exif_data($img_link ,'EXIF' ,0)) {    
            
@@ -357,7 +270,7 @@ function name($var) {
 function is_sub_dir($var,$num) { 
     require("config.php");  
     require("default_config.php");
-    $suppr=array(".","..");
+    $suppr=array(".","..",".DS_Store");
     
     if($num==1) {$num="";} else {$num=$num."_";}
     
@@ -395,7 +308,7 @@ function count_content() { //count the number of contents folders
 # Showing the pages #
 #####################
 
-$suppr=array(".","..","comment.md");
+$suppr=array(".","..","comment.md",".DS_Store");
     
 if($dir_pages=scandir($rep_pages)) {
     $dir_pages = array_diff($dir_pages, $suppr);
