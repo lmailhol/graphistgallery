@@ -1,262 +1,184 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Graphist Gallery</title>
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Graphist Gallery</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">
-<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-<link rel="stylesheet" href="stylesheets/styles.css">
-<script src="http://lucamailhol.fr/resources/template/default/responsiveslides.min.js"></script>
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
     
- <script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src="js/responsiveslides.js"></script>
+    
+    <script>
     $(function () {
 
-      // Slideshow 1
+      // Slideshow index
       $(".rslides").responsiveSlides({
-        fade: 500
+        auto: true,
+        pager: false,
+        nav: false,
+        speed: 400,
       });
 
     });
-  </script>
+    </script>
     
+  <script type='text/javascript'>
+  jQuery(document).ready(function()
+  {
+   jQuery('#toggle').hide();
+   jQuery('#toggle2').hide();
+   jQuery('#toggle3').hide();
+   jQuery('a#toggler').click(function()
+  {
+      jQuery('#toggle2').hide(400);
+      jQuery('#toggle3').hide(400);
+      jQuery('#toggle').toggle(400);
+      return false;
+   });
+    jQuery('a#toggler2').click(function()
+  {
+      jQuery('#toggle').hide(400);
+      jQuery('#toggle3').hide(400);
+      jQuery('#toggle2').toggle(400);
+      return false;
+   });
+    jQuery('a#toggler3').click(function()
+  {
+      jQuery('#toggle').hide(400);
+      jQuery('#toggle2').hide(400);
+      jQuery('#toggle3').toggle(400);
+      return false;
+   });
+  });
+  </script>
+
 </head>
 <body>
 
-<div class="pure-g-r" id="layout">
-    <a href="#menu" id="menuLink" class="pure-menu-link">
-        <span></span>
-    </a>
-
-<div class="pure-u" id="menu">
-    <div class="pure-menu pure-menu-open">
-        <a class="pure-menu-heading" href="index.php">Graphist Gallery</a>
-        <ul>
-            <li><a href="#presentation">Présentation</a></li>
-            <li><a href="#fonctions">Fonctionnalités</a></li>
-            <li><a href="#installation">Intallation</a></li>
-            <li><a href="#utilisation">Utilisation</a></li>
-            <li><a href="#telechargement">Téléchargement</a></li>
-            <li class="menu-item-divided"><a href="#a_propos">A propos</a></li>
-        </ul>
-    </div>
-</div>
-<div class="pure-u-1" id="main">
-<div class="header">
-    <h1>Graphist Gallery</h1>
-    <h2>Un léger script de galerie en PHP</h2>
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    
+<div class="logo">
+    <a href=""><img src="images/logogg.png" /></a>
+    <h3>graphist gallery</h3>
 </div>
 
-
-<div class="content">
-    <h2 class="content-subhead" id="presentation">Présentation</h2>
-    
-    <p>
-        Graphist Gallery est un script de galerie multimédia dynamique ne demandant aucune base de données, votre contenu s'articulant autour d'une arborescence de dossier. Simple et sans fioriture, Graphist Gallery permet à l'utilisateur d'être plus concentré sur le contenu que sur le conteneur.
-    </p>
-    
-            
-    <ul class="rslides">
-        <li><img src="http://lucamailhol.fr/img/graphistgallery/Capture.PNG" alt="">
-        <p class="caption">Interface de gestion des articles</p></li>
-        <li><img src="http://lucamailhol.fr/img/graphistgallery/Capture2.PNG" alt="">
-        <p class="caption">Configuration de Graphist Gallery</p></li>
-        <li><img src="http://lucamailhol.fr/img/graphistgallery/Capture3.PNG" alt="">
-        <p class="caption">Une galerie fraichement générée</p></li>
-        <li><img src="http://lucamailhol.fr/img/graphistgallery/Capture4.PNG" alt="">
-        <p class="caption">Un exemple d'intégration de Graphist Gallery</p></li>
-    </ul>
-    
-    <div class="l-centered">
-
-    <div class="pure-g">
-    <div class="pure-u-1-3">
-        <div class="l-box">
-            <h4><i class="icon-picture"></i> Affiche photos et vidéos</h4>
-         </div>
-    </div>
-
-    <div class="pure-u-1-3">
-        <div class="l-box">
-            <h4><i class="icon-pencil"></i> Prise en charge du Markdown</h4>
-         </div>
-    </div>
-
-    <div class="pure-u-1-3">
-        <div class="l-box">
-            <h4><i class="icon-list"></i> Pas de base de données</h4>
-         </div>
-    </div>
-    </div>
-    </div>
-    <h2 class="content-subhead" id="fonctions">Fonctionnalités de Graphist Gallery</h2>
-
-    <ul class="content-spaced">
-        <li>Afficher des photos et des vidéos classées dans une arborescence de dossier</li>
-        <li>Commenter tout un dossier ou une image individuelle</li>
-        <li>Gérer des pages statiques pour mettre en place un véritable site web</li>
-        <li>Usage du Markdown pour la mise en page des commentaires et des pages</li>
-        <li>S'adapter très facilement à tout type de thème</li>
-        <li>Programme multilingue et facile à traduire</li>
-        <li>Et plus encore...</li>
-    </ul>
-
-    <h2 class="content-subhead" id="installation">Comment installer Graphist Gallery</h2>
-    
-    <p>Pour installer Graphist Gallery, vous devez simplement disposer d'un petit espace web acceptant PHP et d'un accès, par exemple ftp, à ce dernier.</p>
-
-    
-    <div class="pure-g">
-    <div class="pure-u-1-2">
-        <div class="l-box">
-            <h3>Etape 1</h3>
-            <p>
-                Téléchargez la dernière version de Graphist Gallery plus bas et extrayez le contenu de l'archive.
-            </p>
-        </div>
-    </div>
-
-    <div class="pure-u-1-2">
-        <div class="l-box">
-            <h3>Etape 2</h3>
-            <p>
-                Connectez vous à votre espace web et envoyez-y le contenu de l'archive. Graphist Gallery est prêt à être utilisé.
-            </p>
-        </div>
-    </div>
-    </div>
-    
-    <h2 class="content-subhead" id="utilisation">Comment commencer à utiliser Graphist Gallery</h2>
-    
-    <p>Vous voici maintenant avec un Graphist Gallery fraichement envoyé sur le web et prêt à être utilisé.</p>
-    
-    <div class="pure-g">
-    <div class="pure-u">
-        <div class="l-box">
-            <h3>Contenu</h3>
-            <p>
-                Le but de Graphist Gallery est de gérer localement votre dossier de contenu, hors ligne, pour l'envoyer ensuite directement sur votre espace web, via ftp ou autre connexion.
-                Le contenu doit se trouver dans le dossier <code>content/</code>. Vous pouvez classer images et vidéos dans une arborescence à deux niveaux (dossiers et sous-dossier). Il
-                vous suffit simplement d'ajouter, par exemple, une image dans un dossier vide pour qu'il soit affiché sur votre site.
-            </p>
-            <pre class="snippet" data-language="html"><code>content/
-|
-|- Paysages/
-| |- image1.jpg
-| |- image2.jpg
-|
-|- Portraits/
-| |- Noir et Blanc/
-| |- image1.jpg</code></pre>
-            <p>
-                Pour ajouter une vidéo - format webm, mp4 ou ogv - il vous suffit la placer dans un dossier et de mettre le terme <code>video</code> dans le titre
-                de cette dernière (par exemple : <code>video-photocopieuse.webm</code>). De plus, vous pouvez insérer des vidéos de sites tiers. Il vous suffit de créer un fichier sans extension avec le terme <code>video</code> dans
-                son nom et de coller dans le fichier le code de partage de la vidéo.
-            </p>
-            <h3>Commentaires</h3>
-            <p>
-                Il y a deux sortes de commentaires : ceux qui englobent tout un dossier et les commentaires pour une image individuelle (ne fonctionne que pour les images pour le moment).
-                Pour gérer cela, il suffit juste de vous connecter à l'espace d'administration puis de revenir sur votre site. Vous pouvez alors ajouter, modifier et supprimer tout type de commentaires comme bon vous semble.
-            </p>
-            <h3>Pages</h3>
-            <p>
-                Pour gérer les pages statiques et permettre à votre galerie de prendre des allures de site web complet, il vous suffit simplement de vous connecter à l'administration et de vous rendre dans la partie d'administration des pages.
-            </p>
-            <h3>Options avancées</h3>
-            <p>
-                Graphist Gallery ne s'arrête évidemment pas à cela. Vous pouvez créer de multiples dossiers de contenu, classer dans l'ordre que vous souhaitez vos dossiers, vos médias, afficher les informations exif d'une photo, adapter votre instance de Graphist Gallery à n'importe quel thème
-                très facilement, personnaliser le nom de chaque dossiers... Je vous invite à lire <a href="https://github.com/Radek411/graphistgallery/wiki">la documentation</a> pour prendre connaissance de tout cela.
-            </p>
-        </div>
-    </div>
-    </div>
-    
-    <h2 class="content-subhead" id="telechargement">Téléchargement</h2>
-    
-    <p>
-        Téléchargez la dernière version du script pour vos projets de galerie média, de portfolio, de site de présentation...
-    </p>
-    
-    <div class="pure-g">
-    <div class="pure-u-1-3">
-        <div class="l-box">
-            <p><a class="pure-button" href="https://github.com/Radek411/graphistgallery/archive/v1.0.tar.gz">Version 1.0 (tar)</a></p>
-        </div>
-    </div>
-
-    <div class="pure-u-1-3">
-        <div class="l-box">
-            <p><a class="pure-button" href="https://github.com/Radek411/graphistgallery/archive/v1.0.zip">Version 1.0 (zip)</a></p>
-         </div>
-    </div>
-
-    <div class="pure-u-1-3">
-        <div class="l-box">
-            <p><a class="pure-button" href="https://github.com/Radek411/graphistgallery/">Code source</a></p>
-         </div>
-    </div>
+<div class="presentation">
+    <p>Graphist Gallery est un script de galerie multimédia dynamique ne demandant aucune base de données. Léger et sans fioritures, il vous permet d'être plus concentré sur le contenu que sur le conteneur.</p>
 </div>
-
-    <h2 class="content-subhead" id="a_propos">A propos</h2>
     
-    <p>Graphist Gallery est un logiciel libre sous licence Gnu/GPL maintenu par <a href="http://lucamailhol.fr">Luca Mailhol</a>.</p>
-<div class="l-centered">
-<form class="pure-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<fieldset>
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="X5CZ9VGTMWV3L">
-<a class="pure-button" href="https://github.com/Radek411/graphistgallery">Fork me</a>
-<button type="submit" class="pure-button">Donation</button>
-</fieldset>
-</form>
-
-<p>Vous pouvez voir une démonstration de Graphist Gallery <a href="http://lucamailhol.fr">ici</a>.</p>
+<div class="link">
+    <p><a href="#" id="toggler">fontionnalités</a>&nbsp;&nbsp;&nbsp;<a href="#" id="toggler2">installation</a>&nbsp;&nbsp;&nbsp;<a href="#" id="toggler3">à propos</a></p>
 </div>
-
-</div>
-
-<div class="legal pure-g-r">
-    <div class="pure-u-2-5">
-        <div class="l-box">
-            <p class="legal-license">
-                This site is built with &lt;3 using Pure v0.2.1
-            </p>
-            <p class="legal-license">
-                Graphist Gallery is licensed under the GNU/GPL and developed by <a href="http://lucamailhol.fr">Luca Mailhol</a>.
-            </p>
+    
+<div class="container">
+    <div class="row">
+        <div id="toggle" style="display:none;">
+            <div class="one-third column">
+                <div class="box2">
+                    <h3><i class="fa fa-picture-o"></i></h3>
+                    <p>Gère vos images et vos vidéos sans base de données.</p>
+                </div>
+            </div>
+            <div class="one-third column">
+                <div class="box2">
+                    <h3><i class="fa fa-pencil"></i></h3>
+                    <p>Prend en charge le markdown pour la mise en forme de vos pages et de vos commentaires.</p>
+                </div>
+            </div>
+            <div class="one-third column">
+                <div class="box2">
+                    <h3><i class="fa fa-navicon"></i></h3>
+                    <p>S'adapte très facilement à n'importe quel template.</p>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="pure-u-1-5">
-        <div class="l-box legal-logo">
-            <a href="http://radek411.github.io/graphistgallery/">
-                <img src="https://raw.github.com/Radek411/graphistgallery/master/img/logo_gg_gris.jpg" height="30" alt="Graphist Gallery"/>
-            </a>
+        <div id="toggle2" style="display:none;">
+            <div class="one-half column">
+                <div class="box2">
+                    <h3>étape 1</h3>
+                    <p>Téléchargez la dernière version de Graphist Gallery et extrayez le contenu de l'archive. </p>
+                </div>
+            </div>
+            <div class="one-half column">
+                <div class="box2">
+                    <h3>étape 2</h3>
+                    <p>Connectez vous à votre espace web et envoyez-y le contenu de l'archive. Graphist Gallery est prêt à être utilisé. </p>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="pure-u-2-5">
-        <div class="l-box">
-            <ul class="legal-links pure-g">
-                <li class='pure-u-1-2'>
-                    <i class="icon-github"></i> <a href="https://github.com/Radek411/graphistgallery">GitHub Project</a>
-                </li>
-            </ul>
-            <p class="legal-copyright">
-                 Tout texte est sous licence CC-BY-SA
-            </p>
+        <div id="toggle3" style="display:none;">
+            <div class="one-half column">
+                <div class="box2">
+                    <h3>à propos</h3>
+                    <p>Graphist Gallery est un script open-source très léger vous permettant de rapidement mettre en place votre galerie d'images.</p>
+                </div>
+            </div>
+            <div class="one-half column">
+                <div class="box2">
+                    <h3>utilisation</h3>
+                    <p>Graphistes, photographes, vidéastes : Graphist Gallery vous permet de présenter très simplement votre travail. De plus, sa simplicité d'adaptation lui permet d'être utilisé pour beaucoup d'autres choses...</p>
+                </div>
+            </div>
+        </div>
+        <div class="twelve columns">
+            <div class="image_presentation">
+                <ul class="rslides">
+                    <li><img src="images/1.png" alt=""></li>
+                    <li><img src="images/2.png" alt=""></li>
+                    <li><img src="images/3.png" alt=""></li>
+                </ul>
+            </div>
+        </div>
+        <div class="one-third column">
+            <div class="box">
+                <div class="download"><p><a href="http://github.com/lmailhol/graphistgallery">source</a></p></div>
+            </div>
+        </div>
+        <div class="one-third column">
+            <div class="box">
+                <div class="download"><p><a href="https://github.com/lmailhol/graphistgallery/wiki">documentation</a></p></div>
+            </div>
+        </div>
+        <div class="one-third column">
+            <div class="box">
+                <div class="download"><p><a href="https://github.com/lmailhol/graphistgallery/archive/master.zip">télécharger</a></p></div>
+            </div>
         </div>
     </div>
 </div>
 
-
+<div class="footer_color" style="background-color: #017896; margin-top:50px;">&nbsp;</div>
+<div class="footer">
+    <p style="margin-bottom:8px;"><a href="http://github.com/lmailhol"><i style="font-size:30px;" class="fa fa-github"></i></a></p>
+    <p>© Luca Mailhol 2015</p>
 </div>
-</div>
 
-<script src="javascripts/scale.fix.js"></script>
-
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 </html>
