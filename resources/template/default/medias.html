@@ -1,0 +1,24 @@
+{if="comment_exist()==1"}
+                    <blockquote class="content-quote">{function="show_comment()"}</blockquote>
+                    {/if}
+                    
+                    {loop="medias"}
+                        <div class="wrapper">
+                        <!-- pictures -->
+                        {if="is_img($value)==1"}<a href="index.php?path={$value}&amp;single"><img src="{$value}" class="scale-with-grid" /></a>
+                            <!-- comment -->
+                            <div class='description'> 
+                            {if="comment_img_exist($value)==1"}
+                                <div class='description_content'>{function="show_img_comment($value)"}</div>
+                            {/if}
+                            </div>
+                        <!-- video -->
+                        {elseif="is_vid($value)==1"}
+                            <p>{function="display_video($value)"}</p>
+                            <!-- comment -->            
+                            {if="comment_img_exist($value)==1"}
+                                {function="show_img_comment($value)"}
+                            {/if}
+                        {/if}
+                        </div>
+                    {/loop}

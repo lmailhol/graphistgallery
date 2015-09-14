@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>{$title}</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">  
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="{$path_style}/css/normalize.css">
+  <link rel="stylesheet" href="{$path_style}/css/skeleton.css">
+  <link rel="stylesheet" href="{$path_style}/css/style.css">
+    
+  <!-- JS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src="{$path_style}/js/responsiveslides.js"></script>
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="{$path_style}/images/favicon.png">
+    
+  <!-- Script
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+  <script>
+    $(function () {
+
+      // Slideshow index
+      $(".slides_index").responsiveSlides({
+        auto: true,
+        pager: false,
+        nav: false,
+        speed: 250,
+      });
+        
+      $(".slides_images").responsiveSlides({
+        auto: false,
+        pager: false,
+        prevText: "Précédent",
+        nextText: "Suivant",
+        nav: true,
+        speed: 500,
+        maxwidth: 800,
+        namespace: "images_slider"
+      });
+
+    });
+    </script>
+    
+<script type="text/javascript">
+  $(document).ready(function($) {
+    $('#accordion').find('.toggler').click(function(){
+
+      //Expand or collapse this panel
+      $(this).next().slideToggle('500');
+
+      //Hide the other panels
+      $(".toggle").not($(this).next()).slideUp('500');
+
+    });
+  });
+</script>
+
+    
+</head>
+<body>
+    
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">      
+
+        <div class="row">
+            <div class="two columns">
+                <div class="logo">
+                    <a href="index.php"><img src="{$path_style}/images/logo.png" /></a>
+                </div>
+                <div class="menu">
+                    <ul>
+                    {loop="pages"}
+                        <li><a href="index.php?page={$value}">{function="name($value)"}</a></li>
+                    {/loop}
+                    </ul>
+                    
+                    <ul id="accordion">
+                    {loop="categories_1"}
+                        {if="is_sub_dir($value,1)!=1"}<li><a href="index.php?path=content/{$value}">{function="name($value)"}</a>
+                        {else}<li><a class="toggler" style="cursor:pointer;" href="#">{function="name($value)"}</a>
+                        {$first_dir=$value}
+                            <ul class="toggle" style="display:none;">
+                            {loop="categories2_1"}
+                                {if="$first_dir==dir_name($value)"}<li><a href="index.php?path=content/{$value}">{function="name($value)"}</a></li>{/if}
+                            {/loop}
+                            </ul>    
+                        {/if}
+                        </li>
+                    {/loop}
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Medias
+            –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+            
+            {if="isset($medias)"}
+            
+            <div class="ten columns">            
+                <div class="images">
+                    <ul class="slides_images">
+                        {loop="medias"}
+                            {if="is_img($value)==1"}
+                                <li><img src="{$value}" alt="" />
+                                {if="comment_img_exist($value)==1"}
+                                    <div class="caption">{function="show_img_comment($value)"}</div>
+                                {/if}
+                                </li>
+                            {/if}
+                        {/loop}
+                    </ul>
+                        {loop="medias"}
+                            {if="is_vid($value)==1"}
+                                {function="display_video($value)"}
+                            {/if}
+                        {/loop}
+                     <div class="comment">
+                        <div class="one-half column">
+                            {if="comment_exist()==1"}
+                                {function="show_comment()"}
+                            {/if}
+                        </div>
+                        <div class="one-half column">
+                            <h3>{function="show_folder_name()"}<a class="retour" href="javascript:history.go(-1)">(retour)</a></h3>     
+                        </div>
+                    </div>
+                </div>       
+            </div>
+
+             <!-- Page
+            –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+            
+            {elseif="isset($page)"}
+                <div class="ten columns">
+                    {if="$page==$index"}                        
+                        <div class="index">
+                            {function="display_page($page)"}
+                        </div>
+                    {else}
+                        <div class="texte">
+                            <div class="one-half column">
+                                {function="display_page($page)"}
+                            </div>
+                        </div>
+                    {/if}
+                </div>
+            {/if}
+            
+            
+            <div class="twelve columns">
+                <div class="footer">
+                    <p>{$footer_text}</p>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>

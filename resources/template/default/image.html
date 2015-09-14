@@ -1,0 +1,14 @@
+<!-- picture -->
+                    <img src="{$one_pic}" class="scale-with-grid" />
+                    <!-- comment -->
+                    {if="comment_img_exist($one_pic)==1"}
+                        {function="show_img_comment($one_pic)"}
+                    {/if}
+                    <!-- exif data -->
+                    {if="$exif!=0"}
+                        <ul>
+                        <li>{$exif.date}</li>
+                        <li>Modèle : {$exif.model}</li>
+                        <li>{$exif.aperture} - {$exif.exposure} - ISO {$exif.iso}</li>
+                        </ul>
+                    {/if}

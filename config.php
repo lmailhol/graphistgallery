@@ -7,14 +7,14 @@
 ##      Template       ##
 #########################
 
-$style = "default"; // Choose your template
+$style = "default2"; // Choose your template
 
 #####################
 ##      Site       ##
 #####################
 
 $title ="Nouvelle installation de Graphist Gallery"; //Website's title
-$index ="a_Accueil"; //Name of your index page. You can change it by the name of a markdown file in "pages/".
+$index ="a_accueil"; //Name of your index page. You can change it by the name of a markdown file in "pages/".
 $footer_text ="Je m'appelle footer !"; //Website's footer
 
 $site ="http://radek411.github.io/graphistgallery/"; //Website's URL

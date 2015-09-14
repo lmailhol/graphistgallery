@@ -1,21 +1,9 @@
-# Bienvenue sur votre galerie
+<div class="hello"><h3>bienvenue sur votre galerie</h3>
 
-Graphist Gallery est maintenant prêt à être utilisé...
-
-### Fonctionnement
+Graphist Gallery est maintenant prêt à être utilisé...</div>
     
-Commencez par créer, sur votre ordinateur, un dossier qui contiendra votre travail. Il vous suffit de le classer dans une arborescence de dossier.
+<div class="usage">Créez votre dossier contenu > Connectez vous à votre espace web > Envoyez le dans le dossier content/</div>
 
-content/  
-|  
-|- Paysages/  
-|       |- image1.jpg  
-|       |- image2.jpg  
-|  
-|- Portraits/  
-|       |- Noir et Blanc/  
-|                   |- image1.jpg
-
-Ceci fait, connectez vous à votre espace web et envoyez votre contenu dans le dossier "content/" ! Votre portfolio est prêt.
-
-Pour apprendre dès maintenant à utiliser Graphist Gallery et ses fonctionnalités plus avancées, rendez vous sur <a href="https://github.com/Radek411/graphistgallery/wiki">la documentation</a> !
+<ul class="slides_index">
+<li><img src="resources/template/default2/images/finder.png" alt="" /></li>
+</ul> 

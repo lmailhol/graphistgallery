@@ -1,0 +1,20 @@
+<ul class="menujs">
+                {loop="pages"}
+                    <li class="toggleSubMenu"><a href="index.php?page={$value}">{function="name($value)"}</a></li>
+                {/loop}
+            </ul>
+            
+                <ul class="menujs">
+                {loop="categories_1"}
+                    {if="is_sub_dir($value,1)!=1"}<li><a href="index.php?path=content/{$value}">{function="name($value)"}</a>
+                    {else}<li><a href="#">{function="name($value)"}</a>
+                        {$first_dir=$value}
+                        <ul>
+                        {loop="categories2_1"}
+                            {if="$first_dir==dir_name($value)"}<li><a href="index.php?path=content/{$value}">{function="name($value)"}</a></li>{/if}
+                        {/loop}
+                        </ul>
+                    {/if}
+                    </li>
+                {/loop}
+                </ul>

@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 7 ]><html class="ie ie6" lang="fr"> <![endif]-->
-<!--[if IE 7 ]><html class="ie ie7" lang="fr"> <![endif]-->
-<!--[if IE 8 ]><html class="ie ie8" lang="fr"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html lang="fr"> <!--<![endif]-->
+<html lang="fr">
 <head>
 
 	<!-- Basic Page Needs
@@ -22,10 +19,6 @@
 	<link rel="stylesheet" href="{$path_style}/stylesheets/base.css">
 	<link rel="stylesheet" href="{$path_style}/stylesheets/skeleton.css">
 	<link rel="stylesheet" href="{$path_style}/stylesheets/layout.css">
-
-	<!--[if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
 
 	<!-- Favicons
 	================================================== -->
@@ -84,75 +77,19 @@
 			<hr />
 		</div>
 		<div class="three columns">
-            <ul class="menujs">
-                {loop="pages"}
-                    <li class="toggleSubMenu"><a href="index.php?page={$value}">{function="name($value)"}</a></li>
-                {/loop}
-            </ul>
-            
-                <ul class="menujs">
-                {loop="categories_1"}
-                    {if="is_sub_dir($value,1)!=1"}<li><a href="index.php?path=content/{$value}">{function="name($value)"}</a>
-                    {else}<li><a href="#">{function="name($value)"}</a>
-                        {$first_dir=$value}
-                        <ul>
-                        {loop="categories2_1"}
-                            {if="$first_dir==dir_name($value)"}<li><a href="index.php?path=content/{$value}">{function="name($value)"}</a></li>{/if}
-                        {/loop}
-                        </ul>
-                    {/if}
-                    </li>
-                {/loop}
-                </ul>
+            {include="menu"}
         </div>
 		<div class="thirteen columns">
 			    <div class="twelve columns">
                 <!-- MEDIA -->
                 {if="isset($medias)"}
-                    
-                    {if="comment_exist()==1"}
-                    <blockquote class="content-quote">{function="show_comment()"}</blockquote>
-                    {/if}
-                    
-                    {loop="medias"}
-                        <div class="wrapper">
-                        <!-- pictures -->
-                        {if="is_img($value)==1"}<a href="index.php?path={$value}&amp;single"><img src="{$value}" class="scale-with-grid" /></a>
-                            <!-- comment -->
-                            <div class='description'> 
-                            {if="comment_img_exist($value)==1"}
-                                <div class='description_content'>{function="show_img_comment($value)"}</div>
-                            {/if}
-                            </div>
-                        <!-- video -->
-                        {elseif="is_vid($value)==1"}
-                            <p>{function="display_video($value)"}</p>
-                            <!-- comment -->            
-                            {if="comment_img_exist($value)==1"}
-                                {function="show_img_comment($value)"}
-                            {/if}
-                        {/if}
-                        </div>
-                    {/loop}
+                    {include="medias"}
                 <!-- SINGLE IMAGE -->
                 {elseif="isset($one_pic)"}
-                    <!-- picture -->
-                    <img src="{$one_pic}" class="scale-with-grid" />
-                    <!-- comment -->
-                    {if="comment_img_exist($one_pic)==1"}
-                        {function="show_img_comment($one_pic)"}
-                    {/if}
-                    <!-- exif data -->
-                    {if="$exif!=0"}
-                        <ul>
-                        <li>{$exif.date}</li>
-                        <li>Modèle : {$exif.model}</li>
-                        <li>{$exif.aperture} - {$exif.exposure} - ISO {$exif.iso}</li>
-                        </ul>
-                    {/if}
+                    {include="image"}
                 <!-- PAGE -->
                 {elseif="isset($page)"}
-                    {function="display_page($page)"}
+                    {include="page"}
                 {/if}
             </div>
 		</div>

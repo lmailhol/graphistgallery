@@ -38,6 +38,7 @@ $tpl->assign( 'serv_url', $_SERVER['REQUEST_URI'] );
 $tpl->assign( 'title', $title );
 $tpl->assign( 'footer_text', $footer_text );
 $tpl->assign( 'site_url', $site );
+$tpl->assign( 'index', $index );
 $tpl->assign( 'path_style', $rep_resources."template/".$style );
 
 #####################################
@@ -113,6 +114,20 @@ function display_video($link) {
     }
 }
 
+//Show the name of the folder
+
+function show_folder_name() {
+    
+    require("config.php");  
+    require("default_config.php");
+    require_once($rep_resources."lib/Markdown.php");
+    
+    if(isset($_GET['path'])) {        
+        $rep_name = htmlspecialchars($_GET['path']);
+        echo name($rep_name);        
+    }
+}
+
 //Showing a static page
 
 function display_page($page) {
@@ -162,7 +177,7 @@ function show_comment() {
     require_once($rep_resources."lib/Markdown.php");
     
     if(isset($_GET['path'])) {        
-        $rep_comment = ($_GET['path']);
+        $rep_comment = htmlspecialchars($_GET['path']);
         echo Markdown(file_get_contents($rep_comment."/comment.md"));        
     }
 }
